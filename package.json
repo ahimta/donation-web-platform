@@ -56,6 +56,7 @@
   },
   "jspm": {
     "dependencies": {
+      "bootstrap": "github:twbs/bootstrap@3",
       "react-dom": "npm:react-dom@^15.0.1",
       "react-router": "npm:react-router@^2.4.0",
       "classnames": "npm:classnames@^2.2.5",
@@ -96,6 +97,27 @@
       "zlib": "github:jspm/nodelibs-zlib@^0.2.0-alpha"
     },
     "overrides": {
+      "github:twbs/bootstrap@3.3.7": {
+        "main": "js/bootstrap.js",
+        "dependencies": {
+          "jquery": "jspm:jquery@*"
+        },
+        "files": [
+          "dist",
+          "fonts",
+          "js",
+          "css"
+        ],
+        "meta": {
+          "js/bootstrap.js": {
+            "deps": [
+              "jquery"
+            ],
+            "exports": "$",
+            "format": "global"
+          }
+        }
+      },
       "npm:browserify-zlib@0.1.4": {
         "dependencies": {
           "readable-stream": "^2.0.2",
@@ -109,6 +131,9 @@
         "ignore": [
           "test.js"
         ]
+      },
+      "npm:jquery@3.1.1": {
+        "format": "amd"
       },
       "npm:lodash@4.17.2": {
         "map": {
