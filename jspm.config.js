@@ -112,6 +112,7 @@ SystemJS.config({
     'path': 'github:jspm/nodelibs-path@0.2.0-alpha',
     'process': 'github:jspm/nodelibs-process@0.2.0-alpha',
     'react': 'npm:react@15.4.0',
+    'react-bootstrap': 'npm:react-bootstrap@0.30.7',
     'react-dom': 'npm:react-dom@15.4.0',
     'react-redux': 'npm:react-redux@4.4.6',
     'react-router': 'npm:react-router@2.8.1',
@@ -250,7 +251,7 @@ SystemJS.config({
     },
     'npm:encoding@0.1.12': {
       'map': {
-        'iconv-lite': 'npm:iconv-lite@0.4.13'
+        'iconv-lite': 'npm:iconv-lite@0.4.15'
       }
     },
     'github:jspm/nodelibs-buffer@0.2.0-alpha': {
@@ -502,6 +503,37 @@ SystemJS.config({
     'github:twbs/bootstrap@3.3.7': {
       'map': {
         'jquery': 'npm:jquery@3.1.1'
+      }
+    },
+    'npm:react-bootstrap@0.30.7': {
+      'map': {
+        'babel-runtime': 'npm:babel-runtime@6.18.0',
+        'invariant': 'npm:invariant@2.2.2',
+        'uncontrollable': 'npm:uncontrollable@4.0.3',
+        'keycode': 'npm:keycode@2.1.7',
+        'react-prop-types': 'npm:react-prop-types@0.4.0',
+        'react-overlays': 'npm:react-overlays@0.6.10',
+        'classnames': 'npm:classnames@2.2.5',
+        'dom-helpers': 'npm:dom-helpers@2.4.0',
+        'warning': 'npm:warning@3.0.0'
+      }
+    },
+    'npm:uncontrollable@4.0.3': {
+      'map': {
+        'invariant': 'npm:invariant@2.2.2'
+      }
+    },
+    'npm:react-overlays@0.6.10': {
+      'map': {
+        'classnames': 'npm:classnames@2.2.5',
+        'dom-helpers': 'npm:dom-helpers@2.4.0',
+        'react-prop-types': 'npm:react-prop-types@0.4.0',
+        'warning': 'npm:warning@3.0.0'
+      }
+    },
+    'npm:react-prop-types@0.4.0': {
+      'map': {
+        'warning': 'npm:warning@3.0.0'
       }
     }
   }

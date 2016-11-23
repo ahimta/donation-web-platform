@@ -3,3 +3,5 @@ coverage/
 dist/
 node_modules/
 jspm_packages/
+
+npm-debug.log
