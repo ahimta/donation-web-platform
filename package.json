@@ -62,7 +62,6 @@
       "classnames": "npm:classnames@^2.2.5",
       "react-redux": "npm:react-redux@^4.4.5",
       "es6-shim": "npm:es6-shim@^0.35.0",
-      "todomvc-app-css": "npm:todomvc-app-css@^2.0.4",
       "babel-polyfill": "npm:babel-polyfill@^6.7.4",
       "css": "github:systemjs/plugin-css@^0.1.21",
       "ts": "github:frankwallis/plugin-typescript@5.1.2"

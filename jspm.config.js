@@ -119,7 +119,6 @@ SystemJS.config({
     'redux': 'npm:redux@3.6.0',
     'stream': 'github:jspm/nodelibs-stream@0.2.0-alpha',
     'string_decoder': 'github:jspm/nodelibs-string_decoder@0.2.0-alpha',
-    'todomvc-app-css': 'npm:todomvc-app-css@2.0.6',
     'ts': 'github:frankwallis/plugin-typescript@5.1.2',
     'url': 'github:jspm/nodelibs-url@0.2.0-alpha',
     'util': 'github:jspm/nodelibs-util@0.2.0-alpha',

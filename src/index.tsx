@@ -8,7 +8,7 @@ import App from './app/containers/App.tsx';
 import configureStore from './app/store/configureStore.tsx';
 import {Router, Route, browserHistory} from 'react-router';
 
-import 'todomvc-app-css/index.css!';
+// import 'todomvc-app-css/index.css!';
 
 const store: IStore<any> = configureStore({});
 
