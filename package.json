@@ -58,6 +58,7 @@
     "dependencies": {
       "bootstrap": "github:twbs/bootstrap@3",
       "react-bootstrap": "npm:react-bootstrap@^0.30.7",
+      "react-google-maps": "npm:react-google-maps@^4.11.0",
       "react-router": "npm:react-router@^2.4.0",
       "classnames": "npm:classnames@^2.2.5",
       "react-redux": "npm:react-redux@^4.4.5",

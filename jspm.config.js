@@ -114,6 +114,7 @@ SystemJS.config({
     'react': 'npm:react@15.4.0',
     'react-bootstrap': 'npm:react-bootstrap@0.30.7',
     'react-dom': 'npm:react-dom@15.4.0',
+    'react-google-maps': 'npm:react-google-maps@4.11.0',
     'react-redux': 'npm:react-redux@4.4.6',
     'react-router': 'npm:react-router@2.8.1',
     'redux': 'npm:redux@3.6.0',
@@ -533,6 +534,38 @@ SystemJS.config({
     'npm:react-prop-types@0.4.0': {
       'map': {
         'warning': 'npm:warning@3.0.0'
+      }
+    },
+    'npm:react-google-maps@4.11.0': {
+      'map': {
+        'can-use-dom': 'npm:can-use-dom@0.1.0',
+        'marker-clusterer-plus': 'npm:marker-clusterer-plus@2.1.4',
+        'google-maps-infobox': 'npm:google-maps-infobox@1.1.13',
+        'lodash.isequal': 'npm:lodash.isequal@3.0.4',
+        'scriptjs': 'npm:scriptjs@2.5.8',
+        'react-prop-types-element-of-type': 'npm:react-prop-types-element-of-type@2.2.0',
+        'invariant': 'npm:invariant@2.2.2',
+        'warning': 'npm:warning@2.1.0'
+      }
+    },
+    'npm:lodash.isequal@3.0.4': {
+      'map': {
+        'lodash._bindcallback': 'npm:lodash._bindcallback@3.0.1',
+        'lodash._baseisequal': 'npm:lodash._baseisequal@3.0.7'
+      }
+    },
+    'npm:lodash._baseisequal@3.0.7': {
+      'map': {
+        'lodash.isarray': 'npm:lodash.isarray@3.0.4',
+        'lodash.istypedarray': 'npm:lodash.istypedarray@3.0.6',
+        'lodash.keys': 'npm:lodash.keys@3.1.2'
+      }
+    },
+    'npm:lodash.keys@3.1.2': {
+      'map': {
+        'lodash.isarray': 'npm:lodash.isarray@3.0.4',
+        'lodash._getnative': 'npm:lodash._getnative@3.9.1',
+        'lodash.isarguments': 'npm:lodash.isarguments@3.1.0'
       }
     }
   }

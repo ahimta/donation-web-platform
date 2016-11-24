@@ -5,6 +5,7 @@ import {IDispatch} from '~react-redux~redux';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../components/Header.tsx';
+import Footer from '../components/Footer.tsx';
 import MainSection from '../components/MainSection.tsx';
 import {addTodo, deleteTodo, editTodo, completeTodo, completeAll, clearCompleted} from '../actions/index.tsx';
 
@@ -31,6 +32,14 @@ class App extends React.Component<IAppProps, IAppState> {
         <MainSection
           todos={todos}
           actions={actions}
+          />
+        <hr />
+        <Footer
+          completedCount={1}
+          activeCount={2}
+          filter={'ALL'}
+          onClearCompleted={console.log}
+          onShow={console.log}
           />
       </div>
     );

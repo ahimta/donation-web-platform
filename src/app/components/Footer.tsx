@@ -72,16 +72,14 @@ class Footer extends React.Component<IFooterProps, IFooterState> {
 
   render() {
     return (
-      <footer className='footer'>
-        {this.renderTodoCount()}
-        <ul className='filters'>
-          {[SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED].map(filter =>
-            <li key={filter}>
-              {this.renderFilterLink(filter)}
-            </li>
-          )}
-        </ul>
-        {this.renderClearButton()}
+      <footer>
+        <a target='_blank' href='https://sa.linkedin.com/in/ahimta'>
+          <p className='text-center lead' dir='rtl'>
+            ©
+            2016
+            عبدالله الأنصاري
+          </p>
+        </a>
       </footer>
     );
   }
