@@ -59,12 +59,14 @@
       "bootstrap": "github:twbs/bootstrap@3",
       "react-bootstrap": "npm:react-bootstrap@^0.30.7",
       "react-google-maps": "npm:react-google-maps@^4.11.0",
+      "react-mixin": "npm:react-mixin@^3.0.5",
       "react-router": "npm:react-router@^2.4.0",
       "classnames": "npm:classnames@^2.2.5",
       "react-redux": "npm:react-redux@^4.4.5",
       "es6-shim": "npm:es6-shim@^0.35.0",
       "babel-polyfill": "npm:babel-polyfill@^6.7.4",
       "css": "github:systemjs/plugin-css@^0.1.21",
+      "reactfire": "npm:reactfire@^1.0.0",
       "ts": "github:frankwallis/plugin-typescript@5.1.2"
     },
     "devDependencies": {
@@ -79,6 +81,7 @@
       "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
       "domain": "github:jspm/nodelibs-domain@^0.2.0-alpha",
       "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
+      "firebase": "npm:firebase@^3.6.1",
       "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
       "http": "github:jspm/nodelibs-http@^0.2.0-alpha",
       "https": "github:jspm/nodelibs-https@^0.2.0-alpha",
@@ -92,6 +95,7 @@
       "redux": "npm:redux@^3.5.1",
       "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
       "string_decoder": "github:jspm/nodelibs-string_decoder@^0.2.0-alpha",
+      "tls": "github:jspm/nodelibs-tls@^0.2.0-alpha",
       "url": "github:jspm/nodelibs-url@^0.2.0-alpha",
       "util": "github:jspm/nodelibs-util@^0.2.0-alpha",
       "vm": "github:jspm/nodelibs-vm@^0.2.0-alpha",
@@ -141,6 +145,10 @@
           "buffer": "@empty",
           "process": "@empty"
         }
+      },
+      "npm:ms@0.7.2": {
+        "jspmNodeConversion": false,
+        "format": "cjs"
       },
       "npm:typescript@2.1.1": {
         "browser": {},

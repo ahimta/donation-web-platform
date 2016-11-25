@@ -1,27 +1,69 @@
 /// <reference path="../../../typings/index.d.ts" />
 
+import firebase from 'firebase';
 import * as React from 'react';
+import ReactFireMixin from 'reactfire';
+import reactMixin from 'react-mixin';
 import {Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
+import {hashHistory} from 'react-router';
 
 interface INewFoodDonationProps {
 };
 
 interface INewFoodDonationState {
+  dishes: string;
+  foodDonations: Object[];
+  foodType: string;
+  notes: string;
+  occasion: string;
+  phone: string;
 };
 
 class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
   static propTypes = {
   };
 
+  constructor(props: any, context: any) {
+    super(props, context);
+
+    this.state = {
+      dishes: '',
+      foodDonations: [],
+      foodType: 'fruits',
+      notes: '',
+      occasion: 'party',
+      phone: ''
+    };
+  }
+
+  componentWillMount() {
+    this.bindAsArray(firebase.database().ref('foodDonations'), 'foodDonations');
+  }
+
+  handleSubmit(event: any) {
+    const {dishes, foodType, notes, occasion, phone} = this.state;
+
+    event.preventDefault();
+    this.firebaseRefs.foodDonations.push({dishes, foodType, notes, occasion, phone});
+    hashHistory.push('/');
+  }
+
+  handleOnChange(fieldName: string) {
+    return (function(event: any) {
+      this.setState({[fieldName]: event.target.value});
+    });
+  }
+
   render() {
+    console.log(this.state);
     return (
       <section>
         <PageHeader className='text-center'>تبرع بطعام</PageHeader>
         <Grid>
-          <Form>
+          <Form onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup controlId='foodDonationFoodType' dir='rtl'>
               <ControlLabel>نوع الطعام</ControlLabel>
-              <FormControl componentClass='select' placeholder='vegetables'>
+              <FormControl componentClass='select' value={this.state.foodType} onChange={this.handleOnChange('foodType').bind(this)}>
                 <option value='fruits'>فواكه</option>
                 <option value='vegetables'>خضار</option>
                 <option value='misc'>منوع</option>
@@ -30,7 +72,7 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
 
             <FormGroup controlId='foodDonationOccasion' dir='rtl'>
               <ControlLabel>المناسبة</ControlLabel>
-              <FormControl componentClass='select' placeholder='wedding'>
+              <FormControl componentClass='select' value={this.state.occasion} onChange={this.handleOnChange('occasion').bind(this)}>
                 <option value='party'>حفلة</option>
                 <option value='wedding'>زواج</option>
                 <option value='buffet'>بوفيه مفتوح</option>
@@ -50,14 +92,14 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
 
             <FormGroup>
               <InputGroup>
-                <FormControl type='text' dir='rtl'/>
+                <FormControl type='text' dir='rtl' value={this.state.dishes} onChange={this.handleOnChange('dishes').bind(this)} />
                 <InputGroup.Addon>الأطباق</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
 
             <FormGroup>
               <InputGroup>
-                <FormControl type='tel' dir='rtl'/>
+                <FormControl type='tel' dir='ltr' value={this.state.phone} onChange={this.handleOnChange('phone').bind(this)} />
                 <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
@@ -69,14 +111,14 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
 
             <FormGroup controlId='foodDonationNotes' dir='rtl'>
               <ControlLabel>ملاحظات</ControlLabel>
-              <FormControl componentClass='textarea' placeholder='ملاحظات' />
+              <FormControl componentClass='textarea' placeholder='ملاحظات' value={this.state.notes} onChange={this.handleOnChange('notes').bind(this)} />
             </FormGroup>
 
             <FormGroup controlId='foodDonationLocation' dir='rtl'>
               <ControlLabel>الموقع</ControlLabel>
               <iframe
                 width='100%'
-                height='500em'
+                height='250em'
                 frameBorder='0' style={{ border: 0 }}
                 src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
                 allowFullScreen>
@@ -90,5 +132,7 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
     );
   }
 }
+
+reactMixin(NewFoodDonation.prototype, ReactFireMixin);
 
 export default NewFoodDonation;

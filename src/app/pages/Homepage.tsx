@@ -44,7 +44,7 @@ class Homepage extends React.Component<IHomepageProps, IHomepageState> {
         <Grid>
           <iframe
             width='100%'
-            height='500em'
+            height='250em'
             frameBorder='0' style={{border: 0}}
             src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
             allowFullScreen>

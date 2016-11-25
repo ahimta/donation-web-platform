@@ -103,6 +103,7 @@ SystemJS.config({
     'domain': 'github:jspm/nodelibs-domain@0.2.0-alpha',
     'es6-shim': 'npm:es6-shim@0.35.1',
     'events': 'github:jspm/nodelibs-events@0.2.0-alpha',
+    'firebase': 'npm:firebase@3.6.1',
     'fs': 'github:jspm/nodelibs-fs@0.2.0-alpha',
     'http': 'github:jspm/nodelibs-http@0.2.0-alpha',
     'https': 'github:jspm/nodelibs-https@0.2.0-alpha',
@@ -115,11 +116,14 @@ SystemJS.config({
     'react-bootstrap': 'npm:react-bootstrap@0.30.7',
     'react-dom': 'npm:react-dom@15.4.0',
     'react-google-maps': 'npm:react-google-maps@4.11.0',
+    'react-mixin': 'npm:react-mixin@3.0.5',
     'react-redux': 'npm:react-redux@4.4.6',
     'react-router': 'npm:react-router@2.8.1',
+    'reactfire': 'npm:reactfire@1.0.0',
     'redux': 'npm:redux@3.6.0',
     'stream': 'github:jspm/nodelibs-stream@0.2.0-alpha',
     'string_decoder': 'github:jspm/nodelibs-string_decoder@0.2.0-alpha',
+    'tls': 'github:jspm/nodelibs-tls@0.2.0-alpha',
     'ts': 'github:frankwallis/plugin-typescript@5.1.2',
     'url': 'github:jspm/nodelibs-url@0.2.0-alpha',
     'util': 'github:jspm/nodelibs-util@0.2.0-alpha',
@@ -566,6 +570,58 @@ SystemJS.config({
         'lodash.isarray': 'npm:lodash.isarray@3.0.4',
         'lodash._getnative': 'npm:lodash._getnative@3.9.1',
         'lodash.isarguments': 'npm:lodash.isarguments@3.1.0'
+      }
+    },
+    'npm:firebase@3.6.1': {
+      'map': {
+        'rsvp': 'npm:rsvp@3.2.1',
+        'jsonwebtoken': 'npm:jsonwebtoken@5.7.0',
+        'dom-storage': 'npm:dom-storage@2.0.2',
+        'xmlhttprequest': 'npm:xmlhttprequest@1.8.0',
+        'faye-websocket': 'npm:faye-websocket@0.9.3'
+      }
+    },
+    'npm:jsonwebtoken@5.7.0': {
+      'map': {
+        'xtend': 'npm:xtend@4.0.1',
+        'jws': 'npm:jws@3.1.4',
+        'ms': 'npm:ms@0.7.2'
+      }
+    },
+    'npm:faye-websocket@0.9.3': {
+      'map': {
+        'websocket-driver': 'npm:websocket-driver@0.6.5'
+      }
+    },
+    'npm:jws@3.1.4': {
+      'map': {
+        'base64url': 'npm:base64url@2.0.0',
+        'jwa': 'npm:jwa@1.1.4',
+        'safe-buffer': 'npm:safe-buffer@5.0.1'
+      }
+    },
+    'npm:jwa@1.1.4': {
+      'map': {
+        'base64url': 'npm:base64url@2.0.0',
+        'safe-buffer': 'npm:safe-buffer@5.0.1',
+        'buffer-equal-constant-time': 'npm:buffer-equal-constant-time@1.0.1',
+        'ecdsa-sig-formatter': 'npm:ecdsa-sig-formatter@1.0.7'
+      }
+    },
+    'npm:websocket-driver@0.6.5': {
+      'map': {
+        'websocket-extensions': 'npm:websocket-extensions@0.1.1'
+      }
+    },
+    'npm:ecdsa-sig-formatter@1.0.7': {
+      'map': {
+        'base64-url': 'npm:base64-url@1.3.3'
+      }
+    },
+    'npm:react-mixin@3.0.5': {
+      'map': {
+        'smart-mixin': 'npm:smart-mixin@2.0.0',
+        'object-assign': 'npm:object-assign@4.1.0'
       }
     }
   }
