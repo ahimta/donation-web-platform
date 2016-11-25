@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import {Glyphicon, MenuItem, Nav, Navbar, NavItem, NavDropdown} from 'react-bootstrap';
-// import TodoTextInput from './TodoTextInput.tsx';
 
 interface IHeaderProps {
   addTodo: (text: string) => void;
