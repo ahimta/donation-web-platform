@@ -24,15 +24,16 @@ function build() {
     .pipe(sourcemaps.init())
     .pipe(uglify({preserveComments: uglifySaveLicense})).on('error', conf.errorHandler('Uglify'))
     .pipe(rev())
-    .pipe(sourcemaps.write('maps'))
+    // .pipe(sourcemaps.write('maps'))    COMMENT THIS OUT
     .pipe(jsFilter.restore)
     .pipe(cssFilter)
     .pipe(sourcemaps.init())
     .pipe(cssnano())
     .pipe(rev())
-    .pipe(sourcemaps.write('maps'))
+    // .pipe(sourcemaps.write('maps'))      COMMENT THIS OUT
     .pipe(cssFilter.restore)
     .pipe(revReplace())
+    .pipe(sourcemaps.write('maps'))     // ADD THIS HERE
     .pipe(htmlFilter)
     .pipe(htmlmin())
     .pipe(htmlFilter.restore)
