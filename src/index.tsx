@@ -12,6 +12,7 @@ import configureStore from './app/store/configureStore.tsx';
 import Homepage from './app/pages/Homepage';
 import NewFoodDonation from './app/pages/NewFoodDonation';
 import Donations from './app/pages/Donations';
+import Donation from './app/pages/Donation';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyCBf9V-x1HK0dtwoY1HE8ebjyDblgeixD0',
@@ -31,7 +32,10 @@ ReactDOM.render(
       <Route path='/' component={App}>
         <IndexRoute component={Homepage} />
         <Route path='/donations/donate/food' component={NewFoodDonation} />
-        <Route path='/donations(/:action)' component={Donations} />
+        <Route path='/donations' component={Donations} />
+        <Route path='/donations/receive' component={Donations} />
+        <Route path='/donations/volunteer' component={Donations} />
+        <Route path='/donations/:id' component={Donation} />
         <Redirect from='/*' to='/' />
       </Route>
     </Router>

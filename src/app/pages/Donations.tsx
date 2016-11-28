@@ -5,18 +5,12 @@ import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import {Button, ButtonGroup, Grid, PageHeader, Row, Table} from 'react-bootstrap';
-import {hashHistory} from 'react-router';
 
 interface IDonationsProps {
 };
 
 interface IDonationsState {
-  dishes: string;
   foodDonations: Object[];
-  foodType: string;
-  notes: string;
-  occasion: string;
-  phone: string;
 };
 
 class Donations extends React.Component<IDonationsProps, IDonationsState> {
@@ -27,39 +21,12 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
     super(props, context);
 
     this.state = {
-      dishes: '',
-      foodDonations: [],
-      foodType: 'fruits',
-      notes: '',
-      occasion: 'party',
-      phone: ''
+      foodDonations: []
     };
   }
 
   componentWillMount() {
     this.bindAsArray(firebase.database().ref('foodDonations'), 'foodDonations');
-  }
-
-  handleSubmit(event: any) {
-    const {dishes, foodType, notes, occasion, phone} = this.state;
-
-    event.preventDefault();
-    this.firebaseRefs.foodDonations.push({dishes, foodType, notes, occasion, phone});
-    hashHistory.push('/');
-  }
-
-  handleOnChange(fieldName: string) {
-    return (function(event: any) {
-      this.setState({[fieldName]: event.target.value});
-    });
-  }
-
-  validateRequired(value: string) {
-    if (value) {
-      return null;
-    } else {
-      return 'error';
-    }
   }
 
   getFoodTypeLabel(foodType: string) {
@@ -82,13 +49,12 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
           <ButtonGroup bsSize='sm'>
             <Button bsStyle='danger' disabled>حذف</Button>
             <Button bsStyle='primary' disabled>تعديل</Button>
-            <Button bsStyle='success' href={`#/donations/${foodDonation['.key']}`} disabled>عرض</Button>
+            <Button bsStyle='success' href={`#/donations/${foodDonation['.key']}`}>عرض</Button>
           </ButtonGroup>
         </td>
       </tr>
     ));
 
-    console.log(this.state);
     return (
       <section>
         <PageHeader className='text-center'>التبرعات</PageHeader>
