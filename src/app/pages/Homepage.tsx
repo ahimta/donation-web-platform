@@ -20,7 +20,7 @@ class Homepage extends React.Component<IHomepageProps, IHomepageState> {
           <Row>
             <Col md={4}>
               <Panel header={<span><Glyphicon glyph='road' />&nbsp;<span>وصل تبرع</span></span>} className='text-center' bsStyle='primary'>
-                <Button block bsStyle='success' href='#/donations/volunteer' disabled><Glyphicon glyph='search' />&nbsp;<span>اختر تبرع</span></Button>
+                <Button block bsStyle='success' href='#/donations/volunteer'><Glyphicon glyph='search' />&nbsp;<span>اختر تبرع</span></Button>
               </Panel>
             </Col>
             <Col md={4}>
@@ -33,7 +33,7 @@ class Homepage extends React.Component<IHomepageProps, IHomepageState> {
             </Col>
             <Col md={4}>
               <Panel header={<span><Glyphicon glyph='shopping-cart' />&nbsp;<span>استقبل تبرع</span></span>} className='text-center' bsStyle='primary'>
-                <Button block bsStyle='success' href='#/donations/receive' disabled><Glyphicon glyph='search' />&nbsp;<span>اختر تبرع</span></Button>
+                <Button block bsStyle='success' href='#/donations/receive'><Glyphicon glyph='search' />&nbsp;<span>اختر تبرع</span></Button>
               </Panel>
             </Col>
           </Row>

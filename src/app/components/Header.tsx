@@ -36,23 +36,23 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav className='text-right'>
-              <NavItem eventKey={2} href='/charities/register' disabled>سجل كجمعية</NavItem>
+              <NavItem eventKey={2} href='#/charities/register' disabled>سجل كجمعية</NavItem>
               <NavDropdown eventKey={1} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' disabled>
-                <MenuItem eventKey={1.1} className='text-right' href='/charities/login'>كجمعية</MenuItem>
-                <MenuItem eventKey={1.2} className='text-right' href='/users/login'>كفرد</MenuItem>
+                <MenuItem eventKey={1.1} className='text-right' href='#/charities/login'>كجمعية</MenuItem>
+                <MenuItem eventKey={1.2} className='text-right' href='#/users/login'>كفرد</MenuItem>
               </NavDropdown>
             </Nav>
             <Nav pullRight className='text-right'>
-              <NavDropdown eventKey={4} title='تصفح' id='basic-nav-dropdown-browse' dir='rtl' disabled>
-                <MenuItem eventKey={4.1} className='text-right' href='/donations'>التبرعات</MenuItem>
-                <MenuItem eventKey={4.2} className='text-right' href='/profiles'>الحسابات</MenuItem>
-                <MenuItem eventKey={4.2} className='text-right' href='/activity'>النشاطات</MenuItem>
+              <NavDropdown eventKey={4} title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'>
+                <MenuItem eventKey={4.1} className='text-right' href='#/donations'>التبرعات</MenuItem>
+                <MenuItem eventKey={4.2} className='text-right' href='#/profiles' disabled>الحسابات</MenuItem>
+                <MenuItem eventKey={4.2} className='text-right' href='#/activity' disabled>النشاطات</MenuItem>
               </NavDropdown>
-              <NavItem eventKey={3} href='/donations/receive' disabled>استقبل تبرع</NavItem>
-              <NavItem eventKey={2} href='/donations/volunteer' disabled>تطوع</NavItem>
+              <NavItem eventKey={3} href='#/donations/receive' disabled>استقبل تبرع</NavItem>
+              <NavItem eventKey={2} href='#/donations/volunteer' disabled>تطوع</NavItem>
               <NavDropdown eventKey={1} title='تبرع' id='basic-nav-dropdown-donate' dir='rtl'>
                 <MenuItem eventKey={1.1} className='text-right' href='#/donations/donate/food'>بطعام</MenuItem>
-                <MenuItem eventKey={1.2} className='text-right' href='/donations/donate/other' disabled>بشيء آخر</MenuItem>
+                <MenuItem eventKey={1.2} className='text-right' href='#/donations/donate/other' disabled>بشيء آخر</MenuItem>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

@@ -45,13 +45,21 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
 
     event.preventDefault();
     this.firebaseRefs.foodDonations.push({dishes, foodType, notes, occasion, phone});
-    hashHistory.push('/');
+    hashHistory.push('/donations');
   }
 
   handleOnChange(fieldName: string) {
     return (function(event: any) {
       this.setState({[fieldName]: event.target.value});
     });
+  }
+
+  validateRequired(value: string) {
+    if (value) {
+      return null;
+    } else {
+      return 'error';
+    }
   }
 
   render() {
@@ -97,9 +105,9 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
               </InputGroup>
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup validationState={this.validateRequired(this.state.phone)}>
               <InputGroup>
-                <FormControl type='tel' dir='ltr' value={this.state.phone} onChange={this.handleOnChange('phone').bind(this)} />
+                <FormControl type='tel' dir='ltr' value={this.state.phone} onChange={this.handleOnChange('phone').bind(this)} required />
                 <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
