@@ -1,5 +1,6 @@
 /// <reference path="../../../typings/index.d.ts" />
 
+import firebase from 'firebase';
 import * as React from 'react';
 import {Glyphicon, MenuItem, Nav, Navbar, NavItem, NavDropdown} from 'react-bootstrap';
 
@@ -7,20 +8,57 @@ interface IHeaderProps {
   addTodo: (text: string) => void;
 };
 
-interface IHeaderState {};
+interface IHeaderState {
+  user: Object;
+};
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
   static propTypes = {
     addTodo: React.PropTypes.func.isRequired
   };
+
   constructor(props: any) {
     super(props);
-    this.handleSave = this.handleSave.bind(this);
+
+    this.state = {user: null};
+
+    firebase.auth().onAuthStateChanged((user) => {
+      this.setState({user: user});
+      console.log(user);
+    });
   }
 
-  handleSave(text: string) {
-    if (text.length !== 0) {
-      this.props.addTodo(text);
+  login() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  logout() {
+    firebase.auth().signOut().then(() => {
+      console.log('logout');
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  getLoginClass(user: Object) {
+    if (user) {
+      return 'hidden';
+    } else {
+      return '';
+    }
+  }
+
+  getLogoutClass(user: Object) {
+    if (user) {
+      return '';
+    } else {
+      return 'hidden';
     }
   }
 
@@ -36,11 +74,12 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav className='text-right'>
-              <NavItem eventKey={2} href='#/charities/register' disabled>سجل كجمعية</NavItem>
-              <NavDropdown eventKey={1} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' disabled>
-                <MenuItem eventKey={1.1} className='text-right' href='#/charities/login'>كجمعية</MenuItem>
-                <MenuItem eventKey={1.2} className='text-right' href='#/users/login'>كفرد</MenuItem>
+              <NavItem eventKey={2} href='#/charities/register' className={this.getLoginClass(this.state.user)} disabled>سجل كجمعية</NavItem>
+              <NavDropdown eventKey={1} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(this.state.user)}>
+                <MenuItem eventKey={1.1} className='text-right' href='#/charities/login' disabled>كجمعية</MenuItem>
+                <MenuItem eventKey={1.2} href='#/users/login' className='text-right' onClick={this.login.bind(this)}>كفرد</MenuItem>
               </NavDropdown>
+              <NavItem eventKey={3} className={this.getLogoutClass(this.state.user)} onClick={this.logout.bind(this)}>سجل خروج</NavItem>
             </Nav>
             <Nav pullRight className='text-right'>
               <NavDropdown eventKey={4} title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'>
