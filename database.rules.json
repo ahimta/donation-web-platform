@@ -1,6 +1,14 @@
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    "users": {
+      "$uid": {
+        ".read": true,
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "foodDonations": {
+      ".read": true,
+      ".write": true
+    }
   }
 }

@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
-import {Button, ButtonGroup, Grid, PageHeader, Row, Table} from 'react-bootstrap';
+import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Table} from 'react-bootstrap';
 
 interface IDonationsProps {
 };
@@ -59,15 +59,19 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
       <section>
         <PageHeader className='text-center'>التبرعات</PageHeader>
         <Grid>
-          <Row>
-            <iframe
-              width='100%'
-              height='250em'
-              frameBorder='0' style={{ border: 0 }}
-              src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
-              allowFullScreen>
-            </iframe>
-          </Row>
+          <Breadcrumb dir='rtl'>
+            <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
+            <Breadcrumb.Item active>التبرعات</Breadcrumb.Item>
+          </Breadcrumb>
+        </Grid>
+        <Grid>
+          <iframe
+            width='100%'
+            height='250em'
+            frameBorder='0' style={{ border: 0 }}
+            src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
+            allowFullScreen>
+          </iframe>
         </Grid>
 
         <hr />
@@ -86,6 +90,13 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
               {FoodDonations}
             </tbody>
           </Table>
+        </Grid>
+
+        <Grid className='text-center'>
+          <ButtonGroup bsSize='lg'>
+            <Button bsStyle='success'>تبرع بشيء آخر</Button>
+            <Button bsStyle='success'>تبرع بطعام</Button>
+          </ButtonGroup>
         </Grid>
       </section>
     );

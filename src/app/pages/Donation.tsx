@@ -4,13 +4,14 @@ import firebase from 'firebase';
 import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
-import {Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
+import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
 
 interface IDonationProps {
   params: Object;
 };
 
 interface IDonationState {
+  donor: Object;
   foodDonation: Object;
 };
 
@@ -22,12 +23,22 @@ class Donation extends React.Component<IDonationProps, IDonationState> {
     super(props, context);
 
     this.state = {
-      foodDonation: []
+      donor: {},
+      foodDonation: {}
     };
   }
 
   componentWillMount() {
-    this.bindAsObject(firebase.database().ref(`foodDonations/${this.props.params.id}`), 'foodDonation');
+    // this.bindAsObject(firebase.database().ref(`foodDonations/${this.props.params.id}`), 'foodDonation');
+    firebase.database().ref(`foodDonations/${this.props.params.id}`).on('value', (snapshot) => {
+      const foodDonation = snapshot.val();
+
+      this.setState({foodDonation});
+
+      firebase.database().ref(`users/${foodDonation.donorId}`).on('value', (userSnapshot) => {
+        this.setState({donor: userSnapshot.val() || {}});
+      });
+    });
   }
 
   getFoodTypeLabel(foodType: string) {
@@ -52,12 +63,19 @@ class Donation extends React.Component<IDonationProps, IDonationState> {
   }
 
   render() {
-    const {foodDonation} = this.state;
+    const {donor, foodDonation} = this.state;
     console.log(this.state);
 
     return (
       <section>
         <PageHeader className='text-center'>تبرع طعام</PageHeader>
+        <Grid>
+          <Breadcrumb dir='rtl'>
+            <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
+            <Breadcrumb.Item href='#/donations'>التبرعات</Breadcrumb.Item>
+            <Breadcrumb.Item active>تبرع طعام</Breadcrumb.Item>
+          </Breadcrumb>
+        </Grid>
 
         <Grid>
           <Panel header='بيانات التبرع' footer={foodDonation.notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
@@ -74,6 +92,25 @@ class Donation extends React.Component<IDonationProps, IDonationState> {
                 <tr>
                   <th className='text-center'>الأطباق</th>
                   <td className='text-center'>{foodDonation.dishes}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Panel>
+
+          <Panel header='بيانات المتبرع' footer={foodDonation.notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
+            <Table fill>
+              <tbody dir='rtl'>
+                <tr>
+                  <th className='text-center'>الاسم</th>
+                  <td className='text-center'>{donor.displayName}</td>
+                </tr>
+                <tr>
+                  <th className='text-center'>الجوال/الواتساب</th>
+                  <td className='text-center'>{foodDonation.phone}</td>
+                </tr>
+                <tr>
+                  <th className='text-center'>الإيميل</th>
+                  <td className='text-center'>{donor.email}</td>
                 </tr>
               </tbody>
             </Table>

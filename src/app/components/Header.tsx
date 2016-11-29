@@ -27,6 +27,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     firebase.auth().onAuthStateChanged((user) => {
       this.setState({user: user});
       console.log(user);
+
+      if (user) {
+        const {displayName, email, photoURL, uid} = user;
+        firebase.database().ref('users').child(uid).set({ displayName, email, photoURL, uid });
+      }
     });
   }
 
@@ -79,7 +84,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
               <NavItem eventKey={2} href='#/charities/register' className={this.getLoginClass(this.state.user)} disabled>سجل كجمعية</NavItem>
               <NavDropdown eventKey={1} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(this.state.user)}>
                 <MenuItem eventKey={1.1} className='text-right' href='#/charities/login' disabled>كجمعية</MenuItem>
-                <MenuItem eventKey={1.2} href='#/users/login' className='text-right' onClick={this.login.bind(this)}>كفرد</MenuItem>
+                <MenuItem eventKey={1.2} className='text-right' onClick={this.login.bind(this)}>كفرد</MenuItem>
               </NavDropdown>
               <NavItem eventKey={3} className={this.getLogoutClass(this.state.user)} onClick={this.logout.bind(this)}>سجل خروج</NavItem>
             </Nav>

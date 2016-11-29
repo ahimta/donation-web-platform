@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
-import {Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
+import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
 interface INewFoodDonationProps {
@@ -48,7 +48,8 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
 
   handleSubmit(event: any) {
     const {dishes, foodType, notes, occasion, phone, user} = this.state;
-    const foodDonation = {dishes, foodType, notes, occasion, phone, donorId: user.uid};
+    const donorId = user ? user.uid : null;
+    const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
     console.log(foodDonation);
 
     event.preventDefault();
@@ -75,6 +76,13 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
     return (
       <section>
         <PageHeader className='text-center'>تبرع بطعام</PageHeader>
+        <Grid>
+          <Breadcrumb dir='rtl'>
+            <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
+            <Breadcrumb.Item href='#/donations'>التبرعات</Breadcrumb.Item>
+            <Breadcrumb.Item active>تبرع بطعام</Breadcrumb.Item>
+          </Breadcrumb>
+        </Grid>
         <Grid>
           <Form onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup controlId='foodDonationFoodType' dir='rtl'>
