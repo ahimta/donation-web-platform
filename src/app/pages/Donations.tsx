@@ -32,7 +32,7 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
   getFoodTypeLabel(foodType: string) {
     const LABELS = {
       fruits: 'فواكه',
-      other: 'آخر',
+      misc: 'منوع',
       vegetables: 'خضار'
     };
 

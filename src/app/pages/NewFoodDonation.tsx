@@ -17,6 +17,7 @@ interface INewFoodDonationState {
   notes: string;
   occasion: string;
   phone: string;
+  user: Object;
 };
 
 class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
@@ -32,19 +33,26 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
       foodType: 'fruits',
       notes: '',
       occasion: 'party',
-      phone: ''
+      phone: '',
+      user: null
     };
   }
 
   componentWillMount() {
     this.bindAsArray(firebase.database().ref('foodDonations'), 'foodDonations');
+
+    firebase.auth().onAuthStateChanged((user) => {
+      this.setState({user});
+    });
   }
 
   handleSubmit(event: any) {
-    const {dishes, foodType, notes, occasion, phone} = this.state;
+    const {dishes, foodType, notes, occasion, phone, user} = this.state;
+    const foodDonation = {dishes, foodType, notes, occasion, phone, donorId: user.uid};
+    console.log(foodDonation);
 
     event.preventDefault();
-    this.firebaseRefs.foodDonations.push({dishes, foodType, notes, occasion, phone});
+    this.firebaseRefs.foodDonations.push(foodDonation);
     hashHistory.push('/donations');
   }
 

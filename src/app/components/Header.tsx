@@ -21,7 +21,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     super(props);
 
     this.state = {user: null};
+  }
 
+  componentWillMount() {
     firebase.auth().onAuthStateChanged((user) => {
       this.setState({user: user});
       console.log(user);
