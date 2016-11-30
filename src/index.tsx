@@ -3,16 +3,16 @@
 import firebase from 'firebase';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {IStore} from '~react-redux~redux';
 import {Provider} from 'react-redux';
+import {IStore} from '~react-redux~redux';
 import {IndexRoute, Redirect, Router, Route, hashHistory} from 'react-router';
 
-import App from './app/containers/App.tsx';
-import configureStore from './app/store/configureStore.tsx';
+import App from './app/containers/App';
+import configureStore from './app/store/configureStore';
+import Donations from './app/pages/Donations';
+import FoodDonation from './app/pages/FoodDonation';
 import Homepage from './app/pages/Homepage';
 import NewFoodDonation from './app/pages/NewFoodDonation';
-import Donations from './app/pages/Donations';
-import Donation from './app/pages/Donation';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyCBf9V-x1HK0dtwoY1HE8ebjyDblgeixD0',
@@ -22,8 +22,6 @@ firebase.initializeApp({
   messagingSenderId: '349166973233'
 });
 
-// import 'todomvc-app-css/index.css!';
-
 const store: IStore<any> = configureStore({});
 
 ReactDOM.render(
@@ -31,13 +29,18 @@ ReactDOM.render(
     <Router history={hashHistory}>
       <Route path='/' component={App}>
         <IndexRoute component={Homepage} />
-        <Route path='/donations/donate/food' component={NewFoodDonation} />
-        <Route path='/donations' component={Donations} />
-        <Route path='/donations/receive' component={Donations} />
-        <Route path='/donations/volunteer' component={Donations} />
-        <Route path='/donations/:id' component={Donation} />
-        <Redirect from='/*' to='/' />
       </Route>
+
+      <Route path='/donations' component={App}>
+        <IndexRoute component={Donations} />
+
+        <Route path='donate/food' component={NewFoodDonation} />
+        <Route path='receive' component={Donations} />
+        <Route path='volunteer' component={Donations} />
+        <Route path=':id' component={FoodDonation} />
+      </Route>
+
+      <Redirect from='*' to='/' />
     </Router>
   </Provider>,
   document.getElementById('root')

@@ -10,9 +10,6 @@ interface IHomepageState {
 };
 
 class Homepage extends React.Component<IHomepageProps, IHomepageState> {
-  static propTypes = {
-  };
-
   render() {
     return (
       <section>

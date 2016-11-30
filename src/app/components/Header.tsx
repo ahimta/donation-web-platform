@@ -4,19 +4,13 @@ import firebase from 'firebase';
 import * as React from 'react';
 import {Glyphicon, MenuItem, Nav, Navbar, NavItem, NavDropdown} from 'react-bootstrap';
 
-interface IHeaderProps {
-  addTodo: (text: string) => void;
-};
+interface IHeaderProps {};
 
 interface IHeaderState {
   user: Object;
 };
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
-  static propTypes = {
-    addTodo: React.PropTypes.func.isRequired
-  };
-
   constructor(props: any) {
     super(props);
 
@@ -24,7 +18,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
   }
 
   componentWillMount() {
-    firebase.auth().onAuthStateChanged((user) => {
+    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       this.setState({user: user});
       console.log(user);
 
@@ -33,6 +27,10 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         firebase.database().ref('users').child(uid).set({ displayName, email, photoURL, uid });
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   login() {

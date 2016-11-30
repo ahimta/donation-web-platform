@@ -2,9 +2,9 @@
 
 import firebase from 'firebase';
 import * as React from 'react';
-import ReactFireMixin from 'reactfire';
-import reactMixin from 'react-mixin';
 import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Table} from 'react-bootstrap';
+import reactMixin from 'react-mixin';
+import ReactFireMixin from 'reactfire';
 
 interface IDonationsProps {
 };
@@ -14,9 +14,6 @@ interface IDonationsState {
 };
 
 class Donations extends React.Component<IDonationsProps, IDonationsState> {
-  static propTypes = {
-  };
-
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -94,8 +91,8 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
 
         <Grid className='text-center'>
           <ButtonGroup bsSize='lg'>
-            <Button bsStyle='success'>تبرع بشيء آخر</Button>
-            <Button bsStyle='success'>تبرع بطعام</Button>
+            <Button bsStyle='success' href='#/donations/donate/other' disabled>تبرع بشيء آخر</Button>
+            <Button bsStyle='success' href='#/donations/donate/food'>تبرع بطعام</Button>
           </ButtonGroup>
         </Grid>
       </section>

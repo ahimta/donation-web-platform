@@ -1,8 +1,7 @@
 import {combineReducers} from 'redux';
-import todos from './todos.tsx';
 
-const rootReducer = combineReducers({
-  todos
-});
+function reducer(state: any = {}, action: any) {
+  return state;
+}
 
-export default rootReducer;
+export default combineReducers({reducer});

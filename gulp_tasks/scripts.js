@@ -9,6 +9,6 @@ gulp.task('scripts', scripts);
 function scripts() {
   return gulp.src(conf.path.src('**/*.tsx'))
     .pipe(tslint())
-    .pipe(tslint.report('verbose'))
+    // .pipe(tslint.report({emitError: false}))
     .pipe(browserSync.stream());
 }

@@ -2,10 +2,10 @@
 
 import firebase from 'firebase';
 import * as React from 'react';
-import ReactFireMixin from 'reactfire';
-import reactMixin from 'react-mixin';
 import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
+import reactMixin from 'react-mixin';
 import {hashHistory} from 'react-router';
+import ReactFireMixin from 'reactfire';
 
 interface INewFoodDonationProps {
 };
@@ -21,9 +21,6 @@ interface INewFoodDonationState {
 };
 
 class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
-  static propTypes = {
-  };
-
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -41,16 +38,19 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
   componentWillMount() {
     this.bindAsArray(firebase.database().ref('foodDonations'), 'foodDonations');
 
-    firebase.auth().onAuthStateChanged((user) => {
+    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       this.setState({user});
     });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   handleSubmit(event: any) {
     const {dishes, foodType, notes, occasion, phone, user} = this.state;
     const donorId = user ? user.uid : null;
     const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
-    console.log(foodDonation);
 
     event.preventDefault();
     this.firebaseRefs.foodDonations.push(foodDonation);
@@ -72,7 +72,6 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
   }
 
   render() {
-    console.log(this.state);
     return (
       <section>
         <PageHeader className='text-center'>تبرع بطعام</PageHeader>

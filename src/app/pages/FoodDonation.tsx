@@ -6,19 +6,16 @@ import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
 
-interface IDonationProps {
+interface IFoodDonationProps {
   params: Object;
 };
 
-interface IDonationState {
+interface IFoodDonationState {
   donor: Object;
   foodDonation: Object;
 };
 
-class Donation extends React.Component<IDonationProps, IDonationState> {
-  static propTypes = {
-  };
-
+class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationState> {
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -64,7 +61,6 @@ class Donation extends React.Component<IDonationProps, IDonationState> {
 
   render() {
     const {donor, foodDonation} = this.state;
-    console.log(this.state);
 
     return (
       <section>
@@ -97,7 +93,7 @@ class Donation extends React.Component<IDonationProps, IDonationState> {
             </Table>
           </Panel>
 
-          <Panel header='بيانات المتبرع' footer={foodDonation.notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
+          <Panel header='بيانات المتبرع' bsStyle='primary' className='text-center' collapsible defaultExpanded>
             <Table fill>
               <tbody dir='rtl'>
                 <tr>
@@ -143,6 +139,6 @@ class Donation extends React.Component<IDonationProps, IDonationState> {
   }
 }
 
-reactMixin(Donation.prototype, ReactFireMixin);
+reactMixin(FoodDonation.prototype, ReactFireMixin);
 
-export default Donation;
+export default FoodDonation;
