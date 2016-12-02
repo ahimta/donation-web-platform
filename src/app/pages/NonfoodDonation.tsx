@@ -10,69 +10,61 @@ import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'r
 import t from '../translate';
 import UserInfoPanel from '../components/UserInfoPanel';
 
-interface IFoodDonationProps {
+interface INonfoodDonationProps {
   params: {id: string};
 };
 
-interface IFoodDonationState {
+interface INonfoodDonationState {
   donor: Object;
-  foodDonation: Object;
+  nonfoodDonation: Object;
 };
 
-class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationState> {
+class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDonationState> {
   constructor(props: any, context: any) {
     super(props, context);
 
     this.state = {
       donor: {},
-      foodDonation: {}
+      nonfoodDonation: {}
     };
   }
 
   componentWillMount() {
-    firebase.database().ref(`foodDonations/${this.props.params.id}`).once('value').then((snapshot) => {
-      const foodDonation = snapshot.val();
-      this.setState({foodDonation});
-      return firebase.database().ref(`users/${foodDonation.donorId}`).once('value');
+    firebase.database().ref(`otherDonations/${this.props.params.id}`).once('value').then((snapshot) => {
+      const nonfoodDonation = snapshot.val();
+      this.setState({nonfoodDonation});
+      return firebase.database().ref(`users/${nonfoodDonation.donorId}`).once('value');
     }).then((snapshot) => {
       this.setState({donor: snapshot.val()});
     });
   }
 
   render() {
-    const {donor, foodDonation} = this.state;
-    const user = Immutable.Map(donor).merge({phone: foodDonation.phone}).toJS();
+    const {donor, nonfoodDonation} = this.state;
+    const user = Immutable.Map(donor).merge({phone: nonfoodDonation.phone}).toJS();
 
     return (
       <section>
-        <PageHeader className='text-center'>تبرع طعام</PageHeader>
+        <PageHeader className='text-center'>تبرع آخر</PageHeader>
         <Grid>
           <Breadcrumb dir='rtl'>
             <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
             <Breadcrumb.Item href='#/donations'>التبرعات</Breadcrumb.Item>
-            <Breadcrumb.Item active>تبرع طعام</Breadcrumb.Item>
+            <Breadcrumb.Item active>تبرع غير طعام</Breadcrumb.Item>
           </Breadcrumb>
         </Grid>
 
         <Grid>
-          <Panel header='بيانات التبرع' footer={foodDonation.notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
+          <Panel header='بيانات التبرع' footer={nonfoodDonation.notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
             <Table fill>
               <tbody dir='rtl'>
                 <tr>
                   <th className='text-center'>النوع</th>
-                  <td className='text-center'>{t(foodDonation.foodType)}</td>
+                  <td className='text-center'>{t(nonfoodDonation.donationType)}</td>
                 </tr>
                 <tr>
-                  <th className='text-center'>المناسبة</th>
-                  <td className='text-center'>{t(foodDonation.occasion)}</td>
-                </tr>
-                <tr>
-                  <th className='text-center'>الأطباق</th>
-                  <td className='text-center'>{foodDonation.dishes}</td>
-                </tr>
-                <tr>
-                  <th className='text-center'>الحالة</th>
-                  <td className='text-center'>متوفر</td>
+                  <th className='text-center'>حالة التبرع</th>
+                  <td className='text-center'>{t(nonfoodDonation.donationState)}</td>
                 </tr>
               </tbody>
             </Table>
@@ -107,6 +99,6 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
   }
 }
 
-reactMixin(FoodDonation.prototype, ReactFireMixin);
+reactMixin(NonfoodDonation.prototype, ReactFireMixin);
 
-export default FoodDonation;
+export default NonfoodDonation;

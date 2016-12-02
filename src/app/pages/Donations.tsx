@@ -51,7 +51,6 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
       <tr key={donation['.key']}>
         <td className='text-center'>{t(donation.donationType)}</td>
         <td className='text-center'>{t(donation.donationState)}</td>
-        <td className='text-center'>متوفر</td>
         <td className='text-center'>
           <ButtonGroup bsSize='sm'>
             <Button bsStyle='danger' disabled>حذف</Button>
@@ -108,7 +107,6 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
                 <tr>
                   <th className='text-center'>النوع</th>
                   <th className='text-center'>حالة التبرع</th>
-                  <th className='text-center'>الحالة</th>
                   <th className='text-center'>إدارة</th>
                 </tr>
               </thead>
