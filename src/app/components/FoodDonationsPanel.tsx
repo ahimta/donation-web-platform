@@ -39,7 +39,7 @@ class FoodDonationsPanel extends React.Component<IFoodDonationsPanelProps, IFood
     const FoodDonations = donations.map(this.mapDonation);
 
     return (
-      <Panel header='تبرعات الطعام' bsStyle='primary' className='text-center' collapsible defaultExpanded>
+      <Panel header='تبرعات طعام' bsStyle='primary' className='text-center' collapsible defaultExpanded>
         <Table dir='rtl' responsive bordered striped condensed fill>
           <thead>
             <tr>
