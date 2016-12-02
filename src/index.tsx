@@ -5,7 +5,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {IStore} from '~react-redux~redux';
-import {IndexRoute, Redirect, Router, Route, hashHistory} from 'react-router';
+import {applyRouterMiddleware, IndexRoute, Redirect, Router, Route, hashHistory} from 'react-router';
+import {useScroll} from 'react-router-scroll';
 
 import App from './app/containers/App';
 import configureStore from './app/store/configureStore';
@@ -29,7 +30,8 @@ const store: IStore<any> = configureStore({});
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hashHistory}>
+    <Router history={hashHistory}
+      render={applyRouterMiddleware(useScroll((prevRouterProps, {location}) => ([0, 0])))}>
       <Route path='/' component={App}>
         <IndexRoute component={Homepage} />
       </Route>

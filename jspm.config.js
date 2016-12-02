@@ -107,6 +107,7 @@ SystemJS.config({
     'events': 'github:jspm/nodelibs-events@0.2.0-alpha',
     'firebase': 'npm:firebase@3.6.1',
     'fs': 'github:jspm/nodelibs-fs@0.2.0-alpha',
+    'history': 'npm:history@3.2.1',
     'http': 'github:jspm/nodelibs-http@0.2.0-alpha',
     'https': 'github:jspm/nodelibs-https@0.2.0-alpha',
     'immutable': 'npm:immutable@3.8.1',
@@ -122,7 +123,8 @@ SystemJS.config({
     'react-google-maps': 'npm:react-google-maps@4.11.0',
     'react-mixin': 'npm:react-mixin@3.0.5',
     'react-redux': 'npm:react-redux@4.4.6',
-    'react-router': 'npm:react-router@2.8.1',
+    'react-router': 'npm:react-router@3.0.0',
+    'react-router-scroll': 'npm:react-router-scroll@0.4.1',
     'reactfire': 'npm:reactfire@1.0.0',
     'redux': 'npm:redux@3.6.0',
     'stream': 'github:jspm/nodelibs-stream@0.2.0-alpha',
@@ -155,15 +157,6 @@ SystemJS.config({
         'loose-envify': 'npm:loose-envify@1.3.0',
         'object-assign': 'npm:object-assign@4.1.0',
         'fbjs': 'npm:fbjs@0.8.6'
-      }
-    },
-    'npm:react-router@2.8.1': {
-      'map': {
-        'loose-envify': 'npm:loose-envify@1.3.0',
-        'warning': 'npm:warning@3.0.0',
-        'invariant': 'npm:invariant@2.2.2',
-        'hoist-non-react-statics': 'npm:hoist-non-react-statics@1.2.0',
-        'history': 'npm:history@2.1.2'
       }
     },
     'npm:redux@3.6.0': {
@@ -212,14 +205,6 @@ SystemJS.config({
         'js-tokens': 'npm:js-tokens@2.0.0'
       }
     },
-    'npm:history@2.1.2': {
-      'map': {
-        'warning': 'npm:warning@2.1.0',
-        'invariant': 'npm:invariant@2.2.2',
-        'deep-equal': 'npm:deep-equal@1.0.1',
-        'query-string': 'npm:query-string@3.0.3'
-      }
-    },
     'npm:warning@2.1.0': {
       'map': {
         'loose-envify': 'npm:loose-envify@1.3.0'
@@ -228,11 +213,6 @@ SystemJS.config({
     'npm:promise@7.1.1': {
       'map': {
         'asap': 'npm:asap@2.0.5'
-      }
-    },
-    'npm:query-string@3.0.3': {
-      'map': {
-        'strict-uri-encode': 'npm:strict-uri-encode@1.1.0'
       }
     },
     'github:frankwallis/plugin-typescript@5.1.2': {
@@ -626,6 +606,41 @@ SystemJS.config({
       'map': {
         'smart-mixin': 'npm:smart-mixin@2.0.0',
         'object-assign': 'npm:object-assign@4.1.0'
+      }
+    },
+    'npm:react-router-scroll@0.4.1': {
+      'map': {
+        'warning': 'npm:warning@3.0.0',
+        'scroll-behavior': 'npm:scroll-behavior@0.9.1'
+      }
+    },
+    'npm:history@3.2.1': {
+      'map': {
+        'warning': 'npm:warning@3.0.0',
+        'invariant': 'npm:invariant@2.2.2',
+        'loose-envify': 'npm:loose-envify@1.3.0',
+        'query-string': 'npm:query-string@4.2.3'
+      }
+    },
+    'npm:query-string@4.2.3': {
+      'map': {
+        'object-assign': 'npm:object-assign@4.1.0',
+        'strict-uri-encode': 'npm:strict-uri-encode@1.1.0'
+      }
+    },
+    'npm:scroll-behavior@0.9.1': {
+      'map': {
+        'invariant': 'npm:invariant@2.2.2',
+        'dom-helpers': 'npm:dom-helpers@3.1.0'
+      }
+    },
+    'npm:react-router@3.0.0': {
+      'map': {
+        'history': 'npm:history@3.2.1',
+        'invariant': 'npm:invariant@2.2.2',
+        'warning': 'npm:warning@3.0.0',
+        'loose-envify': 'npm:loose-envify@1.3.0',
+        'hoist-non-react-statics': 'npm:hoist-non-react-statics@1.2.0'
       }
     }
   }
