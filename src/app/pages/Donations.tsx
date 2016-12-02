@@ -6,6 +6,9 @@ import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'r
 import reactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
 
+import FoodDonationsPanel from '../components/FoodDonationsPanel';
+import MockMap from '../components/MockMap';
+import NonfoodDonationsPanel from '../components/NonfoodDonationsPanel';
 import t from '../translate';
 
 interface IDonationsProps {
@@ -32,6 +35,7 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
   }
 
   render() {
+    const {foodDonations, otherDonations} = this.state;
     const FoodDonations = this.state.foodDonations.map(foodDonation => (
       <tr key={foodDonation['.key']}>
         <td className='text-center'>{t(foodDonation.foodType)}</td>
@@ -73,48 +77,14 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
         </Grid>
 
         <Grid>
-          <iframe
-            width='100%'
-            height='250em'
-            frameBorder='0' style={{ border: 0 }}
-            src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
-            allowFullScreen>
-          </iframe>
+          <MockMap />
         </Grid>
 
         <hr />
 
         <Grid>
-          <Panel header='تبرعات الطعام' bsStyle='primary' className='text-center' collapsible defaultExpanded>
-            <Table dir='rtl' responsive bordered striped condensed fill>
-              <thead>
-                <tr>
-                  <th className='text-center'>النوع</th>
-                  <th className='text-center'>المناسبة</th>
-                  <th className='text-center'>الحالة</th>
-                  <th className='text-center'>إدارة</th>
-                </tr>
-              </thead>
-              <tbody>
-                {FoodDonations}
-              </tbody>
-            </Table>
-          </Panel>
-
-          <Panel header='تبرعات أخرى' bsStyle='primary' className='text-center' collapsible defaultExpanded>
-            <Table dir='rtl' responsive bordered striped condensed fill>
-              <thead>
-                <tr>
-                  <th className='text-center'>النوع</th>
-                  <th className='text-center'>حالة التبرع</th>
-                  <th className='text-center'>إدارة</th>
-                </tr>
-              </thead>
-              <tbody>
-                {OtherDonations}
-              </tbody>
-            </Table>
-          </Panel>
+          <FoodDonationsPanel donations={foodDonations} />
+          <NonfoodDonationsPanel donations={otherDonations} />
         </Grid>
 
         <Grid className='text-center'>
