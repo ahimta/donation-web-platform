@@ -17,10 +17,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     this.state = {user: null};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       this.setState({user: user});
-      console.log(user);
 
       if (user) {
         const {displayName, email, photoURL, uid} = user;
@@ -89,7 +88,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
             <Nav pullRight className='text-right'>
               <NavDropdown eventKey={4} title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'>
                 <MenuItem eventKey={4.1} className='text-right' href='#/donations'>التبرعات</MenuItem>
-                <MenuItem eventKey={4.2} className='text-right' href='#/profiles' disabled>الحسابات</MenuItem>
+                <MenuItem eventKey={4.2} className='text-right' href='#/profiles'>الحسابات</MenuItem>
                 <MenuItem eventKey={4.2} className='text-right' href='#/activity' disabled>النشاطات</MenuItem>
               </NavDropdown>
               <NavItem eventKey={3} href='#/donations/receive' disabled>استقبل تبرع</NavItem>

@@ -55,7 +55,7 @@ class UserInfoPanel extends React.Component<IUserInfoPanelProps, IUserInfoPanelS
             </tr>
             <tr>
               <th className='text-center'>الجوال/الواتساب</th>
-              <td className='text-center'>{phone}</td>
+              <td className='text-center'><a href={`tel:${phone}`}>{phone}</a></td>
             </tr>
             <tr>
               <th className='text-center'>الإيميل</th>

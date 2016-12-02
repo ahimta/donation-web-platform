@@ -39,7 +39,7 @@ export default class User extends React.Component<IUserProps, IUserState> {
         <Grid>
           <Breadcrumb dir='rtl'>
             <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
-            <Breadcrumb.Item href='#/users'>المستخدمين</Breadcrumb.Item>
+            <Breadcrumb.Item href='#/profiles'>الحسابات</Breadcrumb.Item>
             <Breadcrumb.Item active>صفحة مستخدم</Breadcrumb.Item>
           </Breadcrumb>
         </Grid>

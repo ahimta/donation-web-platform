@@ -16,6 +16,7 @@ import Homepage from './app/pages/Homepage';
 import NewFoodDonation from './app/pages/NewFoodDonation';
 import NewOtherDonation from './app/pages/NewOtherDonation';
 import NonfoodDonation from './app/pages/NonfoodDonation';
+import Profiles from './app/pages/Profiles';
 import User from './app/pages/User';
 
 firebase.initializeApp({
@@ -47,6 +48,10 @@ ReactDOM.render(
 
         <Route path='receive' component={Donations} />
         <Route path='volunteer' component={Donations} />
+      </Route>
+
+      <Route path='/profiles' component={App}>
+        <IndexRoute component={Profiles} />
       </Route>
 
       <Route path='/users' component={App}>
