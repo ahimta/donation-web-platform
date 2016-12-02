@@ -15,6 +15,7 @@ import Homepage from './app/pages/Homepage';
 import NewFoodDonation from './app/pages/NewFoodDonation';
 import NewOtherDonation from './app/pages/NewOtherDonation';
 import NonfoodDonation from './app/pages/NonfoodDonation';
+import User from './app/pages/User';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyCBf9V-x1HK0dtwoY1HE8ebjyDblgeixD0',
@@ -44,6 +45,10 @@ ReactDOM.render(
 
         <Route path='receive' component={Donations} />
         <Route path='volunteer' component={Donations} />
+      </Route>
+
+      <Route path='/users' component={App}>
+        <Route path=':id' component={User} />
       </Route>
 
       <Redirect from='*' to='/' />

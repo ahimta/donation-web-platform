@@ -1,13 +1,13 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import firebase from 'firebase';
-import * as Immutable from 'immutable';
 import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
 
 import t from '../translate';
+import MockMap from '../components/MockMap';
 import UserInfoPanel from '../components/UserInfoPanel';
 
 interface IFoodDonationProps {
@@ -41,7 +41,6 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
 
   render() {
     const {donor, foodDonation} = this.state;
-    const user = Immutable.Map(donor).merge({phone: foodDonation.phone}).toJS();
 
     return (
       <section>
@@ -78,19 +77,13 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
             </Table>
           </Panel>
 
-          <UserInfoPanel user={user} />
+          <UserInfoPanel phone={foodDonation.phone} user={donor} />
         </Grid>
 
         <hr />
 
         <Grid>
-          <iframe
-            width='100%'
-            height='250em'
-            frameBorder='0' style={{ border: 0 }}
-            src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
-            allowFullScreen>
-          </iframe>
+          <MockMap />
         </Grid>
 
         <hr />
