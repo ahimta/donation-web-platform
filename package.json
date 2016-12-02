@@ -52,11 +52,15 @@
     "serve:dist": "gulp serve:dist",
     "test": "gulp test",
     "test:auto": "gulp test:auto",
-    "jspm": "jspm"
+    "jspm": "jspm",
+    "deploy": "gulp build && firebase deploy"
   },
   "jspm": {
     "dependencies": {
+      "@types/firebase": "npm:@types/firebase@^2.4.30",
+      "@types/lodash": "npm:@types/lodash@^4.14.41",
       "bootstrap": "github:twbs/bootstrap@3",
+      "lodash": "npm:lodash@^4.17.2",
       "react-bootstrap": "npm:react-bootstrap@^0.30.7",
       "react-google-maps": "npm:react-google-maps@^4.11.0",
       "react-mixin": "npm:react-mixin@^3.0.5",

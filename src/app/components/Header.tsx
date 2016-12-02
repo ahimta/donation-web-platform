@@ -96,7 +96,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
               <NavItem eventKey={2} href='#/donations/volunteer' disabled>تطوع</NavItem>
               <NavDropdown eventKey={1} title='تبرع' id='basic-nav-dropdown-donate' dir='rtl'>
                 <MenuItem eventKey={1.1} className='text-right' href='#/donations/donate/food'>بطعام</MenuItem>
-                <MenuItem eventKey={1.2} className='text-right' href='#/donations/donate/other' disabled>بشيء آخر</MenuItem>
+                <MenuItem eventKey={1.2} className='text-right' href='#/donations/donate/other'>بشيء آخر</MenuItem>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

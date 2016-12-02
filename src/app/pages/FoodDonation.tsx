@@ -6,6 +6,8 @@ import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
 
+import t from '../translate';
+
 interface IFoodDonationProps {
   params: Object;
 };
@@ -38,27 +40,6 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
     });
   }
 
-  getFoodTypeLabel(foodType: string) {
-    const LABELS = {
-      fruits: 'فواكه',
-      misc: 'منوع',
-      vegetables: 'خضار'
-    };
-
-    return LABELS[foodType];
-  }
-
-  getOccasionLabel(occasion: string) {
-    const LABELS = {
-      buffet: 'بوفيه مفتوح',
-      other: 'آخر',
-      party: 'حفلة',
-      wedding: 'زواج'
-    };
-
-    return LABELS[occasion];
-  }
-
   render() {
     const {donor, foodDonation} = this.state;
 
@@ -79,11 +60,11 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
               <tbody dir='rtl'>
                 <tr>
                   <th className='text-center'>النوع</th>
-                  <td className='text-center'>{this.getFoodTypeLabel(foodDonation.foodType)}</td>
+                  <td className='text-center'>{t(foodDonation.foodType)}</td>
                 </tr>
                 <tr>
                   <th className='text-center'>المناسبة</th>
-                  <td className='text-center'>{this.getOccasionLabel(foodDonation.occasion)}</td>
+                  <td className='text-center'>{t(foodDonation.occasion)}</td>
                 </tr>
                 <tr>
                   <th className='text-center'>الأطباق</th>

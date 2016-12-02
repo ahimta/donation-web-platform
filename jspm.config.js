@@ -91,6 +91,8 @@ SystemJS.config({
     'github:*/*.json'
   ],
   map: {
+    '@types/firebase': 'npm:@types/firebase@2.4.30',
+    '@types/lodash': 'npm:@types/lodash@4.14.41',
     'assert': 'github:jspm/nodelibs-assert@0.2.0-alpha',
     'babel-polyfill': 'npm:babel-polyfill@6.16.0',
     'bootstrap': 'github:twbs/bootstrap@3.3.7',
@@ -107,6 +109,7 @@ SystemJS.config({
     'fs': 'github:jspm/nodelibs-fs@0.2.0-alpha',
     'http': 'github:jspm/nodelibs-http@0.2.0-alpha',
     'https': 'github:jspm/nodelibs-https@0.2.0-alpha',
+    'lodash': 'npm:lodash@4.17.2',
     'module': 'github:jspm/nodelibs-module@0.2.0-alpha',
     'net': 'github:jspm/nodelibs-net@0.2.0-alpha',
     'os': 'github:jspm/nodelibs-os@0.2.0-alpha',
