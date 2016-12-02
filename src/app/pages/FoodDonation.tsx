@@ -1,12 +1,14 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import firebase from 'firebase';
+import * as Immutable from 'immutable';
 import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
 
 import t from '../translate';
+import UserInfoPanel from '../components/UserInfoPanel';
 
 interface IFoodDonationProps {
   params: {id: string};
@@ -33,12 +35,13 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
       this.setState({foodDonation});
       return firebase.database().ref(`users/${foodDonation.donorId}`).once('value');
     }).then((snapshot) => {
-      this.setState({donor: snapshot.val() || {}});
+      this.setState({donor: snapshot.val()});
     });
   }
 
   render() {
     const {donor, foodDonation} = this.state;
+    const user = Immutable.Map(donor).merge({phone: foodDonation.phone}).toJS();
 
     return (
       <section>
@@ -71,24 +74,7 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
             </Table>
           </Panel>
 
-          <Panel header='بيانات المتبرع' bsStyle='primary' className='text-center' collapsible defaultExpanded>
-            <Table fill>
-              <tbody dir='rtl'>
-                <tr>
-                  <th className='text-center'>الاسم</th>
-                  <td className='text-center'>{donor.displayName}</td>
-                </tr>
-                <tr>
-                  <th className='text-center'>الجوال/الواتساب</th>
-                  <td className='text-center'>{foodDonation.phone}</td>
-                </tr>
-                <tr>
-                  <th className='text-center'>الإيميل</th>
-                  <td className='text-center'>{donor.email}</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Panel>
+          <UserInfoPanel user={user} />
         </Grid>
 
         <hr />

@@ -9,6 +9,10 @@
     "foodDonations": {
       ".read": true,
       ".write": true
+    },
+    "otherDonations": {
+      ".read": true,
+      ".write": true
     }
   }
 }

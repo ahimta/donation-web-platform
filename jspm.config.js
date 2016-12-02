@@ -109,6 +109,7 @@ SystemJS.config({
     'fs': 'github:jspm/nodelibs-fs@0.2.0-alpha',
     'http': 'github:jspm/nodelibs-http@0.2.0-alpha',
     'https': 'github:jspm/nodelibs-https@0.2.0-alpha',
+    'immutable': 'npm:immutable@3.8.1',
     'lodash': 'npm:lodash@4.17.2',
     'module': 'github:jspm/nodelibs-module@0.2.0-alpha',
     'net': 'github:jspm/nodelibs-net@0.2.0-alpha',
