@@ -9,7 +9,7 @@ import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'r
 import t from '../translate';
 
 interface IFoodDonationProps {
-  params: Object;
+  params: {id: string};
 };
 
 interface IFoodDonationState {
@@ -28,15 +28,12 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
   }
 
   componentWillMount() {
-    // this.bindAsObject(firebase.database().ref(`foodDonations/${this.props.params.id}`), 'foodDonation');
-    firebase.database().ref(`foodDonations/${this.props.params.id}`).on('value', (snapshot) => {
+    firebase.database().ref(`foodDonations/${this.props.params.id}`).once('value').then((snapshot) => {
       const foodDonation = snapshot.val();
-
       this.setState({foodDonation});
-
-      firebase.database().ref(`users/${foodDonation.donorId}`).on('value', (userSnapshot) => {
-        this.setState({donor: userSnapshot.val() || {}});
-      });
+      return firebase.database().ref(`users/${foodDonation.donorId}`).once('value');
+    }).then((snapshot) => {
+      this.setState({donor: snapshot.val() || {}});
     });
   }
 

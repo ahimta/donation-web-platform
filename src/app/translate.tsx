@@ -1,6 +1,6 @@
 export default function t(s: string): string {
     const LABELS = {
-      appliances: 'أجهزة كهربائية',
+      appliances: 'أجهزة',
       clothes: 'ملابس',
       toys: 'ألعاب',
 

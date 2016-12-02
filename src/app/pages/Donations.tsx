@@ -87,7 +87,7 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
 
         <Grid>
           <Panel header='تبرعات الطعام' bsStyle='primary' className='text-center' collapsible defaultExpanded>
-            <Table dir='rtl' responsive bordered striped fill>
+            <Table dir='rtl' responsive bordered striped condensed fill>
               <thead>
                 <tr>
                   <th className='text-center'>النوع</th>
@@ -103,7 +103,7 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
           </Panel>
 
           <Panel header='تبرعات أخرى' bsStyle='primary' className='text-center' collapsible defaultExpanded>
-            <Table dir='rtl' responsive bordered striped fill>
+            <Table dir='rtl' responsive bordered striped condensed fill>
               <thead>
                 <tr>
                   <th className='text-center'>النوع</th>
