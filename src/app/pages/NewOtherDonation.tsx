@@ -5,6 +5,7 @@ import * as React from 'react';
 import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
+import * as auth from '../auth';
 import MockMap from '../components/MockMap';
 
 interface INewOtherDonationProps {}
@@ -39,12 +40,22 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
 
   private handleSubmit(event: any) {
     const {currentUserId} = this.context;
-    const {donationType, notes, donationState, phone} = this.state;
-    const foodDonation = {donationType, notes, donationState, phone, donorId: currentUserId};
+
+    const helper = (donorId: string) => {
+      const {donationType, notes, donationState, phone} = this.state;
+      const nonfoodDonation = {donationType, notes, donationState, phone, donorId};
+
+      this.otherDonationsRef.push(nonfoodDonation);
+      hashHistory.push('/donations');
+    };
 
     event.preventDefault();
-    this.otherDonationsRef.push(foodDonation);
-    hashHistory.push('/donations');
+
+    if (currentUserId) {
+      helper(currentUserId);
+    } else {
+      auth.login().then(currentUser => helper(currentUser.uid));
+    }
   }
 
   private handleOnChange(fieldName: string) {
@@ -62,6 +73,9 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
   }
 
   render() {
+    const {currentUserId} = this.context;
+    const donatePhrase = currentUserId ? 'تبرع' : 'سجل دخول و تبرع';
+
     return (
       <section>
         <PageHeader className='text-center'>تبرع بشيء آخر</PageHeader>
@@ -118,7 +132,7 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
               <MockMap />
             </FormGroup>
 
-            <Button type='submit' bsStyle='success' bsSize='lg' block>تبرع</Button>
+            <Button type='submit' bsStyle='success' bsSize='lg' block>{donatePhrase}</Button>
           </Form>
         </Grid>
       </section>

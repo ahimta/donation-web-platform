@@ -5,6 +5,9 @@ import * as React from 'react';
 import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
+import * as auth from '../auth';
+import MockMap from '../components/MockMap';
+
 interface INewFoodDonationProps {
 }
 
@@ -22,7 +25,6 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     currentUserId: React.PropTypes.string
   };
 
-  private bindAsArray: any;
   private foodDonationsRef: any;
 
   constructor(props: any, context: any) {
@@ -42,12 +44,22 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
 
   private handleSubmit(event: any) {
     const {currentUserId} = this.context;
-    const {dishes, foodType, notes, occasion, phone} = this.state;
-    const foodDonation = {dishes, foodType, notes, occasion, phone, donorId: currentUserId};
+
+    const helper = (donorId: string) => {
+      const {dishes, foodType, notes, occasion, phone} = this.state;
+      const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
+
+      this.foodDonationsRef.push(foodDonation);
+      hashHistory.push('/donations');
+    };
 
     event.preventDefault();
-    this.foodDonationsRef.push(foodDonation);
-    hashHistory.push('/donations');
+
+    if (currentUserId) {
+      helper(currentUserId);
+    } else {
+      auth.login().then(currentUser => helper(currentUser.uid));
+    }
   }
 
   private handleOnChange(fieldName: string) {
@@ -65,6 +77,9 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
   }
 
   render() {
+    const {currentUserId} = this.context;
+    const donatePhrase = currentUserId ? 'تبرع' : 'سجل دخول و تبرع';
+
     return (
       <section>
         <PageHeader className='text-center'>تبرع بطعام</PageHeader>
@@ -134,16 +149,10 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
 
             <FormGroup controlId='foodDonationLocation' dir='rtl'>
               <ControlLabel>الموقع</ControlLabel>
-              <iframe
-                width='100%'
-                height='250em'
-                frameBorder='0' style={{ border: 0 }}
-                src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
-                allowFullScreen>
-              </iframe>
+              <MockMap />
             </FormGroup>
 
-            <Button type='submit' bsStyle='success' bsSize='lg' block>تبرع</Button>
+            <Button type='submit' bsStyle='success' bsSize='lg' block>{donatePhrase}</Button>
           </Form>
         </Grid>
       </section>
