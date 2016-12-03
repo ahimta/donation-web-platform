@@ -2,7 +2,7 @@
 
 import firebase from 'firebase';
 import * as React from 'react';
-import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
+import {Breadcrumb, Button, ButtonGroup, DropdownButton, Grid, MenuItem, PageHeader, Panel, Table} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
 import * as database from '../database';
@@ -97,7 +97,10 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
         <Grid className='text-center'>
           <ButtonGroup>
             <Button bsStyle='danger' onClick={this.deleteDonation.bind(null, params.id)} disabled={currentUserId !== foodDonation.donorId}>حذف</Button>
-            <Button bsStyle='success' disabled>حجز</Button>
+            <DropdownButton bsStyle='success' dir='rtl' id='reserveFoodDonationButton' title='حجز' disabled dropup pullRight>
+              <MenuItem className='text-right' eventKey='1'>لاستقبال التبرع</MenuItem>
+              <MenuItem className='text-right' eventKey='2'>لتوصيل التبرع</MenuItem>
+            </DropdownButton>
           </ButtonGroup>
         </Grid>
       </section>
