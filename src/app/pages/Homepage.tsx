@@ -3,13 +3,15 @@
 import * as React from 'react';
 import {Button, ButtonGroup, Col, Glyphicon, Grid, ListGroup, ListGroupItem, Panel, Row} from 'react-bootstrap';
 
+import MockMap from '../components/MockMap';
+
 interface IHomepageProps {
 };
 
 interface IHomepageState {
 };
 
-class Homepage extends React.Component<IHomepageProps, IHomepageState> {
+export default class Homepage extends React.Component<IHomepageProps, IHomepageState> {
   render() {
     return (
       <section>
@@ -17,7 +19,7 @@ class Homepage extends React.Component<IHomepageProps, IHomepageState> {
           <Row>
             <Col md={4}>
               <Panel header={<span><Glyphicon glyph='road' />&nbsp;<span>وصل تبرع</span></span>} className='text-center' bsStyle='primary'>
-                <Button block bsStyle='success' href='#/donations/volunteer'><Glyphicon glyph='search' />&nbsp;<span>اختر تبرع</span></Button>
+                <Button block bsStyle='success' href='#/donations/deliver'><Glyphicon glyph='search' />&nbsp;<span>اختر تبرع</span></Button>
               </Panel>
             </Col>
             <Col md={4}>
@@ -39,13 +41,7 @@ class Homepage extends React.Component<IHomepageProps, IHomepageState> {
         <hr />
 
         <Grid>
-          <iframe
-            width='100%'
-            height='250em'
-            frameBorder='0' style={{border: 0}}
-            src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
-            allowFullScreen>
-          </iframe>
+          <MockMap />
         </Grid>
 
         <hr />
@@ -82,5 +78,3 @@ class Homepage extends React.Component<IHomepageProps, IHomepageState> {
     );
   }
 }
-
-export default Homepage;

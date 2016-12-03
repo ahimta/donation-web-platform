@@ -47,7 +47,7 @@ ReactDOM.render(
         <Route path='other/:id' component={NonfoodDonation} />
 
         <Route path='receive' component={Donations} />
-        <Route path='volunteer' component={Donations} />
+        <Route path='deliver' component={Donations} />
       </Route>
 
       <Route path='/profiles' component={App}>

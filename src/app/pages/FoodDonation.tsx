@@ -15,8 +15,8 @@ interface IFoodDonationProps {
 }
 
 interface IFoodDonationState {
-  donor: Object;
-  foodDonation: Object;
+  donor: any;
+  foodDonation: any;
 }
 
 export default class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationState> {
@@ -40,12 +40,6 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
       return firebase.database().ref(`users/${foodDonation.donorId}`).once('value');
     }).then((snapshot) => {
       this.setState({donor: snapshot.val()});
-    });
-  }
-
-  private deleteDonation(id: string) {
-    database.removeFoodDonation(id).then(function() {
-      hashHistory.push('/donations');
     });
   }
 
@@ -103,11 +97,16 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
         <Grid className='text-center'>
           <ButtonGroup>
             <Button bsStyle='danger' onClick={this.deleteDonation.bind(null, params.id)} disabled={currentUserId !== foodDonation.donorId}>حذف</Button>
-            <Button bsStyle='primary' disabled>تعديل</Button>
             <Button bsStyle='success' disabled>حجز</Button>
           </ButtonGroup>
         </Grid>
       </section>
     );
+  }
+
+  private deleteDonation(id: string) {
+    database.removeFoodDonation(id).then(function() {
+      hashHistory.push('/donations');
+    });
   }
 }

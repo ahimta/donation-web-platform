@@ -1,6 +1,5 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
 import {Button, ButtonGroup, Panel, Table} from 'react-bootstrap';
 
@@ -22,29 +21,6 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
   static propTypes = {
     donations: React.PropTypes.array
   };
-
-  private deleteDonationFactory(id: string) {
-    return () => {
-      database.removeFoodDonation(id);
-    };
-  }
-
-  private mapDonations(donations: any, deleteDonationFactory: Function, currentUserId?: string): any[] {
-    return donations.map((donation) => {
-      return (<tr key={donation['.key']}>
-        <td className='text-center'>{t(donation.foodType)}</td>
-        <td className='text-center'>{t(donation.occasion)}</td>
-        <td className='text-center'>متوفر</td>
-        <td className='text-center'>
-          <ButtonGroup bsSize='sm'>
-            <Button bsStyle='danger' onClick={deleteDonationFactory(donation['.key'])} disabled={currentUserId !== donation.donorId}>حذف</Button>
-            <Button bsStyle='primary' disabled>تعديل</Button>
-            <Button bsStyle='success' href={`#/donations/food/${donation['.key']}`}>عرض</Button>
-          </ButtonGroup>
-        </td>
-      </tr>)
-    });
-  }
 
   render() {
     const {currentUserId} = this.context;
@@ -68,5 +44,25 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
         </Table>
       </Panel>
     );
+  }
+
+  private deleteDonationFactory(id: string) {
+    return () => { database.removeFoodDonation(id); };
+  }
+
+  private mapDonations(donations: any, deleteDonationFactory: Function, currentUserId?: string): any[] {
+    return donations.map((donation) => {
+      return (<tr key={donation['.key']}>
+        <td className='text-center'>{t(donation.foodType)}</td>
+        <td className='text-center'>{t(donation.occasion)}</td>
+        <td className='text-center'>متوفر</td>
+        <td className='text-center'>
+          <ButtonGroup bsSize='xs'>
+            <Button bsStyle='danger' onClick={deleteDonationFactory(donation['.key'])} disabled={currentUserId !== donation.donorId}>حذف</Button>
+            <Button bsStyle='success' href={`#/donations/food/${donation['.key']}`}>عرض</Button>
+          </ButtonGroup>
+        </td>
+      </tr>);
+    });
   }
 }

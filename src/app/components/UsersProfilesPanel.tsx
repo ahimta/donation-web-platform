@@ -35,7 +35,7 @@ export default class UsersProfilesPanel extends React.Component<IUsersProfilesPa
     const Users = users.map(this.mapUser);
 
     return (
-      <Panel header='المستخدمين' bsStyle='primary' className='text-center' collapsible defaultExpanded>
+      <Panel header='حسابات المستخدمين' bsStyle='primary' className='text-center' collapsible defaultExpanded>
         <Table dir='rtl' responsive bordered striped condensed fill>
           <thead>
             <tr>

@@ -19,7 +19,7 @@ interface INonfoodDonationState {
   nonfoodDonation: any;
 };
 
-class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDonationState> {
+export default class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDonationState> {
   static contextTypes = {
     currentUserId: React.PropTypes.string
   };
@@ -40,12 +40,6 @@ class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDon
       return firebase.database().ref(`users/${nonfoodDonation.donorId}`).once('value');
     }).then((snapshot) => {
       this.setState({donor: snapshot.val()});
-    });
-  }
-
-  private deleteDonation(id: string) {
-    database.removeNonfoodDonation(id).then(function() {
-      hashHistory.push('/donations');
     });
   }
 
@@ -95,13 +89,16 @@ class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDon
         <Grid className='text-center'>
           <ButtonGroup>
             <Button bsStyle='danger' onClick={this.deleteDonation.bind(null, params.id)} disabled={currentUserId !== nonfoodDonation.donorId}>حذف</Button>
-            <Button bsStyle='primary' disabled>تعديل</Button>
             <Button bsStyle='success' disabled>حجز</Button>
           </ButtonGroup>
         </Grid>
       </section>
     );
   }
-}
 
-export default NonfoodDonation;
+  private deleteDonation(id: string) {
+    database.removeNonfoodDonation(id).then(function() {
+      hashHistory.push('/donations');
+    });
+  }
+}

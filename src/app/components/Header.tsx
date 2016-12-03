@@ -1,6 +1,5 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
 import {Glyphicon, MenuItem, Nav, Navbar, NavItem, NavDropdown} from 'react-bootstrap';
 
@@ -14,22 +13,6 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
   static contextTypes = {
     currentUser: React.PropTypes.object
   };
-
-  private getLoginClass(user: Object): string {
-    if (user) {
-      return 'hidden';
-    } else {
-      return '';
-    }
-  }
-
-  private getLogoutClass(user: Object): string {
-    if (user) {
-      return '';
-    } else {
-      return 'hidden';
-    }
-  }
 
   render() {
     const {currentUser} = this.context;
@@ -59,7 +42,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
                 <MenuItem eventKey={4.2} className='text-right' href='#/activity' disabled>النشاطات</MenuItem>
               </NavDropdown>
               <NavItem eventKey={3} href='#/donations/receive' disabled>استقبل تبرع</NavItem>
-              <NavItem eventKey={2} href='#/donations/volunteer' disabled>تطوع</NavItem>
+              <NavItem eventKey={2} href='#/donations/deliver' disabled>وصل تبرع</NavItem>
               <NavDropdown eventKey={1} title='تبرع' id='basic-nav-dropdown-donate' dir='rtl'>
                 <MenuItem eventKey={1.1} className='text-right' href='#/donations/donate/food'>بطعام</MenuItem>
                 <MenuItem eventKey={1.2} className='text-right' href='#/donations/donate/other'>بشيء آخر</MenuItem>
@@ -69,5 +52,21 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         </Navbar>
       </header>
     );
+  }
+
+  private getLoginClass(user: Object): string {
+    if (user) {
+      return 'hidden';
+    } else {
+      return '';
+    }
+  }
+
+  private getLogoutClass(user: Object): string {
+    if (user) {
+      return '';
+    } else {
+      return 'hidden';
+    }
   }
 }
