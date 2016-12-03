@@ -17,6 +17,22 @@
       "$id": {
         ".write": "auth !== null && (newData.child('donorId').val() === auth.uid || data.child('donorId').val() === auth.uid)"
       }
+    },
+    "reservations": {
+      ".read": true,
+      "$donationId": {
+        ".validate": "root.child('foodDonations').hasChild($donationId) || root.child('otherDonations').hasChild($donationId)",
+        ".write": "auth !== null && (!data.exists() || data.child('deliveredOrReceived').val() === false)",
+        "deliveredOrReceived": {
+          ".write": "(!data.exists() && newData.val() === false) || (data.exists() && data.parent().child('reserverId').val() === auth.uid && newData.val() === true)"
+        },
+        "reservationType": {
+          ".write": "(!data.exists() && newData.val() === null) || (data.exists() && data.parent().child('reserverId').val() === auth.uid) || (data.exists() && data.parent().child('reserverId').val() === null)"
+        },
+        "reserverId": {
+          ".write": "(!data.exists() && newData.val() === null) || (data.exists() && data.val() === null && newData.val() === auth.uid) || (data.exists() && newData.val() === null && data.val() === auth.uid)"
+        }
+      }
     }
   }
 }
