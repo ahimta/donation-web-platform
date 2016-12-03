@@ -42,12 +42,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      this.setState({currentUser: user});
-
       if (user) {
         const {displayName, email, photoURL, uid} = user;
-        this.setState({currentUserId: user.uid});
+        this.setState({currentUser: user, currentUserId: user.uid});
         firebase.database().ref('users').child(uid).set({displayName, email, photoURL, uid});
+      } else {
+        this.setState({currentUser: null, currentUserId: null});
       }
     });
   }
