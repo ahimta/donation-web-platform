@@ -4,6 +4,8 @@ import firebase from 'firebase';
 import * as React from 'react';
 import {Glyphicon, MenuItem, Nav, Navbar, NavItem, NavDropdown} from 'react-bootstrap';
 
+import * as auth from '../auth';
+
 interface IHeaderProps {}
 
 interface IHeaderState {}
@@ -12,24 +14,6 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
   static contextTypes = {
     currentUser: React.PropTypes.object
   };
-
-  private login(): void {
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    firebase.auth().signInWithPopup(provider).then((result) => {
-      console.log(result);
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
-  private logout(): void {
-    firebase.auth().signOut().then(() => {
-      console.log('logout');
-    }, (error) => {
-      console.log(error);
-    });
-  }
 
   private getLoginClass(user: Object): string {
     if (user) {
@@ -64,9 +48,9 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
               <NavItem eventKey={2} href='#/charities/register' className={this.getLoginClass(currentUser)} disabled>سجل كجمعية</NavItem>
               <NavDropdown eventKey={1} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentUser)}>
                 <MenuItem eventKey={1.1} className='text-right' href='#/charities/login' disabled>كجمعية</MenuItem>
-                <MenuItem eventKey={1.2} className='text-right' onClick={this.login.bind(this)}>كفرد</MenuItem>
+                <MenuItem eventKey={1.2} className='text-right' onClick={auth.login}>كفرد</MenuItem>
               </NavDropdown>
-              <NavItem eventKey={3} className={this.getLogoutClass(currentUser)} onClick={this.logout.bind(this)}>سجل خروج</NavItem>
+              <NavItem eventKey={3} className={this.getLogoutClass(currentUser)} onClick={auth.logout}>سجل خروج</NavItem>
             </Nav>
             <Nav pullRight className='text-right'>
               <NavDropdown eventKey={4} title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'>
