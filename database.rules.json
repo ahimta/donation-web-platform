@@ -8,11 +8,15 @@
     },
     "foodDonations": {
       ".read": true,
-      ".write": true
+      "$id": {
+        ".write": "newData.child('donorId').val() === auth.uid"
+      }
     },
     "otherDonations": {
       ".read": true,
-      ".write": true
+      "$id": {
+        ".write": "newData.child('donorId').val() === auth.uid"
+      }
     }
   }
 }

@@ -7,18 +7,25 @@ import reactMixin from 'react-mixin';
 import {hashHistory} from 'react-router';
 import ReactFireMixin from 'reactfire';
 
-interface INewOtherDonationProps {
-};
+import MockMap from '../components/MockMap';
+
+interface INewOtherDonationProps {}
 
 interface INewOtherDonationState {
   donationType: string;
   notes: string;
   donationState: string;
   phone: string;
-  user: Object;
-};
+}
 
-class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOtherDonationState> {
+export default class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOtherDonationState> {
+  static contextTypes = {
+    currentUser: React.PropTypes.object
+  };
+
+  private bindAsArray: any;
+  private firebaseRefs: any;
+
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -26,26 +33,18 @@ class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOther
       donationType: 'appliances',
       notes: '',
       donationState: 'good',
-      phone: '',
-      user: null
+      phone: ''
     };
   }
 
   componentWillMount() {
     this.bindAsArray(firebase.database().ref('otherDonations'), 'donations');
-
-    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      this.setState({user});
-    });
   }
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  handleSubmit(event: any) {
-    const {donationType, notes, donationState, phone, user} = this.state;
-    const donorId = user ? user.uid : null;
+  private handleSubmit(event: any) {
+    const {currentUser} = this.context;
+    const {donationType, notes, donationState, phone} = this.state;
+    const donorId = currentUser ? currentUser.uid : null;
     const foodDonation = {donationType, notes, donationState, phone, donorId};
 
     event.preventDefault();
@@ -53,13 +52,13 @@ class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOther
     hashHistory.push('/donations');
   }
 
-  handleOnChange(fieldName: string) {
+  private handleOnChange(fieldName: string) {
     return (function(event: any) {
       this.setState({[fieldName]: event.target.value});
     });
   }
 
-  validateRequired(value: string) {
+  private validateRequired(value: string) {
     if (value) {
       return null;
     } else {
@@ -71,6 +70,7 @@ class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOther
     return (
       <section>
         <PageHeader className='text-center'>تبرع بشيء آخر</PageHeader>
+
         <Grid>
           <Breadcrumb dir='rtl'>
             <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
@@ -78,6 +78,7 @@ class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOther
             <Breadcrumb.Item active>تبرع بشيء آخر</Breadcrumb.Item>
           </Breadcrumb>
         </Grid>
+
         <Grid>
           <Form onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup controlId='donationType' dir='rtl'>
@@ -119,13 +120,7 @@ class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOther
 
             <FormGroup controlId='foodDonationLocation' dir='rtl'>
               <ControlLabel>الموقع</ControlLabel>
-              <iframe
-                width='100%'
-                height='250em'
-                frameBorder='0' style={{ border: 0 }}
-                src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDzwYGquiVtVevyr4YS9hYc5F_IeI9Qhbc&q=Huraymila'
-                allowFullScreen>
-              </iframe>
+              <MockMap />
             </FormGroup>
 
             <Button type='submit' bsStyle='success' bsSize='lg' block>تبرع</Button>
@@ -137,5 +132,3 @@ class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOther
 }
 
 reactMixin(NewOtherDonation.prototype, ReactFireMixin);
-
-export default NewOtherDonation;

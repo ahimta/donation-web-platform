@@ -8,7 +8,7 @@ import {hashHistory} from 'react-router';
 import ReactFireMixin from 'reactfire';
 
 interface INewFoodDonationProps {
-};
+}
 
 interface INewFoodDonationState {
   dishes: string;
@@ -17,10 +17,16 @@ interface INewFoodDonationState {
   notes: string;
   occasion: string;
   phone: string;
-  user: Object;
-};
+}
 
-class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
+export default class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
+  static contextTypes = {
+    currentUser: React.PropTypes.object
+  };
+
+  private bindAsArray: any;
+  private firebaseRefs: any;
+
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -30,26 +36,18 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
       foodType: 'fruits',
       notes: '',
       occasion: 'party',
-      phone: '',
-      user: null
+      phone: ''
     };
   }
 
   componentWillMount() {
     this.bindAsArray(firebase.database().ref('foodDonations'), 'foodDonations');
-
-    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      this.setState({user});
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
   }
 
   handleSubmit(event: any) {
-    const {dishes, foodType, notes, occasion, phone, user} = this.state;
-    const donorId = user ? user.uid : null;
+    const {currentUser} = this.context;
+    const {dishes, foodType, notes, occasion, phone} = this.state;
+    const donorId = currentUser ? currentUser.uid : null;
     const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
 
     event.preventDefault();
@@ -157,5 +155,3 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
 }
 
 reactMixin(NewFoodDonation.prototype, ReactFireMixin);
-
-export default NewFoodDonation;

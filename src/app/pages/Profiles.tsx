@@ -16,6 +16,8 @@ interface IProfilesState {
 }
 
 export default class Profiles extends React.Component<IProfilesProps, IProfilesState> {
+  private bindAsArray: any;
+
   constructor(props: any, context: any) {
     super(props, context);
 

@@ -4,35 +4,16 @@ import firebase from 'firebase';
 import * as React from 'react';
 import {Glyphicon, MenuItem, Nav, Navbar, NavItem, NavDropdown} from 'react-bootstrap';
 
-interface IHeaderProps {};
+interface IHeaderProps {}
 
-interface IHeaderState {
-  user: Object;
-};
+interface IHeaderState {}
 
-class Header extends React.Component<IHeaderProps, IHeaderState> {
-  constructor(props: any) {
-    super(props);
+export default class Header extends React.Component<IHeaderProps, IHeaderState> {
+  static contextTypes = {
+    currentUser: React.PropTypes.object
+  };
 
-    this.state = {user: null};
-  }
-
-  componentDidMount() {
-    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      this.setState({user: user});
-
-      if (user) {
-        const {displayName, email, photoURL, uid} = user;
-        firebase.database().ref('users').child(uid).set({ displayName, email, photoURL, uid });
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  login() {
+  private login(): void {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     firebase.auth().signInWithPopup(provider).then((result) => {
@@ -42,7 +23,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     });
   }
 
-  logout() {
+  private logout(): void {
     firebase.auth().signOut().then(() => {
       console.log('logout');
     }, (error) => {
@@ -50,7 +31,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     });
   }
 
-  getLoginClass(user: Object) {
+  private getLoginClass(user: Object): string {
     if (user) {
       return 'hidden';
     } else {
@@ -58,7 +39,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
   }
 
-  getLogoutClass(user: Object) {
+  private getLogoutClass(user: Object): string {
     if (user) {
       return '';
     } else {
@@ -67,6 +48,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
   }
 
   render() {
+    const {currentUser} = this.context;
+
     return (
       <header style={{marginBottom: '5em'}}>
         <Navbar collapseOnSelect fixedTop inverse>
@@ -78,12 +61,12 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav className='text-right'>
-              <NavItem eventKey={2} href='#/charities/register' className={this.getLoginClass(this.state.user)} disabled>سجل كجمعية</NavItem>
-              <NavDropdown eventKey={1} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(this.state.user)}>
+              <NavItem eventKey={2} href='#/charities/register' className={this.getLoginClass(currentUser)} disabled>سجل كجمعية</NavItem>
+              <NavDropdown eventKey={1} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentUser)}>
                 <MenuItem eventKey={1.1} className='text-right' href='#/charities/login' disabled>كجمعية</MenuItem>
                 <MenuItem eventKey={1.2} className='text-right' onClick={this.login.bind(this)}>كفرد</MenuItem>
               </NavDropdown>
-              <NavItem eventKey={3} className={this.getLogoutClass(this.state.user)} onClick={this.logout.bind(this)}>سجل خروج</NavItem>
+              <NavItem eventKey={3} className={this.getLogoutClass(currentUser)} onClick={this.logout.bind(this)}>سجل خروج</NavItem>
             </Nav>
             <Nav pullRight className='text-right'>
               <NavDropdown eventKey={4} title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'>
@@ -104,5 +87,3 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     );
   }
 }
-
-export default Header;
