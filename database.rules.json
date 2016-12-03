@@ -9,13 +9,13 @@
     "foodDonations": {
       ".read": true,
       "$id": {
-        ".write": "newData.child('donorId').val() === auth.uid"
+        ".write": "auth !== null && (newData.child('donorId').val() === auth.uid || data.child('donorId').val() === auth.uid)"
       }
     },
     "otherDonations": {
       ".read": true,
       "$id": {
-        ".write": "newData.child('donorId').val() === auth.uid"
+        ".write": "auth !== null && (newData.child('donorId').val() === auth.uid || data.child('donorId').val() === auth.uid)"
       }
     }
   }

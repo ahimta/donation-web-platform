@@ -8,11 +8,12 @@ import Header from '../components/Header';
 
 interface IAppProps {
   children: Object;
-};
+}
 
 interface IAppState {
   currentUser: any;
-};
+  currentUserId: any;
+}
 
 export default class App extends React.Component<IAppProps, IAppState> {
   static propTypes = {
@@ -20,7 +21,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
   };
 
   static childContextTypes = {
-    currentUser: React.PropTypes.object
+    currentUser: React.PropTypes.object,
+    currentUserId: React.PropTypes.string
   };
 
   private unsubscribe: () => void;
@@ -29,12 +31,13 @@ export default class App extends React.Component<IAppProps, IAppState> {
     super(props, context);
 
     this.state = {
-      currentUser: null
+      currentUser: null,
+      currentUserId: null
     };
   }
 
   getChildContext() {
-    return {currentUser: this.state.currentUser};
+    return {currentUser: this.state.currentUser, currentUserId: this.state.currentUserId};
   }
 
   componentDidMount() {
@@ -43,6 +46,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
       if (user) {
         const {displayName, email, photoURL, uid} = user;
+        this.setState({currentUserId: user.uid});
         firebase.database().ref('users').child(uid).set({displayName, email, photoURL, uid});
       }
     });

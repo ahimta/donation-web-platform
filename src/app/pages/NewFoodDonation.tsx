@@ -3,9 +3,7 @@
 import firebase from 'firebase';
 import * as React from 'react';
 import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
-import reactMixin from 'react-mixin';
 import {hashHistory} from 'react-router';
-import ReactFireMixin from 'reactfire';
 
 interface INewFoodDonationProps {
 }
@@ -21,11 +19,11 @@ interface INewFoodDonationState {
 
 export default class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
   static contextTypes = {
-    currentUser: React.PropTypes.object
+    currentUserId: React.PropTypes.string
   };
 
   private bindAsArray: any;
-  private firebaseRefs: any;
+  private foodDonationsRef: any;
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -38,30 +36,27 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
       occasion: 'party',
       phone: ''
     };
+
+    this.foodDonationsRef = firebase.database().ref('foodDonations');
   }
 
-  componentWillMount() {
-    this.bindAsArray(firebase.database().ref('foodDonations'), 'foodDonations');
-  }
-
-  handleSubmit(event: any) {
-    const {currentUser} = this.context;
+  private handleSubmit(event: any) {
+    const {currentUserId} = this.context;
     const {dishes, foodType, notes, occasion, phone} = this.state;
-    const donorId = currentUser ? currentUser.uid : null;
-    const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
+    const foodDonation = {dishes, foodType, notes, occasion, phone, donorId: currentUserId};
 
     event.preventDefault();
-    this.firebaseRefs.foodDonations.push(foodDonation);
+    this.foodDonationsRef.push(foodDonation);
     hashHistory.push('/donations');
   }
 
-  handleOnChange(fieldName: string) {
+  private handleOnChange(fieldName: string) {
     return (function(event: any) {
       this.setState({[fieldName]: event.target.value});
     });
   }
 
-  validateRequired(value: string) {
+  private validateRequired(value: string) {
     if (value) {
       return null;
     } else {
@@ -73,6 +68,7 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     return (
       <section>
         <PageHeader className='text-center'>تبرع بطعام</PageHeader>
+
         <Grid>
           <Breadcrumb dir='rtl'>
             <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
@@ -80,6 +76,7 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
             <Breadcrumb.Item active>تبرع بطعام</Breadcrumb.Item>
           </Breadcrumb>
         </Grid>
+
         <Grid>
           <Form onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup controlId='foodDonationFoodType' dir='rtl'>
@@ -153,5 +150,3 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     );
   }
 }
-
-reactMixin(NewFoodDonation.prototype, ReactFireMixin);

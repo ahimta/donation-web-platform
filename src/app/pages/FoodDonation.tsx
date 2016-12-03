@@ -2,24 +2,28 @@
 
 import firebase from 'firebase';
 import * as React from 'react';
-import ReactFireMixin from 'reactfire';
-import reactMixin from 'react-mixin';
 import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
+import {hashHistory} from 'react-router';
 
+import * as database from '../database';
 import t from '../translate';
 import MockMap from '../components/MockMap';
 import UserInfoPanel from '../components/UserInfoPanel';
 
 interface IFoodDonationProps {
   params: {id: string};
-};
+}
 
 interface IFoodDonationState {
   donor: Object;
   foodDonation: Object;
-};
+}
 
-class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationState> {
+export default class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationState> {
+  static contextTypes = {
+    currentUserId: React.PropTypes.string
+  };
+
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -29,7 +33,7 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     firebase.database().ref(`foodDonations/${this.props.params.id}`).once('value').then((snapshot) => {
       const foodDonation = snapshot.val();
       this.setState({foodDonation});
@@ -39,7 +43,15 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
     });
   }
 
+  private deleteDonation(id: string) {
+    database.removeFoodDonation(id).then(function() {
+      hashHistory.push('/donations');
+    });
+  }
+
   render() {
+    const {currentUserId} = this.context;
+    const {params} = this.props;
     const {donor, foodDonation} = this.state;
 
     return (
@@ -90,7 +102,7 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
 
         <Grid className='text-center'>
           <ButtonGroup>
-            <Button bsStyle='danger' disabled>حذف</Button>
+            <Button bsStyle='danger' onClick={this.deleteDonation.bind(null, params.id)} disabled={currentUserId !== foodDonation.donorId}>حذف</Button>
             <Button bsStyle='primary' disabled>تعديل</Button>
             <Button bsStyle='success' disabled>حجز</Button>
           </ButtonGroup>
@@ -99,7 +111,3 @@ class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationStat
     );
   }
 }
-
-reactMixin(FoodDonation.prototype, ReactFireMixin);
-
-export default FoodDonation;

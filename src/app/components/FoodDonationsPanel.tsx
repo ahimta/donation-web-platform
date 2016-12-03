@@ -1,42 +1,55 @@
 /// <reference path="../../../typings/index.d.ts" />
 
+import firebase from 'firebase';
 import * as React from 'react';
 import {Button, ButtonGroup, Panel, Table} from 'react-bootstrap';
 
+import * as database from '../database';
 import t from '../translate';
 
 interface IFoodDonationsPanelProps {
   donations: any[];
-};
+}
 
 interface IFoodDonationsPanelState {
-};
+}
 
-class FoodDonationsPanel extends React.Component<IFoodDonationsPanelProps, IFoodDonationsPanelState> {
+export default class FoodDonationsPanel extends React.Component<IFoodDonationsPanelProps, IFoodDonationsPanelState> {
+  static contextTypes = {
+    currentUserId: React.PropTypes.string
+  };
+
   static propTypes = {
     donations: React.PropTypes.array
   };
 
-  mapDonation(donation: any) {
-    return (
-      <tr key={donation['.key']}>
+  private deleteDonationFactory(id: string) {
+    return () => {
+      database.removeFoodDonation(id);
+    };
+  }
+
+  private mapDonations(donations: any, deleteDonationFactory: Function, currentUserId?: string): any[] {
+    return donations.map((donation) => {
+      return (<tr key={donation['.key']}>
         <td className='text-center'>{t(donation.foodType)}</td>
         <td className='text-center'>{t(donation.occasion)}</td>
         <td className='text-center'>متوفر</td>
         <td className='text-center'>
           <ButtonGroup bsSize='sm'>
-            <Button bsStyle='danger' disabled>حذف</Button>
+            <Button bsStyle='danger' onClick={deleteDonationFactory(donation['.key'])} disabled={currentUserId !== donation.donorId}>حذف</Button>
             <Button bsStyle='primary' disabled>تعديل</Button>
             <Button bsStyle='success' href={`#/donations/food/${donation['.key']}`}>عرض</Button>
           </ButtonGroup>
         </td>
-      </tr>
-    );
+      </tr>)
+    });
   }
 
   render() {
+    const {currentUserId} = this.context;
     const donations = this.props.donations || [];
-    const FoodDonations = donations.map(this.mapDonation);
+    const FoodDonations = this.mapDonations(donations, this.deleteDonationFactory, currentUserId);
 
     return (
       <Panel header='تبرعات طعام' bsStyle='primary' className='text-center' collapsible defaultExpanded>
@@ -57,5 +70,3 @@ class FoodDonationsPanel extends React.Component<IFoodDonationsPanelProps, IFood
     );
   }
 }
-
-export default FoodDonationsPanel;

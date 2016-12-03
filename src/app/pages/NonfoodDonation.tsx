@@ -2,10 +2,10 @@
 
 import firebase from 'firebase';
 import * as React from 'react';
-import ReactFireMixin from 'reactfire';
-import reactMixin from 'react-mixin';
 import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
+import {hashHistory} from 'react-router';
 
+import * as database from '../database';
 import t from '../translate';
 import MockMap from '../components/MockMap';
 import UserInfoPanel from '../components/UserInfoPanel';
@@ -15,11 +15,15 @@ interface INonfoodDonationProps {
 };
 
 interface INonfoodDonationState {
-  donor: Object;
-  nonfoodDonation: Object;
+  donor: any;
+  nonfoodDonation: any;
 };
 
 class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDonationState> {
+  static contextTypes = {
+    currentUserId: React.PropTypes.string
+  };
+
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -29,7 +33,7 @@ class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDon
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     firebase.database().ref(`otherDonations/${this.props.params.id}`).once('value').then((snapshot) => {
       const nonfoodDonation = snapshot.val();
       this.setState({nonfoodDonation});
@@ -39,7 +43,15 @@ class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDon
     });
   }
 
+  private deleteDonation(id: string) {
+    database.removeNonfoodDonation(id).then(function() {
+      hashHistory.push('/donations');
+    });
+  }
+
   render() {
+    const {currentUserId} = this.context;
+    const {params} = this.props;
     const {donor, nonfoodDonation} = this.state;
 
     return (
@@ -82,7 +94,7 @@ class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDon
 
         <Grid className='text-center'>
           <ButtonGroup>
-            <Button bsStyle='danger' disabled>حذف</Button>
+            <Button bsStyle='danger' onClick={this.deleteDonation.bind(null, params.id)} disabled={currentUserId !== nonfoodDonation.donorId}>حذف</Button>
             <Button bsStyle='primary' disabled>تعديل</Button>
             <Button bsStyle='success' disabled>حجز</Button>
           </ButtonGroup>
@@ -91,7 +103,5 @@ class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDon
     );
   }
 }
-
-reactMixin(NonfoodDonation.prototype, ReactFireMixin);
 
 export default NonfoodDonation;

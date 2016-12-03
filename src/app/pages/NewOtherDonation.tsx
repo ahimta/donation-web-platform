@@ -3,9 +3,7 @@
 import firebase from 'firebase';
 import * as React from 'react';
 import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
-import reactMixin from 'react-mixin';
 import {hashHistory} from 'react-router';
-import ReactFireMixin from 'reactfire';
 
 import MockMap from '../components/MockMap';
 
@@ -20,11 +18,11 @@ interface INewOtherDonationState {
 
 export default class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOtherDonationState> {
   static contextTypes = {
-    currentUser: React.PropTypes.object
+    currentUserId: React.PropTypes.string
   };
 
   private bindAsArray: any;
-  private firebaseRefs: any;
+  private otherDonationsRef: any;
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -35,25 +33,22 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
       donationState: 'good',
       phone: ''
     };
-  }
 
-  componentWillMount() {
-    this.bindAsArray(firebase.database().ref('otherDonations'), 'donations');
+    this.otherDonationsRef = firebase.database().ref('otherDonations');
   }
 
   private handleSubmit(event: any) {
-    const {currentUser} = this.context;
+    const {currentUserId} = this.context;
     const {donationType, notes, donationState, phone} = this.state;
-    const donorId = currentUser ? currentUser.uid : null;
-    const foodDonation = {donationType, notes, donationState, phone, donorId};
+    const foodDonation = {donationType, notes, donationState, phone, donorId: currentUserId};
 
     event.preventDefault();
-    this.firebaseRefs.donations.push(foodDonation);
+    this.otherDonationsRef.push(foodDonation);
     hashHistory.push('/donations');
   }
 
   private handleOnChange(fieldName: string) {
-    return (function(event: any) {
+    return ((event: any) => {
       this.setState({[fieldName]: event.target.value});
     });
   }
@@ -130,5 +125,3 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
     );
   }
 }
-
-reactMixin(NewOtherDonation.prototype, ReactFireMixin);
