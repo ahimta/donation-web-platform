@@ -26,6 +26,7 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
   };
 
   private foodDonationsRef: any;
+  private reservationsRef: any;
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -40,40 +41,7 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     };
 
     this.foodDonationsRef = firebase.database().ref('foodDonations');
-  }
-
-  private handleSubmit(event: any) {
-    const {currentUserId} = this.context;
-
-    const helper = (donorId: string) => {
-      const {dishes, foodType, notes, occasion, phone} = this.state;
-      const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
-
-      this.foodDonationsRef.push(foodDonation);
-      hashHistory.push('/donations');
-    };
-
-    event.preventDefault();
-
-    if (currentUserId) {
-      helper(currentUserId);
-    } else {
-      auth.login().then(currentUser => helper(currentUser.uid));
-    }
-  }
-
-  private handleOnChange(fieldName: string) {
-    return (function(event: any) {
-      this.setState({[fieldName]: event.target.value});
-    });
-  }
-
-  private validateRequired(value: string) {
-    if (value) {
-      return null;
-    } else {
-      return 'error';
-    }
+    this.reservationsRef = firebase.database().ref('reservations');
   }
 
   render() {
@@ -157,5 +125,49 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
         </Grid>
       </section>
     );
+  }
+
+  private handleSubmit(event: any) {
+    const {currentUserId} = this.context;
+
+    const helper = (donorId: string) => {
+      const {dishes, foodType, notes, occasion, phone} = this.state;
+
+      const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
+      const newDonationKey = this.foodDonationsRef.push().key;
+      const reservation = {
+        deliveredOrReceived: false,
+        reservationType: null,
+        reserverId: null
+      };
+
+      firebase.database().ref('foodDonations').child(newDonationKey).set(foodDonation).then(() => {
+        return firebase.database().ref('reservations').child(newDonationKey).set(reservation);
+      });
+
+      hashHistory.push('/donations');
+    };
+
+    event.preventDefault();
+
+    if (currentUserId) {
+      helper(currentUserId);
+    } else {
+      auth.login().then(currentUser => helper(currentUser.uid));
+    }
+  }
+
+  private handleOnChange(fieldName: string) {
+    return (function(event: any) {
+      this.setState({[fieldName]: event.target.value});
+    });
+  }
+
+  private validateRequired(value: string) {
+    if (value) {
+      return null;
+    } else {
+      return 'error';
+    }
   }
 }
