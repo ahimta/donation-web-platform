@@ -1,11 +1,11 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
-import {Breadcrumb, Button, ButtonGroup, DropdownButton, Grid, MenuItem, PageHeader, Panel, SplitButton, Table} from 'react-bootstrap';
+import {Breadcrumb, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
 import * as database from '../database';
+import DonationManagementToolbar from '../components/DonationManagementToolbar';
 import t from '../translate';
 import MockMap from '../components/MockMap';
 import UserInfoPanel from '../components/UserInfoPanel';
@@ -37,16 +37,9 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
 
   componentDidMount() {
     const {params} = this.props;
-    firebase.database().ref(`foodDonations/${params.id}`).once('value').then((snapshot) => {
-      const foodDonation = snapshot.val();
-      const reservationPromise = firebase.database().ref(`reservations/${params.id}`).once('value');
-      const userPromise = firebase.database().ref(`users/${foodDonation.donorId}`).once('value');
 
-      this.setState({foodDonation});
-
-      return Promise.all([reservationPromise, userPromise]);
-    }).then(([reservationSnapshot, userSnapshot]) => {
-      this.setState({donor: userSnapshot.val(), reservation: reservationSnapshot.val()});
+    database.getDonation('food', params.id).then(({donation, donor, reservation}) => {
+      this.setState({foodDonation: donation, donor, reservation});
     });
   }
 
@@ -102,84 +95,14 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
         <hr />
 
         <Grid className='text-center'>
-          <ButtonGroup className={this.getReserveClass(currentUserId, reservation.reserverId, reservation.deliveredOrReceived)}>
-            <Button bsStyle='danger' onClick={this.deleteDonation.bind(null, params.id)} disabled={currentUserId !== foodDonation.donorId}>حذف</Button>
-            <DropdownButton bsStyle='success' dir='rtl' id='reserveFoodDonationButton' title={this.getReserveTitle(reservation.reserverId)} disabled={!!reservation.reserverId} dropup pullRight>
-              <MenuItem className='text-right' eventKey='1' onClick={this.reserve.bind(this, 'receiving')}>لاستقبال التبرع</MenuItem>
-              <MenuItem className='text-right' eventKey='2' onClick={this.reserve.bind(this, 'delivery')}>لتوصيل التبرع</MenuItem>
-            </DropdownButton>
-          </ButtonGroup>
-          <ButtonGroup className={this.getCancelClass(currentUserId, reservation.reserverId, reservation.deliveredOrReceived)}>
-            <Button bsStyle='danger' onClick={this.cancelReservation.bind(null, params.id)}>إلغاء الحجز</Button>
-            <Button bsStyle='success' onClick={this.report.bind(null, params.id)}>{this.getCancelTitle(reservation.reservationType)}</Button>
-          </ButtonGroup>
-          <Button bsStyle='success' className={reservation.deliveredOrReceived ? '' : 'hidden'} block disabled>{this.getCancelTitle(reservation.reservationType)}</Button>
+          <DonationManagementToolbar currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id} donorId={foodDonation.donorId} reservation={reservation} />
         </Grid>
       </section>
     );
   }
 
-  private cancelReservation(donationId: string) {
-    firebase.database().ref('reservations').child(donationId).update({
-      reservationType: null,
-      reserverId: null
-    });
-    hashHistory.push('/donations');
-  }
-
-  private report(donationId: string) {
-    firebase.database().ref('reservations').child(donationId).child('deliveredOrReceived').set(true);
-    hashHistory.push('/donations');
-  }
-
-  private getCancelTitle(reservationType: string) {
-    if (reservationType === 'delivery') {
-      return 'تم التوصيل';
-    } else {
-      return 'تم الاستلام';
-    }
-  }
-
-  private getReserveTitle(reserverId: string) {
-    if (reserverId) {
-      return 'محجوز';
-    } else {
-      return 'حجز';
-    }
-  }
-
-  private getReserveClass(currentUserId: string, reserverId: string, deliveredOrReceived: boolean) {
-    if (deliveredOrReceived) {
-      return 'hidden';
-    } else {
-      return (currentUserId && currentUserId === reserverId) ? 'hidden' : '';
-    }
-  }
-
-  private getCancelClass(currentUserId: string, reserverId: string, deliveredOrReceived: boolean) {
-    if (deliveredOrReceived) {
-      return 'hidden';
-    } else {
-      const reserveClass = this.getReserveClass(currentUserId, reserverId);
-      return (reserveClass === 'hidden') ? '' : 'hidden';
-    }
-  }
-
-  private reserve(reservationType: string) {
-    const {currentUserId} = this.context;
-    const {params} = this.props;
-
-    firebase.database().ref('reservations').child(params.id).set({
-      deliveredOrReceived: false,
-      reservationType,
-      reserverId: currentUserId
-    }).then(() => {
-      hashHistory.push('/donations');
-    });
-  }
-
   private deleteDonation(id: string) {
-    database.removeFoodDonation(id).then(function() {
+    database.removeDonation('food', id).then(function() {
       hashHistory.push('/donations');
     });
   }
