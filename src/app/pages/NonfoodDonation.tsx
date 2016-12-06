@@ -1,24 +1,24 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
-import {Breadcrumb, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
+import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
 import * as database from '../database';
 import DonationManagementToolbar from '../components/DonationManagementToolbar';
 import MockMap from '../components/MockMap';
-import t from '../translate';
+import NonfoodDonationInfoPanel from '../components/NonfoodDonationInfoPanel';
 import UserInfoPanel from '../components/UserInfoPanel';
 
 interface INonfoodDonationProps {
   params: {id: string};
-};
+}
 
 interface INonfoodDonationState {
   donor: any;
   nonfoodDonation: any;
   reservation: any;
-};
+}
 
 export default class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDonationState> {
   static contextTypes = {
@@ -60,21 +60,7 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
         </Grid>
 
         <Grid>
-          <Panel header='بيانات التبرع' footer={nonfoodDonation.notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
-            <Table fill>
-              <tbody dir='rtl'>
-                <tr>
-                  <th className='text-center'>النوع</th>
-                  <td className='text-center'>{t(nonfoodDonation.donationType)}</td>
-                </tr>
-                <tr>
-                  <th className='text-center'>حالة التبرع</th>
-                  <td className='text-center'>{t(nonfoodDonation.donationState)}</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Panel>
-
+          <NonfoodDonationInfoPanel nonfoodDonation={nonfoodDonation} />
           <UserInfoPanel phone={nonfoodDonation.phone} user={donor} />
         </Grid>
 
