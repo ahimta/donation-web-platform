@@ -1,13 +1,13 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
-import {Breadcrumb, Button, ButtonGroup, DropdownButton, Grid, MenuItem, PageHeader, Panel, Table} from 'react-bootstrap';
+import {Breadcrumb, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
 import * as database from '../database';
-import t from '../translate';
+import DonationManagementToolbar from '../components/DonationManagementToolbar';
 import MockMap from '../components/MockMap';
+import t from '../translate';
 import UserInfoPanel from '../components/UserInfoPanel';
 
 interface INonfoodDonationProps {
@@ -17,6 +17,7 @@ interface INonfoodDonationProps {
 interface INonfoodDonationState {
   donor: any;
   nonfoodDonation: any;
+  reservation: any;
 };
 
 export default class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDonationState> {
@@ -29,24 +30,23 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
 
     this.state = {
       donor: {},
-      nonfoodDonation: {}
+      nonfoodDonation: {},
+      reservation: {}
     };
   }
 
   componentDidMount() {
-    firebase.database().ref(`otherDonations/${this.props.params.id}`).once('value').then((snapshot) => {
-      const nonfoodDonation = snapshot.val();
-      this.setState({nonfoodDonation});
-      return firebase.database().ref(`users/${nonfoodDonation.donorId}`).once('value');
-    }).then((snapshot) => {
-      this.setState({donor: snapshot.val()});
+    const {params} = this.props;
+
+    database.getDonation('nonfood', params.id).then(({donation, donor, reservation}) => {
+      this.setState({nonfoodDonation: donation, donor, reservation});
     });
   }
 
   render() {
     const {currentUserId} = this.context;
     const {params} = this.props;
-    const {donor, nonfoodDonation} = this.state;
+    const {donor, nonfoodDonation, reservation} = this.state;
 
     return (
       <section>
@@ -87,20 +87,14 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
         <hr />
 
         <Grid className='text-center'>
-          <ButtonGroup>
-            <Button bsStyle='danger' onClick={this.deleteDonation.bind(null, params.id)} disabled={currentUserId !== nonfoodDonation.donorId}>حذف</Button>
-            <DropdownButton bsStyle='success' dir='rtl' id='reserveFoodDonationButton' title='حجز' disabled dropup pullRight>
-              <MenuItem className='text-right' eventKey='1'>لاستقبال التبرع</MenuItem>
-              <MenuItem className='text-right' eventKey='2'>لتوصيل التبرع</MenuItem>
-            </DropdownButton>
-          </ButtonGroup>
+          <DonationManagementToolbar currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id} donorId={nonfoodDonation.donorId} reservation={reservation} />
         </Grid>
       </section>
     );
   }
 
   private deleteDonation(id: string) {
-    database.removeNonfoodDonation(id).then(function() {
+    database.removeDonation('nonfood', id).then(function() {
       hashHistory.push('/donations');
     });
   }
