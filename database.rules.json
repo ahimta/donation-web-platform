@@ -6,6 +6,12 @@
         ".write": "$uid === auth.uid"
       }
     },
+    "charities": {
+      ".read": true,
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    },
     "foodDonations": {
       ".read": true,
       "$id": {

@@ -5,18 +5,26 @@ import {Button, ButtonGroup, Col, Glyphicon, Grid, ListGroup, ListGroupItem, Pan
 
 import MockMap from '../components/MockMap';
 
-interface IHomepageProps {
-};
+interface IHomepageProps {}
 
-interface IHomepageState {
-};
+interface IHomepageState {}
 
 export default class Homepage extends React.Component<IHomepageProps, IHomepageState> {
+  static contextTypes = {
+    currentRole: React.PropTypes.string
+  };
+
   render() {
+    const {currentRole} = this.context;
+
     return (
       <section>
         <Grid>
-          <Row>
+          <Panel bsStyle='primary' className={currentRole === 'charity' ? 'text-center' : 'hidden text-center'} header={<span><Glyphicon glyph='road' />&nbsp;<span>وصل تبرع</span></span>}>
+            <Button block bsStyle='success' href='#/donations/deliver'><Glyphicon glyph='search' />&nbsp;<span>اختر تبرع</span></Button>
+          </Panel>
+
+          <Row className={this.getCharityClass(currentRole)}>
             <Col md={4}>
               <Panel header={<span><Glyphicon glyph='road' />&nbsp;<span>وصل تبرع</span></span>} className='text-center' bsStyle='primary'>
                 <Button block bsStyle='success' href='#/donations/deliver'><Glyphicon glyph='search' />&nbsp;<span>اختر تبرع</span></Button>
@@ -76,5 +84,9 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
         </Grid>
       </section>
     );
+  }
+
+  private getCharityClass(currentRole: string) {
+    return (currentRole === 'charity') ? 'hidden' : '';
   }
 }

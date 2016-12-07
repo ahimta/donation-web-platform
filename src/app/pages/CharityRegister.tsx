@@ -5,11 +5,9 @@ import {Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, In
 import {hashHistory} from 'react-router';
 
 import * as auth from '../auth';
-import * as database from '../database';
 import MockMap from '../components/MockMap';
 
-interface ICharityRegisterProps {
-}
+interface ICharityRegisterProps {}
 
 interface ICharityRegisterState {
   description: string;
@@ -113,7 +111,9 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
 
   private handleSubmit(event: any) {
     event.preventDefault();
-    console.log(this.state);
+    auth.registerCharity(this.state).then((_) => {
+      hashHistory.push('/donations');
+    });
   }
 
   private handleOnChange(fieldName: string) {

@@ -9,6 +9,7 @@ import {applyRouterMiddleware, IndexRoute, Redirect, Router, Route, hashHistory}
 import {useScroll} from 'react-router-scroll';
 
 import App from './app/containers/App';
+import CharityLogin from './app/pages/CharityLogin';
 import CharityRegister from './app/pages/CharityRegister';
 import configureStore from './app/store/configureStore';
 import Donations from './app/pages/Donations';
@@ -39,6 +40,7 @@ ReactDOM.render(
       </Route>
 
       <Route path='/charities' component={App}>
+        <Route path='login' component={CharityLogin} />
         <Route path='register' component={CharityRegister} />
       </Route>
 
