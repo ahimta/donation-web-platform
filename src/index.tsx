@@ -9,6 +9,7 @@ import {applyRouterMiddleware, IndexRoute, Redirect, Router, Route, hashHistory}
 import {useScroll} from 'react-router-scroll';
 
 import App from './app/containers/App';
+import CharityRegister from './app/pages/CharityRegister';
 import configureStore from './app/store/configureStore';
 import Donations from './app/pages/Donations';
 import FoodDonation from './app/pages/FoodDonation';
@@ -32,9 +33,13 @@ const store: IStore<any> = configureStore({});
 ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory}
-      render={applyRouterMiddleware(useScroll((prevRouterProps, {location}) => ([0, 0])))}>
+      render={applyRouterMiddleware(useScroll((_0, _1) => ([0, 0])))}>
       <Route path='/' component={App}>
         <IndexRoute component={Homepage} />
+      </Route>
+
+      <Route path='/charities' component={App}>
+        <Route path='register' component={CharityRegister} />
       </Route>
 
       <Route path='/donations' component={App}>

@@ -28,7 +28,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav className='text-right'>
-              <NavItem eventKey={2} href='#/charities/register' className={this.getLoginClass(currentUser)} disabled>سجل كجمعية</NavItem>
+              <NavItem className={this.getLoginClass(currentUser)} eventKey={2} href='#/charities/register'>سجل كجمعية</NavItem>
               <NavDropdown eventKey={1} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentUser)}>
                 <MenuItem eventKey={1.1} className='text-right' href='#/charities/login' disabled>كجمعية</MenuItem>
                 <MenuItem eventKey={1.2} className='text-right' onClick={auth.login}>كفرد</MenuItem>
@@ -41,8 +41,8 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
                 <MenuItem eventKey={4.2} className='text-right' href='#/profiles'>الحسابات</MenuItem>
                 <MenuItem eventKey={4.2} className='text-right' href='#/activity' disabled>النشاطات</MenuItem>
               </NavDropdown>
-              <NavItem eventKey={3} href='#/donations/receive' disabled>استقبل تبرع</NavItem>
-              <NavItem eventKey={2} href='#/donations/deliver' disabled>وصل تبرع</NavItem>
+              <NavItem eventKey={3} href='#/donations/receive'>استقبل تبرع</NavItem>
+              <NavItem eventKey={2} href='#/donations/deliver'>وصل تبرع</NavItem>
               <NavDropdown eventKey={1} title='تبرع' id='basic-nav-dropdown-donate' dir='rtl'>
                 <MenuItem eventKey={1.1} className='text-right' href='#/donations/donate/food'>بطعام</MenuItem>
                 <MenuItem eventKey={1.2} className='text-right' href='#/donations/donate/other'>بشيء آخر</MenuItem>
