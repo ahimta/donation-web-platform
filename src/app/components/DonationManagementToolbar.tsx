@@ -11,54 +11,57 @@ interface IDonationManagementToolbarProps {
   deleteDonation: Function;
   donationId: string;
   donorId: string;
+  onUpdate: Function;
   reservation: any;
 }
 
 interface IDonationManagementToolbarState {}
 
 export default class DonationManagementToolbar extends React.Component<IDonationManagementToolbarProps, IDonationManagementToolbarState> {
+  static defaultProps = {
+    onUpdate: () => hashHistory.push('/donations')
+  };
+
   static propTypes = {
     currentUserId: React.PropTypes.string.isRequired,
     deleteDonation: React.PropTypes.func.isRequired,
     donationId: React.PropTypes.string.isRequired,
     donorId: React.PropTypes.string.isRequired,
+    onUpdate: React.PropTypes.func,
     reservation: React.PropTypes.object.isRequired
   };
 
   render() {
-    const {currentUserId, deleteDonation, donationId, donorId, reservation} = this.props;
+    const {currentUserId, deleteDonation, donationId, donorId, onUpdate, reservation} = this.props;
 
     return (
       <section>
         <ButtonGroup className={this.getReserveClass(currentUserId, reservation.reserverId, reservation.deliveredOrReceived)}>
           <Button bsStyle='danger' onClick={deleteDonation.bind(null, donationId)} disabled={currentUserId !== donorId}>حذف</Button>
           <DropdownButton bsStyle='success' dir='rtl' id='reserveDonationButton' title={this.getReserveTitle(reservation.reserverId)} disabled={!!reservation.reserverId || !!!currentUserId} dropup pullRight>
-            <MenuItem className='text-right' eventKey='1' onClick={this.reserveDonation.bind(this, donationId, 'receiving', currentUserId)}>لاستقبال التبرع</MenuItem>
-            <MenuItem className='text-right' eventKey='2' onClick={this.reserveDonation.bind(this, donationId, 'delivery', currentUserId)}>لتوصيل التبرع</MenuItem>
+            <MenuItem className='text-right' eventKey='1' onClick={this.reserveDonation.bind(this, donationId, 'receiving', currentUserId, onUpdate)}>لاستقبال التبرع</MenuItem>
+            <MenuItem className='text-right' eventKey='2' onClick={this.reserveDonation.bind(this, donationId, 'delivery', currentUserId, onUpdate)}>لتوصيل التبرع</MenuItem>
           </DropdownButton>
         </ButtonGroup>
         <ButtonGroup className={this.getCancelClass(currentUserId, reservation.reserverId, reservation.deliveredOrReceived)}>
-          <Button bsStyle='danger' onClick={this.cancelReservation.bind(null, donationId)}>إلغاء الحجز</Button>
-          <Button bsStyle='success' onClick={this.reportDonation.bind(null, donationId)}>{this.getCancelTitle(reservation.reservationType)}</Button>
+          <Button bsStyle='danger' onClick={this.cancelReservation.bind(null, donationId, onUpdate)}>إلغاء الحجز</Button>
+          <Button bsStyle='success' onClick={this.reportDonation.bind(null, donationId, onUpdate)}>{this.getCancelTitle(reservation.reservationType)}</Button>
         </ButtonGroup>
         <Button bsStyle='success' className={reservation.deliveredOrReceived ? '' : 'hidden'} block disabled>{this.getCancelTitle(reservation.reservationType)}</Button>
       </section>
     );
   }
 
-  private cancelReservation(donationId: string) {
-    database.cancelReservation(donationId);
-    hashHistory.push('/donations');
+  private cancelReservation(donationId: string, onUpdate: Function) {
+    database.cancelReservation(donationId).then(onUpdate);
   }
 
-  private reportDonation(donationId: string) {
-    database.reportDonation(donationId);
-    hashHistory.push('/donations');
+  private reportDonation(donationId: string, onUpdate: Function) {
+    database.reportDonation(donationId).then(onUpdate);
   }
 
-  private reserveDonation(donationId: string, reservationType: string, currentUserId: string) {
-    database.reserveDonation(donationId, reservationType, currentUserId);
-    hashHistory.push('/donations');
+  private reserveDonation(donationId: string, reservationType: string, currentUserId: string, onUpdate: Function) {
+    database.reserveDonation(donationId, reservationType, currentUserId).then(onUpdate);
   }
 
   private getCancelTitle(reservationType: string) {

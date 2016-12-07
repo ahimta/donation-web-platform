@@ -36,11 +36,7 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
   }
 
   componentDidMount() {
-    const {params} = this.props;
-
-    database.getDonation('food', params.id).then(({donation, donor, reservation}) => {
-      this.setState({foodDonation: donation, donor, reservation});
-    });
+    this.getDonation();
   }
 
   render() {
@@ -95,10 +91,19 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
         <hr />
 
         <Grid className='text-center'>
-          <DonationManagementToolbar currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id} donorId={foodDonation.donorId} reservation={reservation} />
+          <DonationManagementToolbar currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id} donorId={foodDonation.donorId}
+            onUpdate={this.getDonation.bind(this)} reservation={reservation} />
         </Grid>
       </section>
     );
+  }
+
+  private getDonation() {
+    const {params} = this.props;
+
+    database.getDonation('food', params.id).then(({donation, donor, reservation}) => {
+      this.setState({foodDonation: donation, donor, reservation});
+    });
   }
 
   private deleteDonation(id: string) {

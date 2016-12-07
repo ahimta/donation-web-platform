@@ -36,11 +36,7 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
   }
 
   componentDidMount() {
-    const {params} = this.props;
-
-    database.getDonation('nonfood', params.id).then(({donation, donor, reservation}) => {
-      this.setState({nonfoodDonation: donation, donor, reservation});
-    });
+    this.getDonation();
   }
 
   render() {
@@ -73,10 +69,19 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
         <hr />
 
         <Grid className='text-center'>
-          <DonationManagementToolbar currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id} donorId={nonfoodDonation.donorId} reservation={reservation} />
+          <DonationManagementToolbar currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id} donorId={nonfoodDonation.donorId}
+            onUpdate={this.getDonation.bind(this)} reservation={reservation} />
         </Grid>
       </section>
     );
+  }
+
+  private getDonation() {
+    const {params} = this.props;
+
+    database.getDonation('nonfood', params.id).then(({donation, donor, reservation}) => {
+      this.setState({nonfoodDonation: donation, donor, reservation});
+    });
   }
 
   private deleteDonation(id: string) {
