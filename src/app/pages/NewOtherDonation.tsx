@@ -1,11 +1,11 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
-import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
+import {Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
 import * as auth from '../auth';
+import * as database from '../database';
 import MockMap from '../components/MockMap';
 
 interface INewOtherDonationProps {}
@@ -22,9 +22,6 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
     currentUserId: React.PropTypes.string
   };
 
-  private bindAsArray: any;
-  private otherDonationsRef: any;
-
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -34,42 +31,6 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
       donationState: 'good',
       phone: ''
     };
-
-    this.otherDonationsRef = firebase.database().ref('otherDonations');
-  }
-
-  private handleSubmit(event: any) {
-    const {currentUserId} = this.context;
-
-    const helper = (donorId: string) => {
-      const {donationType, notes, donationState, phone} = this.state;
-      const nonfoodDonation = {donationType, notes, donationState, phone, donorId};
-
-      this.otherDonationsRef.push(nonfoodDonation);
-      hashHistory.push('/donations');
-    };
-
-    event.preventDefault();
-
-    if (currentUserId) {
-      helper(currentUserId);
-    } else {
-      auth.login().then(currentUser => helper(currentUser.uid));
-    }
-  }
-
-  private handleOnChange(fieldName: string) {
-    return ((event: any) => {
-      this.setState({[fieldName]: event.target.value});
-    });
-  }
-
-  private validateRequired(value: string) {
-    if (value) {
-      return null;
-    } else {
-      return 'error';
-    }
   }
 
   render() {
@@ -137,5 +98,40 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
         </Grid>
       </section>
     );
+  }
+
+  private handleSubmit(event: any) {
+    const {currentUserId} = this.context;
+
+    const helper = (donorId: string) => {
+      const {donationType, notes, donationState, phone} = this.state;
+      const nonfoodDonation = {donationType, notes, donationState, phone, donorId};
+
+      database.createDonation('nonfood', nonfoodDonation).then((newDonationKey) => {
+        hashHistory.push(`/donations/other/${newDonationKey}`);
+      });
+    };
+
+    event.preventDefault();
+
+    if (currentUserId) {
+      helper(currentUserId);
+    } else {
+      auth.login().then(currentUser => helper(currentUser.uid));
+    }
+  }
+
+  private handleOnChange(fieldName: string) {
+    return ((event: any) => {
+      this.setState({[fieldName]: event.target.value});
+    });
+  }
+
+  private validateRequired(value: string) {
+    if (value) {
+      return null;
+    } else {
+      return 'error';
+    }
   }
 }

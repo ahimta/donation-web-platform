@@ -54,3 +54,20 @@ export function reserveDonation(donationId: string, reservationType: string, cur
     reserverId: currentUserId
   });
 }
+
+export function createDonation(donationType: DonationType, donation: any) {
+    const refName = getRefName(donationType);
+    const donationsRef = firebase.database().ref(refName);
+    const newDonationKey = donationsRef.push().key;
+    const reservation = {
+      deliveredOrReceived: false,
+      reservationType: null,
+      reserverId: null
+    };
+
+    return donationsRef.child(newDonationKey).set(donation).then(() => {
+      return firebase.database().ref('reservations').child(newDonationKey).set(reservation);
+    }).then(() => {
+      return newDonationKey;
+    });
+}

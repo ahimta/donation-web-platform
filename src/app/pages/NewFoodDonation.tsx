@@ -1,11 +1,11 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
 import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
 import * as auth from '../auth';
+import * as database from '../database';
 import MockMap from '../components/MockMap';
 
 interface INewFoodDonationProps {
@@ -25,9 +25,6 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     currentUserId: React.PropTypes.string
   };
 
-  private foodDonationsRef: any;
-  private reservationsRef: any;
-
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -39,9 +36,6 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
       occasion: 'party',
       phone: ''
     };
-
-    this.foodDonationsRef = firebase.database().ref('foodDonations');
-    this.reservationsRef = firebase.database().ref('reservations');
   }
 
   render() {
@@ -132,20 +126,11 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
 
     const helper = (donorId: string) => {
       const {dishes, foodType, notes, occasion, phone} = this.state;
-
       const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
-      const newDonationKey = this.foodDonationsRef.push().key;
-      const reservation = {
-        deliveredOrReceived: false,
-        reservationType: null,
-        reserverId: null
-      };
 
-      firebase.database().ref('foodDonations').child(newDonationKey).set(foodDonation).then(() => {
-        return firebase.database().ref('reservations').child(newDonationKey).set(reservation);
+      database.createDonation('food', foodDonation).then((newDonationKey) => {
+        hashHistory.push(`/donations/food/${newDonationKey}`);
       });
-
-      hashHistory.push('/donations');
     };
 
     event.preventDefault();
