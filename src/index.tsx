@@ -10,6 +10,7 @@ import {useScroll} from 'react-router-scroll';
 
 import App from './app/containers/App';
 import CharityLogin from './app/pages/CharityLogin';
+import Charity from './app/pages/Charity';
 import CharityRegister from './app/pages/CharityRegister';
 import configureStore from './app/store/configureStore';
 import Donations from './app/pages/Donations';
@@ -42,6 +43,7 @@ ReactDOM.render(
       <Route path='/charities' component={App}>
         <Route path='login' component={CharityLogin} />
         <Route path='register' component={CharityRegister} />
+        <Route path=':id' component={Charity} />
       </Route>
 
       <Route path='/donations' component={App}>
