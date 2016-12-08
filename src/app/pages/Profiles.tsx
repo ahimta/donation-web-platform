@@ -6,12 +6,14 @@ import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
 import reactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
 
+import CharitiesProfilesPanel from '../components/CharitiesProfilesPanel';
 import MockMap from '../components/MockMap';
 import UsersProfilesPanel from '../components/UsersProfilesPanel';
 
 interface IProfilesProps {}
 
 interface IProfilesState {
+  charities: any[];
   users: any[];
 }
 
@@ -22,16 +24,18 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
     super(props, context);
 
     this.state = {
+      charities: [],
       users: []
     };
   }
 
   componentWillMount() {
+    this.bindAsArray(firebase.database().ref('charities'), 'charities');
     this.bindAsArray(firebase.database().ref('users'), 'users');
   }
 
   render() {
-    const {users} = this.state;
+    const {charities, users} = this.state;
 
     return (
       <section>
@@ -51,6 +55,7 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
         <hr />
 
         <Grid>
+          <CharitiesProfilesPanel charities={charities} />
           <UsersProfilesPanel users={users} />
         </Grid>
       </section>
