@@ -6,52 +6,52 @@ import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
 
-import UserInfoPanel from '../components/UserInfoPanel';
+import CharityInfoPanel from '../components/CharityInfoPanel';
 
-interface IUserProps {
+interface ICharityProps {
   params: {id: string};
 }
 
-interface IUserState {
-  user?: any;
+interface ICharityState {
+  charity?: any;
 }
 
-export default class User extends React.Component<IUserProps, IUserState> {
+export default class Charity extends React.Component<ICharityProps, ICharityState> {
   private bindAsObject: Function;
 
   constructor(props: any, context: any) {
     super(props, context);
     this.state = {
-      user: null
+      charity: null
     };
   }
 
   componentDidMount() {
     const {id} = this.props.params;
-    this.bindAsObject(firebase.database().ref(`users/${id}`), 'user');
+    this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity');
   }
 
   render() {
-    const {user} = this.state;
+    const {charity} = this.state;
 
     return (
       <section>
-        <PageHeader className='text-center'>صفحة مستخدم</PageHeader>
+        <PageHeader className='text-center'>صفحة جمعية</PageHeader>
 
         <Grid>
           <Breadcrumb dir='rtl'>
             <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
             <Breadcrumb.Item href='#/profiles'>الحسابات</Breadcrumb.Item>
-            <Breadcrumb.Item active>صفحة مستخدم</Breadcrumb.Item>
+            <Breadcrumb.Item active>صفحة جمعية</Breadcrumb.Item>
           </Breadcrumb>
         </Grid>
 
         <Grid>
-          <UserInfoPanel header='بيانات المستخدم' user={user} hideLink />
+          <CharityInfoPanel charity={charity} />
         </Grid>
       </section>
     );
   }
 }
 
-reactMixin(User.prototype, ReactFireMixin);
+reactMixin(Charity.prototype, ReactFireMixin);

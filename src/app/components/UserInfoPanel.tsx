@@ -3,8 +3,6 @@
 import * as React from 'react';
 import {Button, Panel, Table} from 'react-bootstrap';
 
-import t from '../translate';
-
 const NULL_USER = {
   displayName: '',
   email: '',
@@ -24,12 +22,11 @@ interface IUserInfoPanelProps {
     phone?: string,
     uid: string
   };
-};
+}
 
-interface IUserInfoPanelState {
-};
+interface IUserInfoPanelState {}
 
-class UserInfoPanel extends React.Component<IUserInfoPanelProps, IUserInfoPanelState> {
+export default class UserInfoPanel extends React.Component<IUserInfoPanelProps, IUserInfoPanelState> {
   static propTypes = {
     header: React.PropTypes.string,
     hideLink: React.PropTypes.bool,
@@ -67,5 +64,3 @@ class UserInfoPanel extends React.Component<IUserInfoPanelProps, IUserInfoPanelS
     );
   }
 }
-
-export default UserInfoPanel;
