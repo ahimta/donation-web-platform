@@ -7,6 +7,8 @@ import {hashHistory} from 'react-router';
 import * as database from '../database';
 
 interface IDonationManagementToolbarProps {
+  currentId: string;
+  currentRole: string;
   currentUserId: string;
   deleteDonation: Function;
   donationId: string;
@@ -23,6 +25,8 @@ export default class DonationManagementToolbar extends React.Component<IDonation
   };
 
   static propTypes = {
+    currenId: React.PropTypes.string.isRequired,
+    currentRole: React.PropTypes.string.isRequired,
     currentUserId: React.PropTypes.string.isRequired,
     deleteDonation: React.PropTypes.func.isRequired,
     donationId: React.PropTypes.string.isRequired,
@@ -32,18 +36,18 @@ export default class DonationManagementToolbar extends React.Component<IDonation
   };
 
   render() {
-    const {currentUserId, deleteDonation, donationId, donorId, onUpdate, reservation} = this.props;
+    const {currentId, currentRole, currentUserId, deleteDonation, donationId, donorId, onUpdate, reservation} = this.props;
 
     return (
       <section>
-        <ButtonGroup className={this.getReserveClass(currentUserId, reservation.reserverId, reservation.deliveredOrReceived)}>
+        <ButtonGroup className={this.getReserveClass(currentId, reservation.reserverId, reservation.deliveredOrReceived)}>
           <Button bsStyle='danger' onClick={deleteDonation.bind(null, donationId)} disabled={currentUserId !== donorId}>حذف</Button>
-          <DropdownButton bsStyle='success' dir='rtl' id='reserveDonationButton' title={this.getReserveTitle(reservation.reserverId)} disabled={!!reservation.reserverId || !!!currentUserId} dropup pullRight>
-            <MenuItem className='text-right' eventKey='1' onClick={this.reserveDonation.bind(this, donationId, 'receiving', currentUserId, onUpdate)}>لاستقبال التبرع</MenuItem>
-            <MenuItem className='text-right' eventKey='2' onClick={this.reserveDonation.bind(this, donationId, 'delivery', currentUserId, onUpdate)}>لتوصيل التبرع</MenuItem>
+          <DropdownButton bsStyle='success' dir='rtl' id='reserveDonationButton' title={this.getReserveTitle(reservation.reserverId)} disabled={!!reservation.reserverId || !!!currentId} dropup pullRight>
+            <MenuItem className={currentRole === 'charity' ? 'hidden text-right' : 'text-right'} onClick={this.reserveDonation.bind(this, donationId, 'receiving', currentId, onUpdate)}>لاستقبال التبرع</MenuItem>
+            <MenuItem className='text-right' onClick={this.reserveDonation.bind(this, donationId, 'delivery', currentId, onUpdate)}>لتوصيل التبرع</MenuItem>
           </DropdownButton>
         </ButtonGroup>
-        <ButtonGroup className={this.getCancelClass(currentUserId, reservation.reserverId, reservation.deliveredOrReceived)}>
+        <ButtonGroup className={this.getCancelClass(currentId, reservation.reserverId, reservation.deliveredOrReceived)}>
           <Button bsStyle='danger' onClick={this.cancelReservation.bind(null, donationId, onUpdate)}>إلغاء الحجز</Button>
           <Button bsStyle='success' onClick={this.reportDonation.bind(null, donationId, onUpdate)}>{this.getCancelTitle(reservation.reservationType)}</Button>
         </ButtonGroup>
@@ -60,8 +64,8 @@ export default class DonationManagementToolbar extends React.Component<IDonation
     database.reportDonation(donationId).then(onUpdate);
   }
 
-  private reserveDonation(donationId: string, reservationType: string, currentUserId: string, onUpdate: Function) {
-    database.reserveDonation(donationId, reservationType, currentUserId).then(onUpdate);
+  private reserveDonation(donationId: string, reservationType: string, currentId: string, onUpdate: Function) {
+    database.reserveDonation(donationId, reservationType, currentId).then(onUpdate);
   }
 
   private getCancelTitle(reservationType: string) {
@@ -80,19 +84,19 @@ export default class DonationManagementToolbar extends React.Component<IDonation
     }
   }
 
-  private getReserveClass(currentUserId: string, reserverId: string, deliveredOrReceived: boolean) {
+  private getReserveClass(currentId: string, reserverId: string, deliveredOrReceived: boolean) {
     if (deliveredOrReceived) {
       return 'hidden';
     } else {
-      return (currentUserId && currentUserId === reserverId) ? 'hidden' : '';
+      return (currentId && currentId === reserverId) ? 'hidden' : '';
     }
   }
 
-  private getCancelClass(currentUserId: string, reserverId: string, deliveredOrReceived: boolean) {
+  private getCancelClass(currentId: string, reserverId: string, deliveredOrReceived: boolean) {
     if (deliveredOrReceived) {
       return 'hidden';
     } else {
-      const reserveClass = this.getReserveClass(currentUserId, reserverId, deliveredOrReceived);
+      const reserveClass = this.getReserveClass(currentId, reserverId, deliveredOrReceived);
       return (reserveClass === 'hidden') ? '' : 'hidden';
     }
   }

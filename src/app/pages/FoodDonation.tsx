@@ -22,6 +22,8 @@ interface IFoodDonationState {
 
 export default class FoodDonation extends React.Component<IFoodDonationProps, IFoodDonationState> {
   static contextTypes = {
+    currentId: React.PropTypes.string,
+    currentRole: React.PropTypes.string,
     currentUserId: React.PropTypes.string
   };
 
@@ -40,7 +42,7 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
   }
 
   render() {
-    const {currentUserId} = this.context;
+    const {currentId, currentRole, currentUserId} = this.context;
     const {params} = this.props;
     const {donor, foodDonation, reservation} = this.state;
 
@@ -91,7 +93,8 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
         <hr />
 
         <Grid className='text-center'>
-          <DonationManagementToolbar currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id} donorId={foodDonation.donorId}
+          <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
+            deleteDonation={this.deleteDonation} donationId={params.id} donorId={foodDonation.donorId}
             onUpdate={this.getDonation.bind(this)} reservation={reservation} />
         </Grid>
       </section>

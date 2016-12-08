@@ -13,6 +13,7 @@ interface IAppProps {
 interface IAppState {
   currentCharity: any;
   currentCharityId: any;
+  currentId: any;
   currentRole: any;
   currentUser: any;
   currentUserId: any;
@@ -26,6 +27,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   static childContextTypes = {
     currentCharity: React.PropTypes.object,
     currentCharityId: React.PropTypes.string,
+    currentId: React.PropTypes.string,
     currentRole: React.PropTypes.string,
     currentUser: React.PropTypes.object,
     currentUserId: React.PropTypes.string
@@ -39,6 +41,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.state = {
       currentCharity: null,
       currentCharityId: null,
+      currentId: null,
       currentUser: null,
       currentUserId: null,
       currentRole: null
@@ -57,13 +60,13 @@ export default class App extends React.Component<IAppProps, IAppState> {
         if (providerId === 'google.com') {
           const {displayName, email, photoURL, uid} = user;
 
-          this.setState({currentCharity: null, currentCharityId: null, currentRole: 'user', currentUser: user, currentUserId: user.uid});
+          this.setState({currentCharity: null, currentCharityId: null, currentId: uid, currentRole: 'user', currentUser: user, currentUserId: user.uid});
           firebase.database().ref('users').child(uid).set({displayName, email, photoURL, uid});
         } else if (providerId === 'password') {
-          this.setState({currentCharity: user, currentCharityId: user.uid, currentRole: 'charity', currentUser: null, currentUserId: null});
+          this.setState({currentCharity: user, currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUser: null, currentUserId: null});
         }
       } else {
-        this.setState({currentCharity: null, currentCharityId: null, currentRole: null, currentUser: null, currentUserId: null});
+        this.setState({currentCharity: null, currentCharityId: null, currentId: null, currentRole: null, currentUser: null, currentUserId: null});
       }
     });
   }

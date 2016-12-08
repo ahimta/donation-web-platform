@@ -22,6 +22,8 @@ interface INonfoodDonationState {
 
 export default class NonfoodDonation extends React.Component<INonfoodDonationProps, INonfoodDonationState> {
   static contextTypes = {
+    currentId: React.PropTypes.string,
+    currentRole: React.PropTypes.string,
     currentUserId: React.PropTypes.string
   };
 
@@ -40,7 +42,7 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
   }
 
   render() {
-    const {currentUserId} = this.context;
+    const {currentId, currentRole, currentUserId} = this.context;
     const {params} = this.props;
     const {donor, nonfoodDonation, reservation} = this.state;
 
@@ -69,7 +71,8 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
         <hr />
 
         <Grid className='text-center'>
-          <DonationManagementToolbar currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id} donorId={nonfoodDonation.donorId}
+          <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
+            deleteDonation={this.deleteDonation} donationId={params.id} donorId={nonfoodDonation.donorId}
             onUpdate={this.getDonation.bind(this)} reservation={reservation} />
         </Grid>
       </section>
