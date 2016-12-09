@@ -95,6 +95,7 @@ SystemJS.config({
     '@types/lodash': 'npm:@types/lodash@4.14.41',
     'assert': 'github:jspm/nodelibs-assert@0.2.0-alpha',
     'babel-polyfill': 'npm:babel-polyfill@6.16.0',
+    'bcrypt-pbkdf': 'npm:bcrypt-pbkdf@1.0.0',
     'bootstrap': 'github:twbs/bootstrap@3.3.7',
     'buffer': 'github:jspm/nodelibs-buffer@0.2.0-alpha',
     'child_process': 'github:jspm/nodelibs-child_process@0.2.0-alpha',
@@ -102,21 +103,29 @@ SystemJS.config({
     'constants': 'github:jspm/nodelibs-constants@0.2.0-alpha',
     'crypto': 'github:jspm/nodelibs-crypto@0.2.0-alpha',
     'css': 'github:systemjs/plugin-css@0.1.32',
+    'dgram': 'github:jspm/nodelibs-dgram@0.2.0-alpha',
+    'dns': 'github:jspm/nodelibs-dns@0.2.0-alpha',
     'domain': 'github:jspm/nodelibs-domain@0.2.0-alpha',
+    'ecc-jsbn': 'npm:ecc-jsbn@0.1.1',
     'es6-shim': 'npm:es6-shim@0.35.1',
     'events': 'github:jspm/nodelibs-events@0.2.0-alpha',
     'firebase': 'npm:firebase@3.6.1',
+    'firebase-tools': 'npm:firebase-tools@3.2.0',
     'fs': 'github:jspm/nodelibs-fs@0.2.0-alpha',
+    'graceful-fs': 'npm:graceful-fs@4.1.11',
     'history': 'npm:history@3.2.1',
     'http': 'github:jspm/nodelibs-http@0.2.0-alpha',
     'https': 'github:jspm/nodelibs-https@0.2.0-alpha',
     'immutable': 'npm:immutable@3.8.1',
+    'jodid25519': 'npm:jodid25519@1.0.2',
+    'jsbn': 'npm:jsbn@0.1.0',
     'lodash': 'npm:lodash@4.17.2',
     'module': 'github:jspm/nodelibs-module@0.2.0-alpha',
     'net': 'github:jspm/nodelibs-net@0.2.0-alpha',
     'os': 'github:jspm/nodelibs-os@0.2.0-alpha',
     'path': 'github:jspm/nodelibs-path@0.2.0-alpha',
     'process': 'github:jspm/nodelibs-process@0.2.0-alpha',
+    'querystring': 'github:jspm/nodelibs-querystring@0.2.0-alpha',
     'react': 'npm:react@15.4.0',
     'react-bootstrap': 'npm:react-bootstrap@0.30.7',
     'react-dom': 'npm:react-dom@15.4.0',
@@ -126,11 +135,14 @@ SystemJS.config({
     'react-router': 'npm:react-router@3.0.0',
     'react-router-scroll': 'npm:react-router-scroll@0.4.1',
     'reactfire': 'npm:reactfire@1.0.0',
+    'readline': 'github:jspm/nodelibs-readline@0.2.0-alpha',
     'redux': 'npm:redux@3.6.0',
     'stream': 'github:jspm/nodelibs-stream@0.2.0-alpha',
     'string_decoder': 'github:jspm/nodelibs-string_decoder@0.2.0-alpha',
     'tls': 'github:jspm/nodelibs-tls@0.2.0-alpha',
     'ts': 'github:frankwallis/plugin-typescript@5.1.2',
+    'tty': 'github:jspm/nodelibs-tty@0.2.0-alpha',
+    'tweetnacl': 'npm:tweetnacl@0.14.4',
     'url': 'github:jspm/nodelibs-url@0.2.0-alpha',
     'util': 'github:jspm/nodelibs-util@0.2.0-alpha',
     'vm': 'github:jspm/nodelibs-vm@0.2.0-alpha',
@@ -580,26 +592,13 @@ SystemJS.config({
     'npm:jws@3.1.4': {
       'map': {
         'base64url': 'npm:base64url@2.0.0',
-        'jwa': 'npm:jwa@1.1.4',
+        'jwa': 'npm:jwa@1.1.5',
         'safe-buffer': 'npm:safe-buffer@5.0.1'
-      }
-    },
-    'npm:jwa@1.1.4': {
-      'map': {
-        'base64url': 'npm:base64url@2.0.0',
-        'safe-buffer': 'npm:safe-buffer@5.0.1',
-        'buffer-equal-constant-time': 'npm:buffer-equal-constant-time@1.0.1',
-        'ecdsa-sig-formatter': 'npm:ecdsa-sig-formatter@1.0.7'
       }
     },
     'npm:websocket-driver@0.6.5': {
       'map': {
         'websocket-extensions': 'npm:websocket-extensions@0.1.1'
-      }
-    },
-    'npm:ecdsa-sig-formatter@1.0.7': {
-      'map': {
-        'base64-url': 'npm:base64-url@1.3.3'
       }
     },
     'npm:react-mixin@3.0.5': {
@@ -641,6 +640,1001 @@ SystemJS.config({
         'warning': 'npm:warning@3.0.0',
         'loose-envify': 'npm:loose-envify@1.3.0',
         'hoist-non-react-statics': 'npm:hoist-non-react-statics@1.2.0'
+      }
+    },
+    'npm:firebase-tools@3.2.0': {
+      'map': {
+        'chalk': 'npm:chalk@1.1.3',
+        'JSONStream': 'npm:JSONStream@1.2.1',
+        'cli-table': 'npm:cli-table@0.3.1',
+        'archiver': 'npm:archiver@0.16.0',
+        'commander': 'npm:commander@2.9.0',
+        'configstore': 'npm:configstore@1.4.0',
+        'cross-spawn': 'npm:cross-spawn@4.0.2',
+        'cjson': 'npm:cjson@0.3.3',
+        'csv-streamify': 'npm:csv-streamify@3.0.4',
+        'fstream-ignore': 'npm:fstream-ignore@1.0.5',
+        'firebase': 'npm:firebase@2.4.2',
+        'exit-code': 'npm:exit-code@1.0.2',
+        'jsonschema': 'npm:jsonschema@1.1.0',
+        'filesize': 'npm:filesize@3.3.0',
+        'portfinder': 'npm:portfinder@0.4.0',
+        'inquirer': 'npm:inquirer@0.12.0',
+        'open': 'npm:open@0.0.5',
+        'fs-extra': 'npm:fs-extra@0.23.1',
+        'progress': 'npm:progress@1.1.8',
+        'tar': 'npm:tar@2.2.1',
+        'didyoumean': 'npm:didyoumean@1.2.1',
+        'node-uuid': 'npm:node-uuid@1.4.7',
+        'request': 'npm:request@2.79.0',
+        'semver': 'npm:semver@5.3.0',
+        'universal-analytics': 'npm:universal-analytics@0.3.11',
+        'update-notifier': 'npm:update-notifier@0.5.0',
+        'jsonwebtoken': 'npm:jsonwebtoken@5.7.0',
+        'winston': 'npm:winston@1.1.2',
+        'rsvp': 'npm:rsvp@3.3.3',
+        'lodash': 'npm:lodash@4.17.2',
+        'user-home': 'npm:user-home@2.0.0',
+        'tmp': 'npm:tmp@0.0.27',
+        'superstatic': 'npm:superstatic@4.0.3',
+        'uuid': 'npm:uuid@2.0.3'
+      }
+    },
+    'npm:inquirer@0.12.0': {
+      'map': {
+        'chalk': 'npm:chalk@1.1.3',
+        'lodash': 'npm:lodash@4.17.2',
+        'through': 'npm:through@2.3.8',
+        'ansi-escapes': 'npm:ansi-escapes@1.4.0',
+        'cli-cursor': 'npm:cli-cursor@1.0.2',
+        'cli-width': 'npm:cli-width@2.1.0',
+        'ansi-regex': 'npm:ansi-regex@2.0.0',
+        'figures': 'npm:figures@1.7.0',
+        'strip-ansi': 'npm:strip-ansi@3.0.1',
+        'readline2': 'npm:readline2@1.0.1',
+        'string-width': 'npm:string-width@1.0.2',
+        'rx-lite': 'npm:rx-lite@3.1.2',
+        'run-async': 'npm:run-async@0.1.0'
+      }
+    },
+    'npm:archiver@0.16.0': {
+      'map': {
+        'lodash': 'npm:lodash@3.10.1',
+        'async': 'npm:async@1.4.2',
+        'buffer-crc32': 'npm:buffer-crc32@0.2.13',
+        'lazystream': 'npm:lazystream@0.1.0',
+        'tar-stream': 'npm:tar-stream@1.2.2',
+        'zip-stream': 'npm:zip-stream@0.6.0',
+        'glob': 'npm:glob@5.0.15',
+        'readable-stream': 'npm:readable-stream@1.0.34'
+      }
+    },
+    'npm:JSONStream@1.2.1': {
+      'map': {
+        'jsonparse': 'npm:jsonparse@1.2.0',
+        'through': 'npm:through@2.3.8'
+      }
+    },
+    'npm:portfinder@0.4.0': {
+      'map': {
+        'async': 'npm:async@0.9.0',
+        'mkdirp': 'npm:mkdirp@0.5.1'
+      }
+    },
+    'npm:cli-table@0.3.1': {
+      'map': {
+        'colors': 'npm:colors@1.0.3'
+      }
+    },
+    'npm:request@2.79.0': {
+      'map': {
+        'uuid': 'npm:uuid@3.0.1',
+        'aws-sign2': 'npm:aws-sign2@0.6.0',
+        'aws4': 'npm:aws4@1.5.0',
+        'caseless': 'npm:caseless@0.11.0',
+        'extend': 'npm:extend@3.0.0',
+        'combined-stream': 'npm:combined-stream@1.0.5',
+        'json-stringify-safe': 'npm:json-stringify-safe@5.0.1',
+        'isstream': 'npm:isstream@0.1.2',
+        'form-data': 'npm:form-data@2.1.2',
+        'http-signature': 'npm:http-signature@1.1.1',
+        'hawk': 'npm:hawk@3.1.3',
+        'forever-agent': 'npm:forever-agent@0.6.1',
+        'har-validator': 'npm:har-validator@2.0.6',
+        'is-typedarray': 'npm:is-typedarray@1.0.0',
+        'oauth-sign': 'npm:oauth-sign@0.8.2',
+        'qs': 'npm:qs@6.3.0',
+        'tough-cookie': 'npm:tough-cookie@2.3.2',
+        'stringstream': 'npm:stringstream@0.0.5',
+        'tunnel-agent': 'npm:tunnel-agent@0.4.3',
+        'mime-types': 'npm:mime-types@2.1.13'
+      }
+    },
+    'npm:commander@2.9.0': {
+      'map': {
+        'graceful-readlink': 'npm:graceful-readlink@1.0.1'
+      }
+    },
+    'npm:cross-spawn@4.0.2': {
+      'map': {
+        'lru-cache': 'npm:lru-cache@4.0.2',
+        'which': 'npm:which@1.2.12'
+      }
+    },
+    'npm:cjson@0.3.3': {
+      'map': {
+        'json-parse-helpfulerror': 'npm:json-parse-helpfulerror@1.0.3'
+      }
+    },
+    'npm:csv-streamify@3.0.4': {
+      'map': {
+        'through2': 'npm:through2@2.0.1'
+      }
+    },
+    'npm:fs-extra@0.23.1': {
+      'map': {
+        'graceful-fs': 'npm:graceful-fs@4.1.11',
+        'path-is-absolute': 'npm:path-is-absolute@1.0.1',
+        'jsonfile': 'npm:jsonfile@2.4.0',
+        'rimraf': 'npm:rimraf@2.5.4'
+      }
+    },
+    'npm:tar@2.2.1': {
+      'map': {
+        'block-stream': 'npm:block-stream@0.0.9',
+        'fstream': 'npm:fstream@1.0.10',
+        'inherits': 'npm:inherits@2.0.3'
+      }
+    },
+    'npm:chalk@1.1.3': {
+      'map': {
+        'strip-ansi': 'npm:strip-ansi@3.0.1',
+        'ansi-styles': 'npm:ansi-styles@2.2.1',
+        'has-ansi': 'npm:has-ansi@2.0.0',
+        'escape-string-regexp': 'npm:escape-string-regexp@1.0.5',
+        'supports-color': 'npm:supports-color@2.0.0'
+      }
+    },
+    'npm:configstore@1.4.0': {
+      'map': {
+        'graceful-fs': 'npm:graceful-fs@4.1.11',
+        'mkdirp': 'npm:mkdirp@0.5.1',
+        'uuid': 'npm:uuid@2.0.3',
+        'os-tmpdir': 'npm:os-tmpdir@1.0.2',
+        'write-file-atomic': 'npm:write-file-atomic@1.2.0',
+        'osenv': 'npm:osenv@0.1.3',
+        'xdg-basedir': 'npm:xdg-basedir@2.0.0',
+        'object-assign': 'npm:object-assign@4.1.0'
+      }
+    },
+    'npm:fstream-ignore@1.0.5': {
+      'map': {
+        'fstream': 'npm:fstream@1.0.10',
+        'inherits': 'npm:inherits@2.0.3',
+        'minimatch': 'npm:minimatch@3.0.3'
+      }
+    },
+    'npm:universal-analytics@0.3.11': {
+      'map': {
+        'async': 'npm:async@0.2.10',
+        'request': 'npm:request@2.79.0',
+        'node-uuid': 'npm:node-uuid@1.4.7',
+        'underscore': 'npm:underscore@1.8.3'
+      }
+    },
+    'npm:firebase@2.4.2': {
+      'map': {
+        'faye-websocket': 'npm:faye-websocket@0.11.0'
+      }
+    },
+    'npm:update-notifier@0.5.0': {
+      'map': {
+        'chalk': 'npm:chalk@1.1.3',
+        'configstore': 'npm:configstore@1.4.0',
+        'latest-version': 'npm:latest-version@1.0.1',
+        'is-npm': 'npm:is-npm@1.0.0',
+        'repeating': 'npm:repeating@1.1.3',
+        'string-length': 'npm:string-length@1.0.1',
+        'semver-diff': 'npm:semver-diff@2.1.0'
+      }
+    },
+    'npm:winston@1.1.2': {
+      'map': {
+        'async': 'npm:async@1.0.0',
+        'colors': 'npm:colors@1.0.3',
+        'isstream': 'npm:isstream@0.1.2',
+        'stack-trace': 'npm:stack-trace@0.0.9',
+        'cycle': 'npm:cycle@1.0.3',
+        'pkginfo': 'npm:pkginfo@0.3.1',
+        'eyes': 'npm:eyes@0.1.8'
+      }
+    },
+    'npm:superstatic@4.0.3': {
+      'map': {
+        'async': 'npm:async@1.5.2',
+        'fs-extra': 'npm:fs-extra@0.30.0',
+        'glob': 'npm:glob@7.1.1',
+        'update-notifier': 'npm:update-notifier@1.0.3',
+        'lodash': 'npm:lodash@4.17.2',
+        'chalk': 'npm:chalk@1.1.3',
+        'mime-types': 'npm:mime-types@2.1.13',
+        'rsvp': 'npm:rsvp@3.3.3',
+        'minimatch': 'npm:minimatch@3.0.3',
+        'string-length': 'npm:string-length@1.0.1',
+        'as-array': 'npm:as-array@2.0.0',
+        'basic-auth-connect': 'npm:basic-auth-connect@1.0.0',
+        'char-spinner': 'npm:char-spinner@1.0.1',
+        'connect-query': 'npm:connect-query@0.2.0',
+        'compare-semver': 'npm:compare-semver@1.1.0',
+        'glob-slasher': 'npm:glob-slasher@1.0.1',
+        'destroy': 'npm:destroy@1.0.4',
+        'is-url': 'npm:is-url@1.2.2',
+        'home-dir': 'npm:home-dir@1.0.0',
+        'on-headers': 'npm:on-headers@1.0.1',
+        'join-path': 'npm:join-path@1.1.0',
+        'on-finished': 'npm:on-finished@2.3.0',
+        'fast-url-parser': 'npm:fast-url-parser@1.1.3',
+        'try-require': 'npm:try-require@1.2.1',
+        'morgan': 'npm:morgan@1.7.0',
+        'nash': 'npm:nash@2.0.4',
+        'compression': 'npm:compression@1.6.2',
+        'router': 'npm:router@1.1.4',
+        'path-to-regexp': 'npm:path-to-regexp@1.7.0',
+        'connect': 'npm:connect@3.5.0'
+      }
+    },
+    'npm:through2@2.0.1': {
+      'map': {
+        'readable-stream': 'npm:readable-stream@2.0.6',
+        'xtend': 'npm:xtend@4.0.1'
+      }
+    },
+    'npm:rimraf@2.5.4': {
+      'map': {
+        'glob': 'npm:glob@7.1.1'
+      }
+    },
+    'npm:tar-stream@1.2.2': {
+      'map': {
+        'readable-stream': 'npm:readable-stream@2.2.2',
+        'bl': 'npm:bl@1.1.2',
+        'end-of-stream': 'npm:end-of-stream@1.1.0',
+        'xtend': 'npm:xtend@4.0.1'
+      }
+    },
+    'npm:glob@5.0.15': {
+      'map': {
+        'inherits': 'npm:inherits@2.0.3',
+        'path-is-absolute': 'npm:path-is-absolute@1.0.1',
+        'minimatch': 'npm:minimatch@3.0.3',
+        'inflight': 'npm:inflight@1.0.6',
+        'once': 'npm:once@1.4.0'
+      }
+    },
+    'npm:block-stream@0.0.9': {
+      'map': {
+        'inherits': 'npm:inherits@2.0.3'
+      }
+    },
+    'npm:fstream@1.0.10': {
+      'map': {
+        'inherits': 'npm:inherits@2.0.3',
+        'graceful-fs': 'npm:graceful-fs@4.1.11',
+        'mkdirp': 'npm:mkdirp@0.5.1',
+        'rimraf': 'npm:rimraf@2.5.4'
+      }
+    },
+    'npm:lazystream@0.1.0': {
+      'map': {
+        'readable-stream': 'npm:readable-stream@1.0.34'
+      }
+    },
+    'npm:zip-stream@0.6.0': {
+      'map': {
+        'lodash': 'npm:lodash@3.10.1',
+        'readable-stream': 'npm:readable-stream@1.0.34',
+        'compress-commons': 'npm:compress-commons@0.3.0'
+      }
+    },
+    'npm:strip-ansi@3.0.1': {
+      'map': {
+        'ansi-regex': 'npm:ansi-regex@2.0.0'
+      }
+    },
+    'npm:string-width@1.0.2': {
+      'map': {
+        'strip-ansi': 'npm:strip-ansi@3.0.1',
+        'is-fullwidth-code-point': 'npm:is-fullwidth-code-point@1.0.0',
+        'code-point-at': 'npm:code-point-at@1.1.0'
+      }
+    },
+    'npm:form-data@2.1.2': {
+      'map': {
+        'combined-stream': 'npm:combined-stream@1.0.5',
+        'mime-types': 'npm:mime-types@2.1.13',
+        'asynckit': 'npm:asynckit@0.4.0'
+      }
+    },
+    'npm:har-validator@2.0.6': {
+      'map': {
+        'chalk': 'npm:chalk@1.1.3',
+        'commander': 'npm:commander@2.9.0',
+        'pinkie-promise': 'npm:pinkie-promise@2.0.1',
+        'is-my-json-valid': 'npm:is-my-json-valid@2.15.0'
+      }
+    },
+    'npm:tmp@0.0.27': {
+      'map': {
+        'os-tmpdir': 'npm:os-tmpdir@1.0.2'
+      }
+    },
+    'npm:figures@1.7.0': {
+      'map': {
+        'escape-string-regexp': 'npm:escape-string-regexp@1.0.5',
+        'object-assign': 'npm:object-assign@4.1.0'
+      }
+    },
+    'npm:readable-stream@1.0.34': {
+      'map': {
+        'inherits': 'npm:inherits@2.0.3',
+        'stream-browserify': 'npm:stream-browserify@1.0.0',
+        'isarray': 'npm:isarray@0.0.1',
+        'string_decoder': 'npm:string_decoder@0.10.31',
+        'core-util-is': 'npm:core-util-is@1.0.2'
+      }
+    },
+    'npm:update-notifier@1.0.3': {
+      'map': {
+        'configstore': 'npm:configstore@2.1.0',
+        'latest-version': 'npm:latest-version@2.0.0',
+        'is-npm': 'npm:is-npm@1.0.0',
+        'semver-diff': 'npm:semver-diff@2.1.0',
+        'chalk': 'npm:chalk@1.1.3',
+        'xdg-basedir': 'npm:xdg-basedir@2.0.0',
+        'lazy-req': 'npm:lazy-req@1.1.0',
+        'boxen': 'npm:boxen@0.6.0'
+      }
+    },
+    'npm:user-home@2.0.0': {
+      'map': {
+        'os-homedir': 'npm:os-homedir@1.0.2'
+      }
+    },
+    'npm:glob@7.1.1': {
+      'map': {
+        'inflight': 'npm:inflight@1.0.6',
+        'minimatch': 'npm:minimatch@3.0.3',
+        'path-is-absolute': 'npm:path-is-absolute@1.0.1',
+        'once': 'npm:once@1.4.0',
+        'fs.realpath': 'npm:fs.realpath@1.0.0',
+        'inherits': 'npm:inherits@2.0.3'
+      }
+    },
+    'npm:json-parse-helpfulerror@1.0.3': {
+      'map': {
+        'jju': 'npm:jju@1.3.0'
+      }
+    },
+    'npm:mkdirp@0.5.1': {
+      'map': {
+        'minimist': 'npm:minimist@0.0.8'
+      }
+    },
+    'npm:readline2@1.0.1': {
+      'map': {
+        'is-fullwidth-code-point': 'npm:is-fullwidth-code-point@1.0.0',
+        'mute-stream': 'npm:mute-stream@0.0.5',
+        'code-point-at': 'npm:code-point-at@1.1.0'
+      }
+    },
+    'npm:lru-cache@4.0.2': {
+      'map': {
+        'pseudomap': 'npm:pseudomap@1.0.2',
+        'yallist': 'npm:yallist@2.0.0'
+      }
+    },
+    'npm:cli-cursor@1.0.2': {
+      'map': {
+        'restore-cursor': 'npm:restore-cursor@1.0.1'
+      }
+    },
+    'npm:fs-extra@0.30.0': {
+      'map': {
+        'graceful-fs': 'npm:graceful-fs@4.1.11',
+        'jsonfile': 'npm:jsonfile@2.4.0',
+        'path-is-absolute': 'npm:path-is-absolute@1.0.1',
+        'rimraf': 'npm:rimraf@2.5.4',
+        'klaw': 'npm:klaw@1.3.1'
+      }
+    },
+    'npm:has-ansi@2.0.0': {
+      'map': {
+        'ansi-regex': 'npm:ansi-regex@2.0.0'
+      }
+    },
+    'npm:run-async@0.1.0': {
+      'map': {
+        'once': 'npm:once@1.4.0'
+      }
+    },
+    'npm:which@1.2.12': {
+      'map': {
+        'isexe': 'npm:isexe@1.1.2'
+      }
+    },
+    'npm:write-file-atomic@1.2.0': {
+      'map': {
+        'graceful-fs': 'npm:graceful-fs@4.1.11',
+        'imurmurhash': 'npm:imurmurhash@0.1.4',
+        'slide': 'npm:slide@1.1.6'
+      }
+    },
+    'npm:osenv@0.1.3': {
+      'map': {
+        'os-homedir': 'npm:os-homedir@1.0.2',
+        'os-tmpdir': 'npm:os-tmpdir@1.0.2'
+      }
+    },
+    'npm:xdg-basedir@2.0.0': {
+      'map': {
+        'os-homedir': 'npm:os-homedir@1.0.2'
+      }
+    },
+    'npm:tough-cookie@2.3.2': {
+      'map': {
+        'punycode': 'npm:punycode@1.4.1'
+      }
+    },
+    'npm:faye-websocket@0.11.0': {
+      'map': {
+        'websocket-driver': 'npm:websocket-driver@0.6.5'
+      }
+    },
+    'npm:configstore@2.1.0': {
+      'map': {
+        'object-assign': 'npm:object-assign@4.1.0',
+        'graceful-fs': 'npm:graceful-fs@4.1.11',
+        'mkdirp': 'npm:mkdirp@0.5.1',
+        'os-tmpdir': 'npm:os-tmpdir@1.0.2',
+        'osenv': 'npm:osenv@0.1.3',
+        'uuid': 'npm:uuid@2.0.3',
+        'write-file-atomic': 'npm:write-file-atomic@1.2.0',
+        'xdg-basedir': 'npm:xdg-basedir@2.0.0',
+        'dot-prop': 'npm:dot-prop@3.0.0'
+      }
+    },
+    'npm:end-of-stream@1.1.0': {
+      'map': {
+        'once': 'npm:once@1.3.3'
+      }
+    },
+    'npm:combined-stream@1.0.5': {
+      'map': {
+        'delayed-stream': 'npm:delayed-stream@1.0.0'
+      }
+    },
+    'npm:http-signature@1.1.1': {
+      'map': {
+        'assert-plus': 'npm:assert-plus@0.2.0',
+        'jsprim': 'npm:jsprim@1.3.1',
+        'sshpk': 'npm:sshpk@1.10.1'
+      }
+    },
+    'npm:string-length@1.0.1': {
+      'map': {
+        'strip-ansi': 'npm:strip-ansi@3.0.1'
+      }
+    },
+    'npm:semver-diff@2.1.0': {
+      'map': {
+        'semver': 'npm:semver@5.3.0'
+      }
+    },
+    'npm:bl@1.1.2': {
+      'map': {
+        'readable-stream': 'npm:readable-stream@2.0.6'
+      }
+    },
+    'npm:inflight@1.0.6': {
+      'map': {
+        'once': 'npm:once@1.4.0',
+        'wrappy': 'npm:wrappy@1.0.2'
+      }
+    },
+    'npm:compress-commons@0.3.0': {
+      'map': {
+        'buffer-crc32': 'npm:buffer-crc32@0.2.13',
+        'readable-stream': 'npm:readable-stream@1.0.34',
+        'node-int64': 'npm:node-int64@0.4.0',
+        'crc32-stream': 'npm:crc32-stream@0.3.4'
+      }
+    },
+    'npm:readable-stream@2.0.6': {
+      'map': {
+        'inherits': 'npm:inherits@2.0.3',
+        'isarray': 'npm:isarray@1.0.0',
+        'string_decoder': 'npm:string_decoder@0.10.31',
+        'core-util-is': 'npm:core-util-is@1.0.2',
+        'process-nextick-args': 'npm:process-nextick-args@1.0.7',
+        'util-deprecate': 'npm:util-deprecate@1.0.2'
+      }
+    },
+    'npm:connect-query@0.2.0': {
+      'map': {
+        'qs': 'npm:qs@1.1.0'
+      }
+    },
+    'npm:hawk@3.1.3': {
+      'map': {
+        'cryptiles': 'npm:cryptiles@2.0.5',
+        'sntp': 'npm:sntp@1.0.9',
+        'hoek': 'npm:hoek@2.16.3',
+        'boom': 'npm:boom@2.10.1'
+      }
+    },
+    'npm:minimatch@3.0.3': {
+      'map': {
+        'brace-expansion': 'npm:brace-expansion@1.1.6'
+      }
+    },
+    'npm:compare-semver@1.1.0': {
+      'map': {
+        'semver': 'npm:semver@5.3.0'
+      }
+    },
+    'npm:join-path@1.1.0': {
+      'map': {
+        'as-array': 'npm:as-array@2.0.0',
+        'is-url': 'npm:is-url@1.2.2',
+        'url-join': 'npm:url-join@0.0.1'
+      }
+    },
+    'npm:stream-browserify@1.0.0': {
+      'map': {
+        'inherits': 'npm:inherits@2.0.3',
+        'readable-stream': 'npm:readable-stream@1.1.14'
+      }
+    },
+    'npm:repeating@1.1.3': {
+      'map': {
+        'is-finite': 'npm:is-finite@1.0.2'
+      }
+    },
+    'npm:latest-version@1.0.1': {
+      'map': {
+        'package-json': 'npm:package-json@1.2.0'
+      }
+    },
+    'npm:latest-version@2.0.0': {
+      'map': {
+        'package-json': 'npm:package-json@2.4.0'
+      }
+    },
+    'npm:once@1.4.0': {
+      'map': {
+        'wrappy': 'npm:wrappy@1.0.2'
+      }
+    },
+    'npm:once@1.3.3': {
+      'map': {
+        'wrappy': 'npm:wrappy@1.0.2'
+      }
+    },
+    'npm:fast-url-parser@1.1.3': {
+      'map': {
+        'punycode': 'npm:punycode@1.4.1'
+      }
+    },
+    'npm:is-fullwidth-code-point@1.0.0': {
+      'map': {
+        'number-is-nan': 'npm:number-is-nan@1.0.1'
+      }
+    },
+    'npm:nash@2.0.4': {
+      'map': {
+        'minimist': 'npm:minimist@1.2.0',
+        'async': 'npm:async@1.5.2',
+        'lodash': 'npm:lodash@3.10.1',
+        'flat-arguments': 'npm:flat-arguments@1.0.2'
+      }
+    },
+    'npm:restore-cursor@1.0.1': {
+      'map': {
+        'exit-hook': 'npm:exit-hook@1.1.1',
+        'onetime': 'npm:onetime@1.1.0'
+      }
+    },
+    'npm:morgan@1.7.0': {
+      'map': {
+        'on-finished': 'npm:on-finished@2.3.0',
+        'on-headers': 'npm:on-headers@1.0.1',
+        'basic-auth': 'npm:basic-auth@1.0.4',
+        'depd': 'npm:depd@1.1.0',
+        'debug': 'npm:debug@2.2.0'
+      }
+    },
+    'npm:router@1.1.4': {
+      'map': {
+        'path-to-regexp': 'npm:path-to-regexp@0.1.7',
+        'setprototypeof': 'npm:setprototypeof@1.0.0',
+        'array-flatten': 'npm:array-flatten@2.0.0',
+        'utils-merge': 'npm:utils-merge@1.0.0',
+        'parseurl': 'npm:parseurl@1.3.1',
+        'methods': 'npm:methods@1.1.2',
+        'debug': 'npm:debug@2.2.0'
+      }
+    },
+    'npm:readable-stream@1.1.14': {
+      'map': {
+        'string_decoder': 'npm:string_decoder@0.10.31',
+        'inherits': 'npm:inherits@2.0.3',
+        'core-util-is': 'npm:core-util-is@1.0.2',
+        'isarray': 'npm:isarray@0.0.1',
+        'stream-browserify': 'npm:stream-browserify@1.0.0'
+      }
+    },
+    'npm:compression@1.6.2': {
+      'map': {
+        'on-headers': 'npm:on-headers@1.0.1',
+        'vary': 'npm:vary@1.1.0',
+        'bytes': 'npm:bytes@2.3.0',
+        'compressible': 'npm:compressible@2.0.9',
+        'debug': 'npm:debug@2.2.0',
+        'accepts': 'npm:accepts@1.3.3'
+      }
+    },
+    'npm:mime-types@2.1.13': {
+      'map': {
+        'mime-db': 'npm:mime-db@1.25.0'
+      }
+    },
+    'npm:path-to-regexp@1.7.0': {
+      'map': {
+        'isarray': 'npm:isarray@0.0.1'
+      }
+    },
+    'npm:is-finite@1.0.2': {
+      'map': {
+        'number-is-nan': 'npm:number-is-nan@1.0.1'
+      }
+    },
+    'npm:package-json@2.4.0': {
+      'map': {
+        'semver': 'npm:semver@5.3.0',
+        'registry-url': 'npm:registry-url@3.1.0',
+        'registry-auth-token': 'npm:registry-auth-token@3.1.0',
+        'got': 'npm:got@5.7.1'
+      }
+    },
+    'npm:glob-slasher@1.0.1': {
+      'map': {
+        'toxic': 'npm:toxic@1.0.0',
+        'glob-slash': 'npm:glob-slash@1.0.0',
+        'lodash.isobject': 'npm:lodash.isobject@2.4.1'
+      }
+    },
+    'npm:boxen@0.6.0': {
+      'map': {
+        'repeating': 'npm:repeating@2.0.1',
+        'chalk': 'npm:chalk@1.1.3',
+        'object-assign': 'npm:object-assign@4.1.0',
+        'string-width': 'npm:string-width@1.0.2',
+        'cli-boxes': 'npm:cli-boxes@1.0.0',
+        'ansi-align': 'npm:ansi-align@1.1.0',
+        'widest-line': 'npm:widest-line@1.0.0',
+        'camelcase': 'npm:camelcase@2.1.1',
+        'filled-array': 'npm:filled-array@1.1.0'
+      }
+    },
+    'npm:sshpk@1.10.1': {
+      'map': {
+        'assert-plus': 'npm:assert-plus@1.0.0',
+        'asn1': 'npm:asn1@0.2.3',
+        'getpass': 'npm:getpass@0.1.6',
+        'dashdash': 'npm:dashdash@1.14.1'
+      }
+    },
+    'npm:is-my-json-valid@2.15.0': {
+      'map': {
+        'xtend': 'npm:xtend@4.0.1',
+        'generate-object-property': 'npm:generate-object-property@1.2.0',
+        'generate-function': 'npm:generate-function@2.0.0',
+        'jsonpointer': 'npm:jsonpointer@4.0.0'
+      }
+    },
+    'npm:crc32-stream@0.3.4': {
+      'map': {
+        'readable-stream': 'npm:readable-stream@1.0.34',
+        'buffer-crc32': 'npm:buffer-crc32@0.2.13'
+      }
+    },
+    'npm:sntp@1.0.9': {
+      'map': {
+        'hoek': 'npm:hoek@2.16.3'
+      }
+    },
+    'npm:brace-expansion@1.1.6': {
+      'map': {
+        'balanced-match': 'npm:balanced-match@0.4.2',
+        'concat-map': 'npm:concat-map@0.0.1'
+      }
+    },
+    'npm:cryptiles@2.0.5': {
+      'map': {
+        'boom': 'npm:boom@2.10.1'
+      }
+    },
+    'npm:toxic@1.0.0': {
+      'map': {
+        'lodash': 'npm:lodash@2.4.2'
+      }
+    },
+    'npm:on-finished@2.3.0': {
+      'map': {
+        'ee-first': 'npm:ee-first@1.1.1'
+      }
+    },
+    'npm:pinkie-promise@2.0.1': {
+      'map': {
+        'pinkie': 'npm:pinkie@2.0.4'
+      }
+    },
+    'npm:repeating@2.0.1': {
+      'map': {
+        'is-finite': 'npm:is-finite@1.0.2'
+      }
+    },
+    'npm:boom@2.10.1': {
+      'map': {
+        'hoek': 'npm:hoek@2.16.3'
+      }
+    },
+    'npm:jsprim@1.3.1': {
+      'map': {
+        'extsprintf': 'npm:extsprintf@1.0.2',
+        'json-schema': 'npm:json-schema@0.2.3',
+        'verror': 'npm:verror@1.3.6'
+      }
+    },
+    'npm:package-json@1.2.0': {
+      'map': {
+        'registry-url': 'npm:registry-url@3.1.0',
+        'got': 'npm:got@3.3.1'
+      }
+    },
+    'npm:flat-arguments@1.0.2': {
+      'map': {
+        'array-flatten': 'npm:array-flatten@1.1.1',
+        'as-array': 'npm:as-array@1.0.0',
+        'lodash.isobject': 'npm:lodash.isobject@3.0.2',
+        'lodash.isarguments': 'npm:lodash.isarguments@3.1.0'
+      }
+    },
+    'npm:dot-prop@3.0.0': {
+      'map': {
+        'is-obj': 'npm:is-obj@1.0.1'
+      }
+    },
+    'npm:compressible@2.0.9': {
+      'map': {
+        'mime-db': 'npm:mime-db@1.25.0'
+      }
+    },
+    'npm:as-array@1.0.0': {
+      'map': {
+        'lodash.isobject': 'npm:lodash.isobject@2.4.1',
+        'lodash.isarguments': 'npm:lodash.isarguments@2.4.1',
+        'lodash.values': 'npm:lodash.values@2.4.1'
+      }
+    },
+    'npm:ansi-align@1.1.0': {
+      'map': {
+        'string-width': 'npm:string-width@1.0.2'
+      }
+    },
+    'npm:widest-line@1.0.0': {
+      'map': {
+        'string-width': 'npm:string-width@1.0.2'
+      }
+    },
+    'npm:accepts@1.3.3': {
+      'map': {
+        'mime-types': 'npm:mime-types@2.1.13',
+        'negotiator': 'npm:negotiator@0.6.1'
+      }
+    },
+    'npm:verror@1.3.6': {
+      'map': {
+        'extsprintf': 'npm:extsprintf@1.0.2'
+      }
+    },
+    'npm:bcrypt-pbkdf@1.0.0': {
+      'map': {
+        'tweetnacl': 'npm:tweetnacl@0.14.4'
+      }
+    },
+    'npm:ecc-jsbn@0.1.1': {
+      'map': {
+        'jsbn': 'npm:jsbn@0.1.0'
+      }
+    },
+    'npm:getpass@0.1.6': {
+      'map': {
+        'assert-plus': 'npm:assert-plus@1.0.0'
+      }
+    },
+    'npm:jodid25519@1.0.2': {
+      'map': {
+        'jsbn': 'npm:jsbn@0.1.0'
+      }
+    },
+    'npm:debug@2.2.0': {
+      'map': {
+        'ms': 'npm:ms@0.7.1'
+      }
+    },
+    'npm:got@3.3.1': {
+      'map': {
+        'object-assign': 'npm:object-assign@3.0.0',
+        'is-redirect': 'npm:is-redirect@1.0.0',
+        'infinity-agent': 'npm:infinity-agent@2.0.3',
+        'prepend-http': 'npm:prepend-http@1.0.4',
+        'nested-error-stacks': 'npm:nested-error-stacks@1.0.2',
+        'lowercase-keys': 'npm:lowercase-keys@1.0.0',
+        'duplexify': 'npm:duplexify@3.5.0',
+        'read-all-stream': 'npm:read-all-stream@3.1.0',
+        'timed-out': 'npm:timed-out@2.0.0',
+        'is-stream': 'npm:is-stream@1.1.0'
+      }
+    },
+    'npm:lodash.isobject@2.4.1': {
+      'map': {
+        'lodash._objecttypes': 'npm:lodash._objecttypes@2.4.1'
+      }
+    },
+    'npm:got@5.7.1': {
+      'map': {
+        'object-assign': 'npm:object-assign@4.1.0',
+        'readable-stream': 'npm:readable-stream@2.2.2',
+        'pinkie-promise': 'npm:pinkie-promise@2.0.1',
+        'is-redirect': 'npm:is-redirect@1.0.0',
+        'lowercase-keys': 'npm:lowercase-keys@1.0.0',
+        'read-all-stream': 'npm:read-all-stream@3.1.0',
+        'create-error-class': 'npm:create-error-class@3.0.2',
+        'timed-out': 'npm:timed-out@3.0.0',
+        'duplexer2': 'npm:duplexer2@0.1.4',
+        'node-status-codes': 'npm:node-status-codes@1.0.0',
+        'is-retry-allowed': 'npm:is-retry-allowed@1.1.0',
+        'parse-json': 'npm:parse-json@2.2.0',
+        'url-parse-lax': 'npm:url-parse-lax@1.0.0',
+        'is-stream': 'npm:is-stream@1.1.0',
+        'unzip-response': 'npm:unzip-response@1.0.2',
+        'node-unzip-response': 'npm:unzip-response@1.0.2'
+      }
+    },
+    'npm:dashdash@1.14.1': {
+      'map': {
+        'assert-plus': 'npm:assert-plus@1.0.0'
+      }
+    },
+    'npm:jwa@1.1.5': {
+      'map': {
+        'base64url': 'npm:base64url@2.0.0',
+        'safe-buffer': 'npm:safe-buffer@5.0.1',
+        'buffer-equal-constant-time': 'npm:buffer-equal-constant-time@1.0.1',
+        'ecdsa-sig-formatter': 'npm:ecdsa-sig-formatter@1.0.9'
+      }
+    },
+    'npm:registry-url@3.1.0': {
+      'map': {
+        'rc': 'npm:rc@1.1.6'
+      }
+    },
+    'npm:registry-auth-token@3.1.0': {
+      'map': {
+        'rc': 'npm:rc@1.1.6'
+      }
+    },
+    'npm:generate-object-property@1.2.0': {
+      'map': {
+        'is-property': 'npm:is-property@1.0.2'
+      }
+    },
+    'npm:rc@1.1.6': {
+      'map': {
+        'minimist': 'npm:minimist@1.2.0',
+        'ini': 'npm:ini@1.3.4',
+        'strip-json-comments': 'npm:strip-json-comments@1.0.4',
+        'deep-extend': 'npm:deep-extend@0.4.1'
+      }
+    },
+    'npm:connect@3.5.0': {
+      'map': {
+        'debug': 'npm:debug@2.2.0',
+        'parseurl': 'npm:parseurl@1.3.1',
+        'utils-merge': 'npm:utils-merge@1.0.0',
+        'finalhandler': 'npm:finalhandler@0.5.0'
+      }
+    },
+    'npm:nested-error-stacks@1.0.2': {
+      'map': {
+        'inherits': 'npm:inherits@2.0.3'
+      }
+    },
+    'npm:duplexify@3.5.0': {
+      'map': {
+        'end-of-stream': 'npm:end-of-stream@1.0.0',
+        'inherits': 'npm:inherits@2.0.3',
+        'readable-stream': 'npm:readable-stream@2.2.2',
+        'stream-shift': 'npm:stream-shift@1.0.0'
+      }
+    },
+    'npm:read-all-stream@3.1.0': {
+      'map': {
+        'readable-stream': 'npm:readable-stream@2.2.2',
+        'pinkie-promise': 'npm:pinkie-promise@2.0.1'
+      }
+    },
+    'npm:lodash.values@2.4.1': {
+      'map': {
+        'lodash.keys': 'npm:lodash.keys@2.4.1'
+      }
+    },
+    'npm:duplexer2@0.1.4': {
+      'map': {
+        'readable-stream': 'npm:readable-stream@2.2.2'
+      }
+    },
+    'npm:end-of-stream@1.0.0': {
+      'map': {
+        'once': 'npm:once@1.3.3'
+      }
+    },
+    'npm:ecdsa-sig-formatter@1.0.9': {
+      'map': {
+        'base64url': 'npm:base64url@2.0.0',
+        'safe-buffer': 'npm:safe-buffer@5.0.1'
+      }
+    },
+    'npm:url-parse-lax@1.0.0': {
+      'map': {
+        'prepend-http': 'npm:prepend-http@1.0.4'
+      }
+    },
+    'npm:lodash.keys@2.4.1': {
+      'map': {
+        'lodash.isobject': 'npm:lodash.isobject@2.4.1',
+        'lodash._isnative': 'npm:lodash._isnative@2.4.1',
+        'lodash._shimkeys': 'npm:lodash._shimkeys@2.4.1'
+      }
+    },
+    'npm:create-error-class@3.0.2': {
+      'map': {
+        'capture-stack-trace': 'npm:capture-stack-trace@1.0.0'
+      }
+    },
+    'npm:finalhandler@0.5.0': {
+      'map': {
+        'debug': 'npm:debug@2.2.0',
+        'on-finished': 'npm:on-finished@2.3.0',
+        'unpipe': 'npm:unpipe@1.0.0',
+        'statuses': 'npm:statuses@1.3.1',
+        'escape-html': 'npm:escape-html@1.0.3'
+      }
+    },
+    'npm:parse-json@2.2.0': {
+      'map': {
+        'error-ex': 'npm:error-ex@1.3.0'
+      }
+    },
+    'npm:lodash._shimkeys@2.4.1': {
+      'map': {
+        'lodash._objecttypes': 'npm:lodash._objecttypes@2.4.1'
+      }
+    },
+    'npm:error-ex@1.3.0': {
+      'map': {
+        'is-arrayish': 'npm:is-arrayish@0.2.1'
       }
     }
   }

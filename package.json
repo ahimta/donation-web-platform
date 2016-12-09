@@ -1,65 +1,67 @@
 {
   "devDependencies": {
-    "del": "^2.0.2",
-    "gulp": "gulpjs/gulp#4ed9a4a3275559c73a396eff7e1fde3824951ebb",
-    "gulp-hub": "frankwallis/gulp-hub#d461b9c700df9010d0a8694e4af1fb96d9f38bf4",
-    "gulp-filter": "^4.0.0",
-    "gulp-util": "^3.0.7",
-    "gulp-useref": "^3.0.3",
-    "gulp-postcss": "^6.0.1",
     "autoprefixer": "^6.2.3",
-    "gulp-rev": "^6.0.1",
-    "gulp-rev-replace": "^0.4.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.4.2",
-    "uglify-save-license": "^0.4.1",
-    "gulp-cssnano": "^2.1.0",
-    "gulp-htmlmin": "^1.3.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.1.1",
+    "babel-eslint": "^6.0.2",
+    "babel-preset-react": "^6.1.18",
     "browser-sync": "^2.9.11",
     "browser-sync-spa": "^1.0.3",
+    "del": "^2.0.2",
+    "es6-shim": "^0.35.0",
+    "eslint": "^3.2.2",
+    "eslint-config-xo-react": "^0.7.0",
+    "eslint-config-xo-space": "^0.12.0",
+    "eslint-plugin-babel": "^3.1.0",
+    "eslint-plugin-react": "^5.0.1",
+    "gulp": "gulpjs/gulp#4ed9a4a3275559c73a396eff7e1fde3824951ebb",
+    "gulp-cssnano": "^2.1.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-htmlmin": "^1.3.0",
+    "gulp-hub": "frankwallis/gulp-hub#d461b9c700df9010d0a8694e4af1fb96d9f38bf4",
+    "gulp-postcss": "^6.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-rev": "^6.0.1",
+    "gulp-rev-replace": "^0.4.2",
+    "gulp-sass": "^2.1.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^4.2.2",
+    "gulp-uglify": "^1.4.2",
+    "gulp-useref": "^3.0.3",
+    "gulp-util": "^3.0.7",
+    "jasmine": "^2.4.1",
+    "jspm": "^0.17.0-beta.25",
     "karma": "^1.3.0",
     "karma-coverage": "^1.1.1",
-    "karma-jasmine": "^1.0.2",
-    "karma-junit-reporter": "^1.1.0",
-    "jasmine": "^2.4.1",
-    "es6-shim": "^0.35.0",
     "karma-es6-shim": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-jspm": "^2.0.2",
+    "karma-junit-reporter": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-phantomjs-shim": "^1.1.2",
     "phantomjs-prebuilt": "^2.1.6",
-    "karma-jspm": "^2.0.2",
-    "jspm": "0.17.0-beta.25",
     "systemjs-builder": "0.15.23",
-    "gulp-replace": "^0.5.4",
-    "eslint": "^3.2.2",
-    "eslint-config-xo-space": "^0.12.0",
-    "babel-preset-react": "^6.1.18",
-    "eslint-config-xo-react": "^0.7.0",
-    "eslint-plugin-react": "^5.0.1",
-    "gulp-eslint": "^2.0.0",
-    "babel-eslint": "^6.0.2",
-    "eslint-plugin-babel": "^3.1.0",
     "tslint": "^3.2.1",
     "typescript": "^2.0.2",
     "typings": "^1.0.4",
-    "gulp-tslint": "^4.2.2"
+    "uglify-save-license": "^0.4.1"
   },
   "scripts": {
     "build": "gulp",
+    "deploy": "gulp build && firebase deploy",
+    "firebase": "firebase",
+    "jspm": "jspm",
     "serve": "gulp serve",
     "serve:dist": "gulp serve:dist",
     "test": "gulp test",
-    "test:auto": "gulp test:auto",
-    "jspm": "jspm",
-    "deploy": "gulp build && firebase deploy"
+    "test:auto": "gulp test:auto"
   },
   "jspm": {
     "dependencies": {
       "@types/firebase": "npm:@types/firebase@^2.4.30",
       "@types/lodash": "npm:@types/lodash@^4.14.41",
       "bootstrap": "github:twbs/bootstrap@3",
+      "firebase-tools": "npm:firebase-tools@^3.2.0",
       "immutable": "npm:immutable@^3.8.1",
       "lodash": "npm:lodash@^4.17.2",
       "react-bootstrap": "npm:react-bootstrap@^0.30.7",
@@ -80,29 +82,40 @@
     },
     "peerDependencies": {
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "bcrypt-pbkdf": "npm:bcrypt-pbkdf@^1.0.0",
       "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
       "child_process": "github:jspm/nodelibs-child_process@^0.2.0-alpha",
       "constants": "github:jspm/nodelibs-constants@^0.2.0-alpha",
       "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "dgram": "github:jspm/nodelibs-dgram@^0.2.0-alpha",
+      "dns": "github:jspm/nodelibs-dns@^0.2.0-alpha",
       "domain": "github:jspm/nodelibs-domain@^0.2.0-alpha",
+      "ecc-jsbn": "npm:ecc-jsbn@~0.1.1",
       "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
       "firebase": "npm:firebase@^3.6.1",
       "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
+      "graceful-fs": "npm:graceful-fs@^4.1.6",
       "history": "npm:history@^3.0.0",
       "http": "github:jspm/nodelibs-http@^0.2.0-alpha",
       "https": "github:jspm/nodelibs-https@^0.2.0-alpha",
+      "jodid25519": "npm:jodid25519@^1.0.0",
+      "jsbn": "npm:jsbn@0.1",
       "module": "github:jspm/nodelibs-module@^0.2.0-alpha",
       "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
       "os": "github:jspm/nodelibs-os@^0.2.0-alpha",
       "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
       "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "querystring": "github:jspm/nodelibs-querystring@^0.2.0-alpha",
       "react": "npm:react@^15.4.0",
       "react-dom": "npm:react-dom@^15.0.1",
       "react-router": "npm:react-router@^3.0.0",
+      "readline": "github:jspm/nodelibs-readline@^0.2.0-alpha",
       "redux": "npm:redux@^3.5.1",
       "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
       "string_decoder": "github:jspm/nodelibs-string_decoder@^0.2.0-alpha",
       "tls": "github:jspm/nodelibs-tls@^0.2.0-alpha",
+      "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha",
+      "tweetnacl": "npm:tweetnacl@0.14",
       "url": "github:jspm/nodelibs-url@^0.2.0-alpha",
       "util": "github:jspm/nodelibs-util@^0.2.0-alpha",
       "vm": "github:jspm/nodelibs-vm@^0.2.0-alpha",
@@ -139,6 +152,23 @@
           "_stream_transform": "readable-stream/transform"
         }
       },
+      "npm:debug@2.2.0": {
+        "main": "browser.js",
+        "jspmNodeConversion": false,
+        "format": "cjs",
+        "map": {
+          "./browser.js": {
+            "node": "./node.js"
+          },
+          "./node.js": {
+            "browser": "./browser.js"
+          },
+          "fs": "@node/fs",
+          "net": "@node/net",
+          "tty": "@node/tty",
+          "util": "@node/util"
+        }
+      },
       "npm:inherits@2.0.3": {
         "ignore": [
           "test.js"
@@ -153,9 +183,43 @@
           "process": "@empty"
         }
       },
+      "npm:ms@0.7.1": {
+        "jspmNodeConversion": false,
+        "format": "cjs"
+      },
       "npm:ms@0.7.2": {
         "jspmNodeConversion": false,
         "format": "cjs"
+      },
+      "npm:readable-stream@1.0.34": {
+        "map": {
+          "stream": "stream-browserify/index"
+        },
+        "systemjs": {
+          "main": "readable.js"
+        },
+        "dependencies": {
+          "core-util-is": "~1.0.0",
+          "isarray": "0.0.1",
+          "string_decoder": "~0.10.0",
+          "inherits": "~2.0.1",
+          "stream-browserify": "~1.0.0"
+        }
+      },
+      "npm:readable-stream@1.1.14": {
+        "map": {
+          "stream": "stream-browserify/index"
+        },
+        "systemjs": {
+          "main": "readable.js"
+        },
+        "dependencies": {
+          "core-util-is": "~1.0.0",
+          "isarray": "0.0.1",
+          "string_decoder": "~0.10.0",
+          "inherits": "~2.0.1",
+          "stream-browserify": "~1.0.0"
+        }
       },
       "npm:typescript@2.1.1": {
         "browser": {},
