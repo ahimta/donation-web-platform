@@ -2,24 +2,28 @@
 
 import firebase from 'firebase';
 import * as React from 'react';
-import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader, Panel, Table} from 'react-bootstrap';
+import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader} from 'react-bootstrap';
 import reactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
 
 import FoodDonationsPanel from '../components/FoodDonationsPanel';
 import MockMap from '../components/MockMap';
 import NonfoodDonationsPanel from '../components/NonfoodDonationsPanel';
-import t from '../translate';
 
-interface IDonationsProps {
-};
+interface IDonationsProps {}
 
 interface IDonationsState {
-  foodDonations: Object[];
-  otherDonations: Object[];
-};
+  foodDonations: any[];
+  otherDonations: any[];
+}
 
-class Donations extends React.Component<IDonationsProps, IDonationsState> {
+export default class Donations extends React.Component<IDonationsProps, IDonationsState> {
+  static contextTypes = {
+    currentRole: React.PropTypes.string
+  };
+
+  private bindAsArray: Function;
+
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -35,35 +39,8 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
   }
 
   render() {
+    const {currentRole} = this.context;
     const {foodDonations, otherDonations} = this.state;
-    const FoodDonations = this.state.foodDonations.map(foodDonation => (
-      <tr key={foodDonation['.key']}>
-        <td className='text-center'>{t(foodDonation.foodType)}</td>
-        <td className='text-center'>{t(foodDonation.occasion)}</td>
-        <td className='text-center'>متوفر</td>
-        <td className='text-center'>
-          <ButtonGroup bsSize='sm'>
-            <Button bsStyle='danger' disabled>حذف</Button>
-            <Button bsStyle='primary' disabled>تعديل</Button>
-            <Button bsStyle='success' href={`#/donations/food/${foodDonation['.key']}`}>عرض</Button>
-          </ButtonGroup>
-        </td>
-      </tr>
-    ));
-
-    const OtherDonations = this.state.otherDonations.map(donation => (
-      <tr key={donation['.key']}>
-        <td className='text-center'>{t(donation.donationType)}</td>
-        <td className='text-center'>{t(donation.donationState)}</td>
-        <td className='text-center'>
-          <ButtonGroup bsSize='sm'>
-            <Button bsStyle='danger' disabled>حذف</Button>
-            <Button bsStyle='primary' disabled>تعديل</Button>
-            <Button bsStyle='success' href={`#/donations/other/${donation['.key']}`}>عرض</Button>
-          </ButtonGroup>
-        </td>
-      </tr>
-    ));
 
     return (
       <section>
@@ -87,7 +64,7 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
           <NonfoodDonationsPanel donations={otherDonations} />
         </Grid>
 
-        <Grid className='text-center'>
+        <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
           <ButtonGroup bsSize='lg'>
             <Button bsStyle='success' href='#/donations/donate/other'>تبرع بشيء آخر</Button>
             <Button bsStyle='success' href='#/donations/donate/food'>تبرع بطعام</Button>
@@ -99,5 +76,3 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
 }
 
 reactMixin(Donations.prototype, ReactFireMixin);
-
-export default Donations;
