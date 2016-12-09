@@ -7,7 +7,6 @@ import {hashHistory} from 'react-router';
 import * as database from '../database';
 import DonationManagementToolbar from '../components/DonationManagementToolbar';
 import t from '../translate';
-import MockMap from '../components/MockMap';
 import UserInfoPanel from '../components/UserInfoPanel';
 
 interface IFoodDonationProps {
@@ -82,12 +81,6 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
           </Panel>
 
           <UserInfoPanel phone={foodDonation.phone} user={donor} />
-        </Grid>
-
-        <hr />
-
-        <Grid>
-          <MockMap />
         </Grid>
 
         <hr />

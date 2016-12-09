@@ -6,7 +6,6 @@ import {hashHistory} from 'react-router';
 
 import * as auth from '../auth';
 import * as database from '../database';
-import MockMap from '../components/MockMap';
 
 interface INewFoodDonationProps {
 }
@@ -111,7 +110,6 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
 
             <FormGroup controlId='foodDonationLocation' dir='rtl'>
               <ControlLabel>الموقع</ControlLabel>
-              <MockMap />
             </FormGroup>
 
             <Button type='submit' bsStyle='success' bsSize='lg' block>{donatePhrase}</Button>

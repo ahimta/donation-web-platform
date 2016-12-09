@@ -54,12 +54,6 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
         </Grid>
 
         <Grid>
-          <MockMap />
-        </Grid>
-
-        <hr />
-
-        <Grid>
           <FoodDonationsPanel donations={foodDonations} />
           <NonfoodDonationsPanel donations={otherDonations} />
         </Grid>

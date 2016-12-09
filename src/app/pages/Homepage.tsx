@@ -3,8 +3,6 @@
 import * as React from 'react';
 import {Button, ButtonGroup, Col, Glyphicon, Grid, ListGroup, ListGroupItem, Panel, Row} from 'react-bootstrap';
 
-import MockMap from '../components/MockMap';
-
 interface IHomepageProps {}
 
 interface IHomepageState {}
@@ -45,14 +43,6 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
             </Col>
           </Row>
         </Grid>
-
-        <hr />
-
-        <Grid>
-          <MockMap />
-        </Grid>
-
-        <hr />
 
         <Grid>
           <Panel collapsible defaultExpanded header='النشاطات' className='text-center'>

@@ -7,7 +7,6 @@ import reactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
 
 import CharitiesProfilesPanel from '../components/CharitiesProfilesPanel';
-import MockMap from '../components/MockMap';
 import UsersProfilesPanel from '../components/UsersProfilesPanel';
 
 interface IProfilesProps {}
@@ -47,12 +46,6 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
             <Breadcrumb.Item active>الحسابات</Breadcrumb.Item>
           </Breadcrumb>
         </Grid>
-
-        <Grid>
-          <MockMap />
-        </Grid>
-
-        <hr />
 
         <Grid>
           <CharitiesProfilesPanel charities={charities} />

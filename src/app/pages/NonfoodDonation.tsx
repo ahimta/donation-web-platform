@@ -6,7 +6,6 @@ import {hashHistory} from 'react-router';
 
 import * as database from '../database';
 import DonationManagementToolbar from '../components/DonationManagementToolbar';
-import MockMap from '../components/MockMap';
 import NonfoodDonationInfoPanel from '../components/NonfoodDonationInfoPanel';
 import UserInfoPanel from '../components/UserInfoPanel';
 
@@ -60,12 +59,6 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
         <Grid>
           <NonfoodDonationInfoPanel nonfoodDonation={nonfoodDonation} />
           <UserInfoPanel phone={nonfoodDonation.phone} user={donor} />
-        </Grid>
-
-        <hr />
-
-        <Grid>
-          <MockMap />
         </Grid>
 
         <hr />

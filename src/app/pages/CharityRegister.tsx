@@ -99,7 +99,6 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
 
             <FormGroup controlId='foodDonationLocation' dir='rtl'>
               <ControlLabel>الموقع</ControlLabel>
-              <MockMap />
             </FormGroup>
 
             <Button type='submit' bsStyle='success' bsSize='lg' block>سجل كجمعية</Button>
