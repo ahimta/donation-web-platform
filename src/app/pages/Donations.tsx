@@ -1,13 +1,10 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
 import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader} from 'react-bootstrap';
-import reactMixin from 'react-mixin';
-import ReactFireMixin from 'reactfire';
 
+import * as database from '../database';
 import FoodDonationsPanel from '../components/FoodDonationsPanel';
-import MockMap from '../components/MockMap';
 import NonfoodDonationsPanel from '../components/NonfoodDonationsPanel';
 
 interface IDonationsProps {}
@@ -22,8 +19,6 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
     currentRole: React.PropTypes.string
   };
 
-  private bindAsArray: Function;
-
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -33,9 +28,16 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
     };
   }
 
-  componentWillMount() {
-    this.bindAsArray(firebase.database().ref('foodDonations'), 'foodDonations');
-    this.bindAsArray(firebase.database().ref('otherDonations'), 'otherDonations');
+  componentDidMount() {
+    database.getDonations('food').then((donations) => {
+      const {otherDonations} = this.state;
+      this.setState({foodDonations: donations, otherDonations});
+    });
+
+    database.getDonations('nonfood').then((donations) => {
+      const {foodDonations} = this.state;
+      this.setState({otherDonations: donations, foodDonations});
+    });
   }
 
   render() {
@@ -68,5 +70,3 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
     );
   }
 }
-
-reactMixin(Donations.prototype, ReactFireMixin);

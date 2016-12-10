@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import * as Immutable from 'immutable';
 
 type DonationType = 'food' | 'nonfood';
 
@@ -69,5 +70,29 @@ export function createDonation(donationType: DonationType, donation: any) {
       return firebase.database().ref('reservations').child(newDonationKey).set(reservation);
     }).then(() => {
       return newDonationKey;
+    });
+}
+
+export function getDonations(donationType: DonationType) {
+  const refName = getRefName(donationType);
+
+  const donationsRef = firebase.database().ref(refName);
+  const reservationsRef = firebase.database().ref('reservations');
+
+  return Promise.all([donationsRef.once('value'), reservationsRef.once('value')])
+    .then(([donationsSnapshot, reservationsSnapshot]) => {
+      const donations = [];
+      const reservations = reservationsSnapshot.val();
+
+      donationsSnapshot.forEach((donationSnapshot) => {
+        const donation = donationSnapshot.val();
+        const key = donationSnapshot.key;
+        const reservation = reservations[key];
+
+        const fullDonation = Immutable.Map(donation).merge(reservation).merge({['.key']: key}).toObject();
+        donations.push(fullDonation);
+      });
+
+      return donations;
     });
 }

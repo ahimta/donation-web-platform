@@ -4,6 +4,7 @@ import * as React from 'react';
 import {Button, ButtonGroup, Panel, Table} from 'react-bootstrap';
 
 import * as database from '../database';
+import * as helpers from '../helpers';
 import t from '../translate';
 
 interface INonfoodDonationsPanelProps {
@@ -14,7 +15,7 @@ interface INonfoodDonationsPanelState {}
 
 export default class NonfoodDonationsPanel extends React.Component<INonfoodDonationsPanelProps, INonfoodDonationsPanelState> {
   static contextTypes = {
-    currentUserId: React.PropTypes.string
+    currentId: React.PropTypes.string
   };
 
   static propTypes = {
@@ -22,13 +23,13 @@ export default class NonfoodDonationsPanel extends React.Component<INonfoodDonat
   };
 
   render() {
-    const {currentUserId} = this.context;
+    const {currentId} = this.context;
     const donations = this.props.donations || [];
-    const NonfoodDonations = this.mapDonations(donations, this.deleteDonationFactory, currentUserId);
+    const NonfoodDonations = this.mapDonations(donations, this.deleteDonationFactory, currentId);
 
     return (
       <Panel header='تبرعات أخرى' bsStyle='primary' className='text-center' collapsible defaultExpanded>
-        <Table dir='rtl' responsive bordered striped condensed fill>
+        <Table dir='rtl' bordered condensed fill hover responsive>
           <thead>
             <tr>
               <th className='text-center'>النوع</th>
@@ -51,16 +52,17 @@ export default class NonfoodDonationsPanel extends React.Component<INonfoodDonat
     };
   }
 
-  private mapDonations(donations: any, deleteDonationFactory: Function, currentUserId?: string): any[] {
+  private mapDonations(donations: any, deleteDonationFactory: Function, currentId?: string): any[] {
     return donations.map((donation) => {
       return (
-        <tr key={donation['.key']}>
+        <tr className={helpers.getDonationRowClass(currentId, donation.deliveredOrReceived, donation.reserverId)}
+          key={donation['.key']}>
           <td className='text-center'>{t(donation.donationType)}</td>
           <td className='text-center'>{t(donation.donationState)}</td>
           <td className='text-center'>{t(donation.location)}</td>
           <td className='text-center'>
             <ButtonGroup bsSize='xs'>
-              <Button bsStyle='danger'  onClick={deleteDonationFactory(donation['.key'])} disabled={currentUserId !== donation.donorId}>حذف</Button>
+              <Button bsStyle='danger'  onClick={deleteDonationFactory(donation['.key'])} disabled={currentId !== donation.donorId}>حذف</Button>
               <Button bsStyle='success' href={`#/donations/other/${donation['.key']}`}>تفاصيل أكثر</Button>
             </ButtonGroup>
           </td>
