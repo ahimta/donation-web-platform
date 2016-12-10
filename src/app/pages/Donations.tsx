@@ -59,7 +59,7 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
         </Grid>
 
         <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
-          <ButtonGroup bsSize='lg'>
+          <ButtonGroup bsSize='lg' justified>
             <Button bsStyle='success' href='#/donations/donate/other'>تبرع بشيء آخر</Button>
             <Button bsStyle='success' href='#/donations/donate/food'>تبرع بطعام</Button>
           </ButtonGroup>
