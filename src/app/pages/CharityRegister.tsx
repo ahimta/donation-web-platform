@@ -5,13 +5,14 @@ import {Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, In
 import {hashHistory} from 'react-router';
 
 import * as auth from '../auth';
-import MockMap from '../components/MockMap';
+import LocationSelectField from '../components/LocationSelectField';
 
 interface ICharityRegisterProps {}
 
 interface ICharityRegisterState {
   description: string;
   email: string;
+  location: string;
   name: string;
   password: string;
   phone: string;
@@ -29,6 +30,7 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
     this.state = {
       description: '',
       email: '',
+      location: 'riyadh',
       name: '',
       password: '',
       phone: '',
@@ -82,7 +84,8 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
 
             <FormGroup>
               <InputGroup>
-                <FormControl type='url' dir='ltr' value={this.state.website} onChange={this.handleOnChange('website').bind(this)} />
+                <FormControl type='url' dir='ltr' value={this.state.website} onChange={this.handleOnChange('website').bind(this)}
+                  placeholder='https://google.com'/>
                 <InputGroup.Addon>الموقع الرسمي</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
@@ -92,13 +95,11 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
               <FormControl type='file' placeholder='شعار الجمعية' />
             </FormGroup>
 
+            <LocationSelectField onChange={this.handleOnChange('location').bind(this)} value={this.state.location} />
+
             <FormGroup controlId='foodDonationNotes' dir='rtl'>
               <ControlLabel>عن الجمعية</ControlLabel>
               <FormControl componentClass='textarea' placeholder='عن الجمعية' value={this.state.description} onChange={this.handleOnChange('description').bind(this)} />
-            </FormGroup>
-
-            <FormGroup controlId='foodDonationLocation' dir='rtl'>
-              <ControlLabel>الموقع</ControlLabel>
             </FormGroup>
 
             <Button type='submit' bsStyle='success' bsSize='lg' block>سجل كجمعية</Button>

@@ -10,8 +10,7 @@ interface IFoodDonationsPanelProps {
   donations: any[];
 }
 
-interface IFoodDonationsPanelState {
-}
+interface IFoodDonationsPanelState {}
 
 export default class FoodDonationsPanel extends React.Component<IFoodDonationsPanelProps, IFoodDonationsPanelState> {
   static contextTypes = {
@@ -34,7 +33,7 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
             <tr>
               <th className='text-center'>النوع</th>
               <th className='text-center'>المناسبة</th>
-              <th className='text-center'>الحالة</th>
+              <th className='text-center'>الموقع</th>
               <th className='text-center'>إدارة</th>
             </tr>
           </thead>
@@ -55,7 +54,7 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
       return (<tr key={donation['.key']}>
         <td className='text-center'>{t(donation.foodType)}</td>
         <td className='text-center'>{t(donation.occasion)}</td>
-        <td className='text-center'>متوفر</td>
+        <td className='text-center'>{t(donation.location)}</td>
         <td className='text-center'>
           <ButtonGroup bsSize='xs'>
             <Button bsStyle='danger' onClick={deleteDonationFactory(donation['.key'])} disabled={currentUserId !== donation.donorId}>حذف</Button>

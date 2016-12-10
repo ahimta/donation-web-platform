@@ -69,6 +69,10 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
                   <td className='text-center'>{t(foodDonation.occasion)}</td>
                 </tr>
                 <tr>
+                  <th className='text-center'>الموقع</th>
+                  <td className='text-center'>{t(foodDonation.location)}</td>
+                </tr>
+                <tr>
                   <th className='text-center'>الأطباق</th>
                   <td className='text-center'>{foodDonation.dishes}</td>
                 </tr>

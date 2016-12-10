@@ -31,6 +31,10 @@ export default class NonfoodDonationInfoPanel extends React.Component<INonfoodDo
               <th className='text-center'>حالة التبرع</th>
               <td className='text-center'>{t(nonfoodDonation.donationState)}</td>
             </tr>
+            <tr>
+              <th className='text-center'>الموقع</th>
+              <td className='text-center'>{t(nonfoodDonation.location)}</td>
+            </tr>
           </tbody>
         </Table>
       </Panel>

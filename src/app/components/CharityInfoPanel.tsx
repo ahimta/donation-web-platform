@@ -3,10 +3,13 @@
 import * as React from 'react';
 import {Panel, Table} from 'react-bootstrap';
 
+import t from '../translate';
+
 type Charity = {
   ['.key']: string;
   description?: string;
   email: string;
+  location: string;
   name: string;
   phone?: string;
   website?: string;
@@ -35,6 +38,10 @@ export default class CharityInfoPanel extends React.Component<ICharityInfoPanelP
             <tr>
               <th className='text-center'>الاسم</th>
               <td className='text-center'>{charity.name}</td>
+            </tr>
+            <tr>
+              <th className='text-center'>الموقع</th>
+              <td className='text-center'>{t(charity.location)}</td>
             </tr>
             <tr>
               <th className='text-center'>الجوال/الواتساب</th>

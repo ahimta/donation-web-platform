@@ -3,10 +3,13 @@
 import * as React from 'react';
 import {Panel, Table} from 'react-bootstrap';
 
+import t from '../translate';
+
 type Charity = {
   ['.key']: string;
   description?: string;
   email: string;
+  location: string;
   name: string;
   phone?: string;
   website?: string;
@@ -23,10 +26,11 @@ export default class CharitiesProfilesPanel extends React.Component<ICharitiesPr
     charities: React.PropTypes.array
   };
 
-  mapUser({name, email, phone, ['.key']: uid}: Charity) {
+  mapUser({email, location, name, phone, ['.key']: uid}: Charity) {
     return (
       <tr key={uid}>
         <td className='text-center'><a href={`#/charities/${uid}`}>{name}</a></td>
+        <td className='text-center'>{t(location)}</td>
         <td className='text-center'><a href={`tel:${phone}`}>{phone}</a></td>
         <td className='text-center'><a href={`mailto:${email}`} target='_blank'>{email}</a></td>
       </tr>
@@ -43,6 +47,7 @@ export default class CharitiesProfilesPanel extends React.Component<ICharitiesPr
           <thead>
             <tr>
               <th className='text-center'>الاسم</th>
+              <th className='text-center'>الموقع</th>
               <th className='text-center'>الجوال/الواتساب</th>
               <th className='text-center'>الإيميل</th>
             </tr>

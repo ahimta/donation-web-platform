@@ -6,11 +6,13 @@ import {hashHistory} from 'react-router';
 
 import * as auth from '../auth';
 import * as database from '../database';
+import LocationSelectField from '../components/LocationSelectField';
 
 interface INewOtherDonationProps {}
 
 interface INewOtherDonationState {
   donationType: string;
+  location: string;
   notes: string;
   donationState: string;
   phone: string;
@@ -26,6 +28,7 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
 
     this.state = {
       donationType: 'appliances',
+      location: 'riyadh',
       notes: '',
       donationState: 'good',
       phone: ''
@@ -60,6 +63,8 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
               </FormControl>
             </FormGroup>
 
+            <LocationSelectField onChange={this.handleOnChange('location').bind(this)} value={this.state.location} />
+
             <FormGroup controlId='donationState' dir='rtl'>
               <ControlLabel>حالة التبرع</ControlLabel>
               <FormControl componentClass='select' value={this.state.donationState} onChange={this.handleOnChange('donationState').bind(this)}>
@@ -87,10 +92,6 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
               <FormControl componentClass='textarea' placeholder='ملاحظات' value={this.state.notes} onChange={this.handleOnChange('notes').bind(this)} />
             </FormGroup>
 
-            <FormGroup controlId='foodDonationLocation' dir='rtl'>
-              <ControlLabel>الموقع</ControlLabel>
-            </FormGroup>
-
             <Button type='submit' bsStyle='success' bsSize='lg' block>{donatePhrase}</Button>
           </Form>
         </Grid>
@@ -102,8 +103,8 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
     const {currentUserId} = this.context;
 
     const helper = (donorId: string) => {
-      const {donationType, notes, donationState, phone} = this.state;
-      const nonfoodDonation = {donationType, notes, donationState, phone, donorId};
+      const {donationType, location, notes, donationState, phone} = this.state;
+      const nonfoodDonation = {donationType, location, notes, donationState, phone, donorId};
 
       database.createDonation('nonfood', nonfoodDonation).then((newDonationKey) => {
         hashHistory.push(`/donations/other/${newDonationKey}`);

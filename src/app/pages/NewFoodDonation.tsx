@@ -6,14 +6,14 @@ import {hashHistory} from 'react-router';
 
 import * as auth from '../auth';
 import * as database from '../database';
+import LocationSelectField from '../components/LocationSelectField';
 
-interface INewFoodDonationProps {
-}
+interface INewFoodDonationProps {}
 
 interface INewFoodDonationState {
   dishes: string;
-  foodDonations: Object[];
   foodType: string;
+  location: string;
   notes: string;
   occasion: string;
   phone: string;
@@ -29,8 +29,8 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
 
     this.state = {
       dishes: '',
-      foodDonations: [],
       foodType: 'fruits',
+      location: 'riyadh',
       notes: '',
       occasion: 'party',
       phone: ''
@@ -74,6 +74,8 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
               </FormControl>
             </FormGroup>
 
+            <LocationSelectField onChange={this.handleOnChange('location').bind(this)} value={this.state.location} />
+
             <FormGroup controlId='pickupTime' dir='rtl'>
               <ControlLabel>وقت الاستلام</ControlLabel>
               <Row>
@@ -108,10 +110,6 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
               <FormControl componentClass='textarea' placeholder='ملاحظات' value={this.state.notes} onChange={this.handleOnChange('notes').bind(this)} />
             </FormGroup>
 
-            <FormGroup controlId='foodDonationLocation' dir='rtl'>
-              <ControlLabel>الموقع</ControlLabel>
-            </FormGroup>
-
             <Button type='submit' bsStyle='success' bsSize='lg' block>{donatePhrase}</Button>
           </Form>
         </Grid>
@@ -123,8 +121,8 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     const {currentUserId} = this.context;
 
     const helper = (donorId: string) => {
-      const {dishes, foodType, notes, occasion, phone} = this.state;
-      const foodDonation = {dishes, foodType, notes, occasion, phone, donorId};
+      const {dishes, foodType, location, notes, occasion, phone} = this.state;
+      const foodDonation = {dishes, foodType, location, notes, occasion, phone, donorId};
 
       database.createDonation('food', foodDonation).then((newDonationKey) => {
         hashHistory.push(`/donations/food/${newDonationKey}`);

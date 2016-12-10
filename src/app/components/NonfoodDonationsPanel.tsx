@@ -33,6 +33,7 @@ export default class NonfoodDonationsPanel extends React.Component<INonfoodDonat
             <tr>
               <th className='text-center'>النوع</th>
               <th className='text-center'>حالة التبرع</th>
+              <th className='text-center'>الموقع</th>
               <th className='text-center'>إدارة</th>
             </tr>
           </thead>
@@ -56,6 +57,7 @@ export default class NonfoodDonationsPanel extends React.Component<INonfoodDonat
         <tr key={donation['.key']}>
           <td className='text-center'>{t(donation.donationType)}</td>
           <td className='text-center'>{t(donation.donationState)}</td>
+          <td className='text-center'>{t(donation.location)}</td>
           <td className='text-center'>
             <ButtonGroup bsSize='xs'>
               <Button bsStyle='danger'  onClick={deleteDonationFactory(donation['.key'])} disabled={currentUserId !== donation.donorId}>حذف</Button>

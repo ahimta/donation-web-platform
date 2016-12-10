@@ -18,6 +18,9 @@ export default function t(s: string): string {
       vegetables: 'خضار',
 
       other: 'آخر',
+
+      makkah: 'مكة',
+      riyadh: 'الرياض',
     };
 
   return LABELS[s];
