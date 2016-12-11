@@ -9,6 +9,7 @@ import t from '../translate';
 
 interface IFoodDonationsPanelProps {
   donations: any[];
+  onUpdate: Function;
 }
 
 interface IFoodDonationsPanelState {}
@@ -19,13 +20,15 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
   };
 
   static propTypes = {
-    donations: React.PropTypes.array
+    donations: React.PropTypes.array,
+    onUpdate: React.PropTypes.func.isRequired
   };
 
   render() {
     const {currentId} = this.context;
+    const {onUpdate} = this.props;
     const donations = this.props.donations || [];
-    const FoodDonations = this.mapDonations(donations, this.deleteDonationFactory, currentId);
+    const FoodDonations = this.mapDonations(onUpdate, donations, this.deleteDonationFactory, currentId);
 
     return (
       <Panel header='تبرعات طعام' bsStyle='primary' className='text-center' collapsible defaultExpanded>
@@ -46,11 +49,15 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
     );
   }
 
-  private deleteDonationFactory(id: string) {
-    return () => { database.removeFoodDonation(id); };
+  private deleteDonationFactory(onUpdate: Function, id: string) {
+    return () => {
+      database.removeFoodDonation(id).then(() => {
+        onUpdate();
+      });
+    };
   }
 
-  private mapDonations(donations: any, deleteDonationFactory: Function, currentId?: string): any[] {
+  private mapDonations(onUpdate: Function, donations: any, deleteDonationFactory: Function, currentId?: string): any[] {
     return donations.map((donation) => {
       return (
         <tr className={helpers.getDonationRowClass(currentId, donation.deliveredOrReceived, donation.reserverId)}
@@ -60,7 +67,7 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
           <td className='text-center'>{t(donation.location)}</td>
           <td className='text-center'>
             <ButtonGroup bsSize='xs'>
-              <Button bsStyle='danger' onClick={deleteDonationFactory(donation['.key'])} disabled={currentId !== donation.donorId}>حذف</Button>
+              <Button bsStyle='danger' onClick={deleteDonationFactory(onUpdate, donation['.key'])} disabled={currentId !== donation.donorId}>حذف</Button>
               <Button bsStyle='success' href={`#/donations/food/${donation['.key']}`}>تفاصيل أكثر</Button>
             </ButtonGroup>
           </td>

@@ -29,15 +29,7 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
   }
 
   componentDidMount() {
-    database.getDonations('food').then((donations) => {
-      const {otherDonations} = this.state;
-      this.setState({foodDonations: donations, otherDonations});
-    });
-
-    database.getDonations('nonfood').then((donations) => {
-      const {foodDonations} = this.state;
-      this.setState({otherDonations: donations, foodDonations});
-    });
+    this.update();
   }
 
   render() {
@@ -56,8 +48,8 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
         </Grid>
 
         <Grid>
-          <FoodDonationsPanel donations={foodDonations} />
-          <NonfoodDonationsPanel donations={otherDonations} />
+          <FoodDonationsPanel donations={foodDonations} onUpdate={this.update.bind(this)} />
+          <NonfoodDonationsPanel donations={otherDonations} onUpdate={this.update.bind(this)} />
         </Grid>
 
         <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
@@ -68,5 +60,17 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
         </Grid>
       </section>
     );
+  }
+
+  private update() {
+    database.getDonations('food').then((donations) => {
+      const {otherDonations} = this.state;
+      this.setState({foodDonations: donations, otherDonations});
+    });
+
+    database.getDonations('nonfood').then((donations) => {
+      const {foodDonations} = this.state;
+      this.setState({otherDonations: donations, foodDonations});
+    });
   }
 }
