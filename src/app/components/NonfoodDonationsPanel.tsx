@@ -15,19 +15,22 @@ interface INonfoodDonationsPanelProps {
 interface INonfoodDonationsPanelState {}
 
 export default class NonfoodDonationsPanel extends React.Component<INonfoodDonationsPanelProps, INonfoodDonationsPanelState> {
+  static defaultProps = {
+    donations: []
+  };
+
   static contextTypes = {
     currentId: React.PropTypes.string
   };
 
   static propTypes = {
-    donations: React.PropTypes.array,
+    donations: React.PropTypes.array.isRequired,
     onUpdate: React.PropTypes.func.isRequired
   };
 
   render() {
     const {currentId} = this.context;
-    const {onUpdate} = this.props;
-    const donations = this.props.donations || [];
+    const {donations, onUpdate} = this.props;
     const NonfoodDonations = this.mapDonations(donations, onUpdate, this.deleteDonationFactory, currentId);
 
     return (

@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import * as Immutable from 'immutable';
 
 type DonationType = 'food' | 'nonfood';
+type ReservationType = 'delivery' | 'receiving';
 
 function getRefName(donationType: DonationType) {
   return (donationType === 'food') ? 'foodDonations' : 'otherDonations';
@@ -48,7 +49,7 @@ export function reportDonation(donationId: string): Promise<any> {
   return firebase.database().ref('reservations').child(donationId).child('deliveredOrReceived').set(true);
 }
 
-export function reserveDonation(donationId: string, reservationType: string, currentUserId: string): Promise<any> {
+export function reserveDonation(donationId: string, reservationType: ReservationType, currentUserId: string): Promise<any> {
   return firebase.database().ref('reservations').child(donationId).set({
     deliveredOrReceived: false,
     reservationType,

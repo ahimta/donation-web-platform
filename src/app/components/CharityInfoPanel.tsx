@@ -22,13 +22,16 @@ interface ICharityInfoPanelProps {
 interface ICharityInfoPanelState {}
 
 export default class CharityInfoPanel extends React.Component<ICharityInfoPanelProps, ICharityInfoPanelState> {
+  static defaultProps = {
+    charity: {}
+  };
+
   static propTypes = {
-    charity: React.PropTypes.object
+    charity: React.PropTypes.object.isRequired
   };
 
   render() {
-    const {charity: charityProp} = this.props;
-    const charity = charityProp || {};
+    const {charity} = this.props;
 
     return (
       <Panel header='بيانات الجمعية' footer={charity.description}

@@ -13,7 +13,7 @@ interface ICharityProps {
 }
 
 interface ICharityState {
-  charity?: any;
+  charity: any;
 }
 
 export default class Charity extends React.Component<ICharityProps, ICharityState> {
@@ -22,7 +22,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
   constructor(props: any, context: any) {
     super(props, context);
     this.state = {
-      charity: null
+      charity: {}
     };
   }
 

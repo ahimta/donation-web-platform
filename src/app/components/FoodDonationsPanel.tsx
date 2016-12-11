@@ -19,15 +19,18 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
     currentId: React.PropTypes.string
   };
 
+  static defaultProps = {
+    donations: []
+  };
+
   static propTypes = {
-    donations: React.PropTypes.array,
+    donations: React.PropTypes.array.isRequired,
     onUpdate: React.PropTypes.func.isRequired
   };
 
   render() {
     const {currentId} = this.context;
-    const {onUpdate} = this.props;
-    const donations = this.props.donations || [];
+    const {donations, onUpdate} = this.props;
     const FoodDonations = this.mapDonations(onUpdate, donations, this.deleteDonationFactory, currentId);
 
     return (

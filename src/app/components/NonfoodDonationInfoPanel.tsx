@@ -12,8 +12,12 @@ interface INonfoodDonationInfoPanelProps {
 interface INonfoodDonationInfoPanelState {}
 
 export default class NonfoodDonationInfoPanel extends React.Component<INonfoodDonationInfoPanelProps, INonfoodDonationInfoPanelState> {
+  static defautProps = {
+    nonfoodDonation: {}
+  };
+
   static propTypes = {
-    nonfoodDonation: React.PropTypes.object
+    nonfoodDonation: React.PropTypes.object.isRequired
   };
 
   render() {

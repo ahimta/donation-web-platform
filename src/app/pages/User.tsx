@@ -13,7 +13,7 @@ interface IUserProps {
 }
 
 interface IUserState {
-  user?: any;
+  user: any;
 }
 
 export default class User extends React.Component<IUserProps, IUserState> {
@@ -22,13 +22,13 @@ export default class User extends React.Component<IUserProps, IUserState> {
   constructor(props: any, context: any) {
     super(props, context);
     this.state = {
-      user: null
+      user: {}
     };
   }
 
   componentDidMount() {
-    const {id} = this.props.params;
-    this.bindAsObject(firebase.database().ref(`users/${id}`), 'user');
+    const {params} = this.props;
+    this.bindAsObject(firebase.database().ref(`users/${params.id}`), 'user');
   }
 
   render() {

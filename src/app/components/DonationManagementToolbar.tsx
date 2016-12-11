@@ -22,11 +22,12 @@ interface IDonationManagementToolbarState {}
 
 export default class DonationManagementToolbar extends React.Component<IDonationManagementToolbarProps, IDonationManagementToolbarState> {
   static defaultProps = {
-    onUpdate: () => hashHistory.push('/donations')
+    onUpdate: () => hashHistory.push('/donations'),
+    reservation: {}
   };
 
   static propTypes = {
-    currenId: React.PropTypes.string.isRequired,
+    currentId: React.PropTypes.string.isRequired,
     currentRole: React.PropTypes.string.isRequired,
     currentUserId: React.PropTypes.string.isRequired,
     deleteDonation: React.PropTypes.func.isRequired,

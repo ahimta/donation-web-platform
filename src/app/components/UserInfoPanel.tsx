@@ -3,14 +3,6 @@
 import * as React from 'react';
 import {Button, Panel, Table} from 'react-bootstrap';
 
-const NULL_USER = {
-  displayName: '',
-  email: '',
-  isNull: true,
-  phone: '',
-  uid: 'not-found',
-};
-
 interface IUserInfoPanelProps {
   header?: string;
   hideLink?: boolean;
@@ -18,7 +10,6 @@ interface IUserInfoPanelProps {
   user: {
     displayName: string,
     email: string,
-    isNull?: boolean,
     phone?: string,
     uid: string
   };
@@ -27,19 +18,25 @@ interface IUserInfoPanelProps {
 interface IUserInfoPanelState {}
 
 export default class UserInfoPanel extends React.Component<IUserInfoPanelProps, IUserInfoPanelState> {
+  static defaultProps = {
+    header: 'بيانات المتبرع',
+    hideLink: false,
+    phone: '',
+    user: {}
+  };
+
   static propTypes = {
     header: React.PropTypes.string,
     hideLink: React.PropTypes.bool,
     phone: React.PropTypes.string,
-    user: React.PropTypes.object
+    user: React.PropTypes.object.isRequired
   };
 
   render() {
-    const header = this.props.header || 'بيانات المتبرع';
-    const user = this.props.user || NULL_USER;
+    const {header, hideLink, phone: givenPhone, user} = this.props;
 
-    const footer = this.props.hideLink ? '' : (<Button bsStyle='success' href={`#/users/${user.uid}`} disabled={user.isNull} block>صفحة المستخدم</Button>);
-    const phone = this.props.phone || user.phone;
+    const footer = hideLink ? '' : (<Button bsStyle='success' href={`#/users/${user.uid}`} disabled={!user.uid} block>صفحة المستخدم</Button>);
+    const phone = givenPhone || user.phone;
 
     return (
       <Panel header={header} footer={footer}

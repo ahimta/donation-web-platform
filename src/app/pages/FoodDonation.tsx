@@ -31,7 +31,9 @@ export default class FoodDonation extends React.Component<IFoodDonationProps, IF
 
     this.state = {
       donor: {},
-      foodDonation: {},
+      foodDonation: {
+        donorId: ''
+      },
       reservation: {}
     };
   }

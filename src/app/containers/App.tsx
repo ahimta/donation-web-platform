@@ -11,10 +11,10 @@ interface IAppProps {
 }
 
 interface IAppState {
-  currentCharityId: any;
-  currentId: any;
-  currentRole: any;
-  currentUserId: any;
+  currentCharityId: string;
+  currentId: string;
+  currentRole: string;
+  currentUserId: string;
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
@@ -35,10 +35,10 @@ export default class App extends React.Component<IAppProps, IAppState> {
     super(props, context);
 
     this.state = {
-      currentCharityId: null,
-      currentId: null,
-      currentUserId: null,
-      currentRole: null
+      currentCharityId: '',
+      currentId: '',
+      currentUserId: '',
+      currentRole: ''
     };
   }
 
@@ -54,13 +54,13 @@ export default class App extends React.Component<IAppProps, IAppState> {
         if (providerId === 'google.com') {
           const {displayName, email, photoURL, uid} = user;
 
-          this.setState({currentCharityId: null, currentId: uid, currentRole: 'user', currentUserId: user.uid});
+          this.setState({currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid});
           firebase.database().ref('users').child(uid).set({displayName, email, photoURL, uid});
         } else if (providerId === 'password') {
-          this.setState({currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: null});
+          this.setState({currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: ''});
         }
       } else {
-        this.setState({currentCharityId: null, currentId: null, currentRole: null, currentUserId: null});
+        this.setState({currentCharityId: '', currentId: '', currentRole: '', currentUserId: ''});
       }
     });
   }

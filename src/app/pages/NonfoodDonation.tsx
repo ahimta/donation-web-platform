@@ -31,7 +31,9 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
 
     this.state = {
       donor: {},
-      nonfoodDonation: {},
+      nonfoodDonation: {
+        donorId: ''
+      },
       reservation: {}
     };
   }
@@ -64,9 +66,9 @@ export default class NonfoodDonation extends React.Component<INonfoodDonationPro
         <hr />
 
         <Grid className='text-center'>
-          <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
-            deleteDonation={this.deleteDonation} donationId={params.id} donorId={nonfoodDonation.donorId}
-            onUpdate={this.getDonation.bind(this)} reservation={reservation} />
+          <DonationManagementToolbar currentId={currentId} currentRole={currentRole}
+            currentUserId={currentUserId} deleteDonation={this.deleteDonation} donationId={params.id}
+            donorId={nonfoodDonation.donorId} onUpdate={this.getDonation.bind(this)} reservation={reservation} />
         </Grid>
       </section>
     );

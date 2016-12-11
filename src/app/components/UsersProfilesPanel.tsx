@@ -12,15 +12,18 @@ interface IUsersProfilesPanelProps {
   }[];
 }
 
-interface IUsersProfilesPanelState {
-}
+interface IUsersProfilesPanelState {}
 
 export default class UsersProfilesPanel extends React.Component<IUsersProfilesPanelProps, IUsersProfilesPanelState> {
-  static propTypes = {
-    users: React.PropTypes.array
+  static defaultProps = {
+    users: []
   };
 
-  mapUser({displayName, email, phone, uid}) {
+  static propTypes = {
+    users: React.PropTypes.array.isRequired
+  };
+
+  mapUser({displayName, email, phone, uid}: any) {
     return (
       <tr key={uid}>
         <td className='text-center'><a href={`#/users/${uid}`}>{displayName}</a></td>

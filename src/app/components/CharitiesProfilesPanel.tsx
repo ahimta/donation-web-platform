@@ -22,8 +22,12 @@ interface ICharitiesProfilesPanelProps {
 interface ICharitiesProfilesPanelState {}
 
 export default class CharitiesProfilesPanel extends React.Component<ICharitiesProfilesPanelProps, ICharitiesProfilesPanelState> {
+  static defaultProps = {
+    charities: []
+  };
+
   static propTypes = {
-    charities: React.PropTypes.array
+    charities: React.PropTypes.array.isRequired
   };
 
   mapUser({email, location, name, phone, ['.key']: uid}: Charity) {
@@ -38,7 +42,7 @@ export default class CharitiesProfilesPanel extends React.Component<ICharitiesPr
   }
 
   render() {
-    const charities = this.props.charities || [];
+    const {charities} = this.props;
     const Charities = charities.map(this.mapUser);
 
     return (
