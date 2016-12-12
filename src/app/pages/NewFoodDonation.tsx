@@ -20,8 +20,12 @@ interface INewFoodDonationState {
 }
 
 export default class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
-  static contextTypes = {
+  public static contextTypes = {
     currentUserId: React.PropTypes.string
+  };
+
+  public context: {
+    currentUserId: string
   };
 
   constructor(props: any, context: any) {

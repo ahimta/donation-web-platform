@@ -11,8 +11,12 @@ interface IHeaderProps {}
 interface IHeaderState {}
 
 export default class Header extends React.Component<IHeaderProps, IHeaderState> {
-  static contextTypes = {
+  public static contextTypes = {
     currentRole: React.PropTypes.string
+  };
+
+  public context: {
+    currentRole: string
   };
 
   render() {

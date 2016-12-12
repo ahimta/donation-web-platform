@@ -34,7 +34,7 @@ export default class UsersProfilesPanel extends React.Component<IUsersProfilesPa
   }
 
   render() {
-    const users = this.props.users || [];
+    const {users} = this.props;
     const Users = users.map(this.mapUser);
 
     return (

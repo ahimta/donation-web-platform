@@ -8,8 +8,12 @@ interface IHomepageProps {}
 interface IHomepageState {}
 
 export default class Homepage extends React.Component<IHomepageProps, IHomepageState> {
-  static contextTypes = {
+  public static contextTypes = {
     currentRole: React.PropTypes.string
+  };
+
+  public context: {
+    currentRole: string
   };
 
   render() {

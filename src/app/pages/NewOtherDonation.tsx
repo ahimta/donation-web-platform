@@ -19,8 +19,12 @@ interface INewOtherDonationState {
 }
 
 export default class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOtherDonationState> {
-  static contextTypes = {
+  public static contextTypes = {
     currentUserId: React.PropTypes.string
+  };
+
+  public context: {
+    currentUserId: string
   };
 
   constructor(props: any, context: any) {

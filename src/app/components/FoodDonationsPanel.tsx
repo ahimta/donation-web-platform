@@ -15,17 +15,21 @@ interface IFoodDonationsPanelProps {
 interface IFoodDonationsPanelState {}
 
 export default class FoodDonationsPanel extends React.Component<IFoodDonationsPanelProps, IFoodDonationsPanelState> {
-  static contextTypes = {
+  public static contextTypes = {
     currentId: React.PropTypes.string
   };
 
-  static defaultProps = {
+  public static defaultProps = {
     donations: []
   };
 
-  static propTypes = {
+  public static propTypes = {
     donations: React.PropTypes.array.isRequired,
     onUpdate: React.PropTypes.func.isRequired
+  };
+
+  public context: {
+    currentId: string
   };
 
   render() {

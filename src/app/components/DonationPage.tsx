@@ -20,7 +20,6 @@ interface IDonationPageState {
 
 export default (donationType: ('food' | 'nonfood'), title: string, DonationInfoPanel: any) =>
 class DonationPage extends React.Component<IDonationPageProps, IDonationPageState> {
-
   public static contextTypes = {
     currentId: React.PropTypes.string,
     currentRole: React.PropTypes.string,
@@ -94,4 +93,4 @@ class DonationPage extends React.Component<IDonationPageProps, IDonationPageStat
       hashHistory.push('/donations');
     });
   }
-}
+};

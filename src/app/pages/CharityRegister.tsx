@@ -20,10 +20,6 @@ interface ICharityRegisterState {
 }
 
 export default class CharityRegister extends React.Component<ICharityRegisterProps, ICharityRegisterState> {
-  static contextTypes = {
-    currentUserId: React.PropTypes.string
-  };
-
   constructor(props: any, context: any) {
     super(props, context);
 

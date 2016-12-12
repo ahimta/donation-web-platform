@@ -15,8 +15,12 @@ interface IDonationsState {
 }
 
 export default class Donations extends React.Component<IDonationsProps, IDonationsState> {
-  static contextTypes = {
+  public static contextTypes = {
     currentRole: React.PropTypes.string
+  };
+
+  public context: {
+    currentRole: string
   };
 
   constructor(props: any, context: any) {
