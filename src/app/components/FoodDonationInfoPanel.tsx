@@ -5,13 +5,13 @@ import {Panel, Table} from 'react-bootstrap';
 
 import t from '../translate';
 
-interface INonfoodDonationInfoPanelProps {
+interface IFoodDonationInfoPanelProps {
   donation: any;
 }
 
-interface INonfoodDonationInfoPanelState {}
+interface IFoodDonationInfoPanelState {}
 
-export default class NonfoodDonationInfoPanel extends React.Component<INonfoodDonationInfoPanelProps, INonfoodDonationInfoPanelState> {
+export default class FoodDonationInfoPanel extends React.Component<IFoodDonationInfoPanelProps, IFoodDonationInfoPanelState> {
   static defautProps = {
     donation: {}
   };
@@ -29,15 +29,23 @@ export default class NonfoodDonationInfoPanel extends React.Component<INonfoodDo
           <tbody dir='rtl'>
             <tr>
               <th className='text-center'>النوع</th>
-              <td className='text-center'>{t(donation.donationType)}</td>
+              <td className='text-center'>{t(donation.foodType)}</td>
             </tr>
             <tr>
-              <th className='text-center'>حالة التبرع</th>
-              <td className='text-center'>{t(donation.donationState)}</td>
+              <th className='text-center'>المناسبة</th>
+              <td className='text-center'>{t(donation.occasion)}</td>
             </tr>
             <tr>
               <th className='text-center'>الموقع</th>
               <td className='text-center'>{t(donation.location)}</td>
+            </tr>
+            <tr>
+              <th className='text-center'>الأطباق</th>
+              <td className='text-center'>{donation.dishes}</td>
+            </tr>
+            <tr>
+              <th className='text-center'>الحالة</th>
+              <td className='text-center'>متوفر</td>
             </tr>
           </tbody>
         </Table>
