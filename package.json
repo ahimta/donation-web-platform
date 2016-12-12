@@ -48,7 +48,7 @@
   },
   "scripts": {
     "build": "gulp",
-    "deploy": "gulp build && firebase deploy",
+    "deploy": "gulp clean && gulp build && firebase deploy",
     "firebase": "firebase",
     "jspm": "jspm",
     "serve": "gulp serve",
