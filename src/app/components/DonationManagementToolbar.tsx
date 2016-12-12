@@ -57,9 +57,9 @@ export default class DonationManagementToolbar extends React.Component<IDonation
         </ButtonGroup>
         <ButtonGroup className={this.getCancelClass(currentId, reservation.reserverId, reservation.deliveredOrReceived)}>
           <Button bsStyle='danger' onClick={this.cancelReservation.bind(null, donationId, onUpdate)}>إلغاء الحجز</Button>
-          <Button bsStyle='success' onClick={this.reportDonation.bind(null, donationId, onUpdate)}>{this.getCancelTitle(reservation.reservationType)}</Button>
+          <Button bsStyle='success' onClick={this.reportDonation.bind(null, donationId, onUpdate)}>{this.getCancelTitle(reservation.type)}</Button>
         </ButtonGroup>
-        <Button bsStyle='success' className={reservation.deliveredOrReceived ? '' : 'hidden'} block disabled>{this.getCancelTitle(reservation.reservationType)}</Button>
+        <Button bsStyle='success' className={reservation.deliveredOrReceived ? '' : 'hidden'} block disabled>{this.getCancelTitle(reservation.type)}</Button>
       </section>
     );
   }

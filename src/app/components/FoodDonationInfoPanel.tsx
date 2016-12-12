@@ -29,7 +29,7 @@ export default class FoodDonationInfoPanel extends React.Component<IFoodDonation
           <tbody dir='rtl'>
             <tr>
               <th className='text-center'>النوع</th>
-              <td className='text-center'>{t(donation.foodType)}</td>
+              <td className='text-center'>{t(donation.type)}</td>
             </tr>
             <tr>
               <th className='text-center'>المناسبة</th>

@@ -17,7 +17,7 @@ import Donations from './app/pages/Donations';
 import FoodDonation from './app/pages/FoodDonation';
 import Homepage from './app/pages/Homepage';
 import NewFoodDonation from './app/pages/NewFoodDonation';
-import NewOtherDonation from './app/pages/NewOtherDonation';
+import NewNonfoodDonation from './app/pages/NewNonfoodDonation';
 import NonfoodDonation from './app/pages/NonfoodDonation';
 import Profiles from './app/pages/Profiles';
 import User from './app/pages/User';
@@ -50,7 +50,7 @@ ReactDOM.render(
         <IndexRoute component={Donations} />
 
         <Route path='donate/food' component={NewFoodDonation} />
-        <Route path='donate/other' component={NewOtherDonation} />
+        <Route path='donate/other' component={NewNonfoodDonation} />
 
         <Route path='food/:id' component={FoodDonation} />
         <Route path='other/:id' component={NonfoodDonation} />

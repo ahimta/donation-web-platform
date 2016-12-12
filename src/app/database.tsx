@@ -5,7 +5,7 @@ type DonationType = 'food' | 'nonfood';
 type ReservationType = 'delivery' | 'receiving';
 
 function getRefName(donationType: DonationType) {
-  return (donationType === 'food') ? 'foodDonations' : 'otherDonations';
+  return (donationType === 'food') ? 'foodDonations' : 'nonfoodDonations';
 }
 
 export function removeDonation(donationType: DonationType, donationId: string): Promise<void> {
@@ -40,7 +40,7 @@ export function getDonation(donationType: DonationType, donationId: string): Pro
 
 export function cancelReservation(donationId: string): Promise<any> {
   return firebase.database().ref('reservations').child(donationId).update({
-    reservationType: null,
+    type: null,
     reserverId: null
   });
 }
@@ -52,7 +52,7 @@ export function reportDonation(donationId: string): Promise<any> {
 export function reserveDonation(donationId: string, reservationType: ReservationType, currentUserId: string): Promise<any> {
   return firebase.database().ref('reservations').child(donationId).set({
     deliveredOrReceived: false,
-    reservationType,
+    type: reservationType,
     reserverId: currentUserId
   });
 }
@@ -63,7 +63,7 @@ export function createDonation(donationType: DonationType, donation: any) {
     const newDonationKey = donationsRef.push().key;
     const reservation = {
       deliveredOrReceived: false,
-      reservationType: null,
+      type: null,
       reserverId: null
     };
 

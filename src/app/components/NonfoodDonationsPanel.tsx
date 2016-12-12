@@ -65,8 +65,8 @@ export default class NonfoodDonationsPanel extends React.Component<INonfoodDonat
       return (
         <tr className={helpers.getDonationRowClass(currentId, donation.deliveredOrReceived, donation.reserverId)}
           key={donation['.key']}>
-          <td className='text-center'>{t(donation.donationType)}</td>
-          <td className='text-center'>{t(donation.donationState)}</td>
+          <td className='text-center'>{t(donation.type)}</td>
+          <td className='text-center'>{t(donation.state)}</td>
           <td className='text-center'>{t(donation.location)}</td>
           <td className='text-center'>
             <ButtonGroup bsSize='xs'>

@@ -8,17 +8,17 @@ import * as auth from '../auth';
 import * as database from '../database';
 import LocationSelectField from '../components/LocationSelectField';
 
-interface INewOtherDonationProps {}
+interface INewNonfoodDonationProps {}
 
-interface INewOtherDonationState {
-  donationType: string;
+interface INewNonfoodDonationState {
+  type: string;
   location: string;
   notes: string;
-  donationState: string;
+  state: string;
   phone: string;
 }
 
-export default class NewOtherDonation extends React.Component<INewOtherDonationProps, INewOtherDonationState> {
+export default class NewNonfoodDonation extends React.Component<INewNonfoodDonationProps, INewNonfoodDonationState> {
   public static contextTypes = {
     currentUserId: React.PropTypes.string
   };
@@ -31,10 +31,10 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
     super(props, context);
 
     this.state = {
-      donationType: 'appliances',
+      type: 'appliances',
       location: 'riyadh',
       notes: '',
-      donationState: 'good',
+      state: 'good',
       phone: ''
     };
   }
@@ -57,9 +57,9 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
 
         <Grid>
           <Form onSubmit={this.handleSubmit.bind(this)}>
-            <FormGroup controlId='donationType' dir='rtl'>
+            <FormGroup controlId='type' dir='rtl'>
               <ControlLabel>نوع التبرع</ControlLabel>
-              <FormControl componentClass='select' value={this.state.donationType} onChange={this.handleOnChange('donationType').bind(this)}>
+              <FormControl componentClass='select' value={this.state.type} onChange={this.handleOnChange('type').bind(this)}>
                 <option value='appliances'>أجهزة كهربائية</option>
                 <option value='clothes'>ملابس</option>
                 <option value='toys'>ألعاب</option>
@@ -69,9 +69,9 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
 
             <LocationSelectField onChange={this.handleOnChange('location').bind(this)} value={this.state.location} />
 
-            <FormGroup controlId='donationState' dir='rtl'>
+            <FormGroup controlId='state' dir='rtl'>
               <ControlLabel>حالة التبرع</ControlLabel>
-              <FormControl componentClass='select' value={this.state.donationState} onChange={this.handleOnChange('donationState').bind(this)}>
+              <FormControl componentClass='select' value={this.state.state} onChange={this.handleOnChange('state').bind(this)}>
                 <option value='excellent'>ممتازة</option>
                 <option value='good'>جيدة</option>
                 <option value='fair'>لا بأس بها</option>
@@ -107,8 +107,8 @@ export default class NewOtherDonation extends React.Component<INewOtherDonationP
     const {currentUserId} = this.context;
 
     const helper = (donorId: string) => {
-      const {donationType, location, notes, donationState, phone} = this.state;
-      const nonfoodDonation = {donationType, location, notes, donationState, phone, donorId};
+      const {type, location, notes, state, phone} = this.state;
+      const nonfoodDonation = {type, location, notes, state, phone, donorId};
 
       database.createDonation('nonfood', nonfoodDonation).then((newDonationKey) => {
         hashHistory.push(`/donations/other/${newDonationKey}`);

@@ -11,7 +11,7 @@ interface IDonationsProps {}
 
 interface IDonationsState {
   foodDonations: any[];
-  otherDonations: any[];
+  nonfoodDonations: any[];
 }
 
 export default class Donations extends React.Component<IDonationsProps, IDonationsState> {
@@ -28,7 +28,7 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
 
     this.state = {
       foodDonations: [],
-      otherDonations: []
+      nonfoodDonations: []
     };
   }
 
@@ -38,7 +38,7 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
 
   render() {
     const {currentRole} = this.context;
-    const {foodDonations, otherDonations} = this.state;
+    const {foodDonations, nonfoodDonations} = this.state;
 
     return (
       <section>
@@ -53,7 +53,7 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
 
         <Grid>
           <FoodDonationsPanel donations={foodDonations} onUpdate={this.update.bind(this)} />
-          <NonfoodDonationsPanel donations={otherDonations} onUpdate={this.update.bind(this)} />
+          <NonfoodDonationsPanel donations={nonfoodDonations} onUpdate={this.update.bind(this)} />
         </Grid>
 
         <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
@@ -68,13 +68,13 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
 
   private update() {
     database.getDonations('food').then((donations) => {
-      const {otherDonations} = this.state;
-      this.setState({foodDonations: donations, otherDonations});
+      const {nonfoodDonations} = this.state;
+      this.setState({foodDonations: donations, nonfoodDonations});
     });
 
     database.getDonations('nonfood').then((donations) => {
       const {foodDonations} = this.state;
-      this.setState({otherDonations: donations, foodDonations});
+      this.setState({nonfoodDonations: donations, foodDonations});
     });
   }
 }

@@ -69,7 +69,7 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
       return (
         <tr className={helpers.getDonationRowClass(currentId, donation.deliveredOrReceived, donation.reserverId)}
           key={donation['.key']}>
-          <td className='text-center'>{t(donation.foodType)}</td>
+          <td className='text-center'>{t(donation.type)}</td>
           <td className='text-center'>{t(donation.occasion)}</td>
           <td className='text-center'>{t(donation.location)}</td>
           <td className='text-center'>

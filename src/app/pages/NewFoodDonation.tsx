@@ -12,7 +12,7 @@ interface INewFoodDonationProps {}
 
 interface INewFoodDonationState {
   dishes: string;
-  foodType: string;
+  type: string;
   location: string;
   notes: string;
   occasion: string;
@@ -33,7 +33,7 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
 
     this.state = {
       dishes: '',
-      foodType: 'fruits',
+      type: 'fruits',
       location: 'riyadh',
       notes: '',
       occasion: 'party',
@@ -61,7 +61,7 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
           <Form onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup controlId='foodDonationFoodType' dir='rtl'>
               <ControlLabel>نوع الطعام</ControlLabel>
-              <FormControl componentClass='select' value={this.state.foodType} onChange={this.handleOnChange('foodType').bind(this)}>
+              <FormControl componentClass='select' value={this.state.type} onChange={this.handleOnChange('type').bind(this)}>
                 <option value='fruits'>فواكه</option>
                 <option value='vegetables'>خضار</option>
                 <option value='misc'>منوع</option>
@@ -125,8 +125,8 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     const {currentUserId} = this.context;
 
     const helper = (donorId: string) => {
-      const {dishes, foodType, location, notes, occasion, phone} = this.state;
-      const foodDonation = {dishes, foodType, location, notes, occasion, phone, donorId};
+      const {dishes, type, location, notes, occasion, phone} = this.state;
+      const foodDonation = {dishes, type, location, notes, occasion, phone, donorId};
 
       database.createDonation('food', foodDonation).then((newDonationKey) => {
         hashHistory.push(`/donations/food/${newDonationKey}`);
