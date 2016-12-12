@@ -20,11 +20,11 @@ export function logout() {
 }
 
 
-export function registerCharity({description, email, name, password, phone, website}: any) {
+export function registerCharity({description, email, location, name, password, phone, website}: any) {
 
   return firebase.auth().createUserWithEmailAndPassword(email, password).then((loggedInCharity) => {
     const {email, uid} = loggedInCharity;
-    return firebase.database().ref('charities').child(uid).set({description, email, name, phone, website});
+    return firebase.database().ref('charities').child(uid).set({description, email, location, name, phone, website});
   }).catch((error) => {
     console.log(error);
   });
