@@ -1,6 +1,9 @@
 language: node_js
 node_js: node
 
-before_install: npm install --global jspm
-install: jspm install
+install:
+  - npm install --global firebase-tools gulp-cli jspm
+  - npm install
+  - jspm install --yes
+
 script: npm run build
