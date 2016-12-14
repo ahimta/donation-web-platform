@@ -1,5 +1,6 @@
 /// <reference path="../../../typings/index.d.ts" />
 
+import moment from 'moment';
 import * as React from 'react';
 import {Panel, Table} from 'react-bootstrap';
 
@@ -45,7 +46,11 @@ export default class FoodDonationInfoPanel extends React.Component<IFoodDonation
             </tr>
             <tr>
               <th className='text-center'>الحالة</th>
-              <td className='text-center'>متوفر</td>
+              <td className='text-center'>
+                <span>متوفر</span>
+                &nbsp;
+                <span>{moment(donation.pickupDatetime).fromNow()}</span>
+              </td>
             </tr>
           </tbody>
         </Table>

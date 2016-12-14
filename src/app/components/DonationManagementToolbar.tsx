@@ -43,8 +43,8 @@ export default class DonationManagementToolbar extends React.Component<IDonation
     return (
       <section>
         <ButtonGroup className={this.getReserveClass(currentId, reservation.reserverId, reservation.deliveredOrReceived)}>
-          <Button bsStyle='danger' onClick={deleteDonation.bind(null, donationId)} disabled={currentUserId !== donorId}>حذف</Button>
-          <DropdownButton bsStyle='success' dir='rtl' id='reserveDonationButton' title={this.getReserveTitle(currentRole, reservation.reserverId)} disabled={!!reservation.reserverId} dropup pullRight>
+          <Button bsStyle='danger' onClick={deleteDonation.bind(null, donationId)} disabled={currentUserId !== donorId || !donationId}>حذف</Button>
+          <DropdownButton bsStyle='success' dir='rtl' id='reserveDonationButton' title={this.getReserveTitle(currentRole, reservation.reserverId)} disabled={!!reservation.reserverId || !donationId} dropup pullRight>
             <MenuItem className={currentRole === 'charity' ? 'hidden text-right' : 'text-right'}
               onClick={this.reserveDonation.bind(this, donationId, 'receiving', currentId, onUpdate)}>
               لاستقبال التبرع
@@ -56,8 +56,8 @@ export default class DonationManagementToolbar extends React.Component<IDonation
           </DropdownButton>
         </ButtonGroup>
         <ButtonGroup className={this.getCancelClass(currentId, reservation.reserverId, reservation.deliveredOrReceived)}>
-          <Button bsStyle='danger' onClick={this.cancelReservation.bind(null, donationId, onUpdate)}>إلغاء الحجز</Button>
-          <Button bsStyle='success' onClick={this.reportDonation.bind(null, donationId, onUpdate)}>{this.getCancelTitle(reservation.type)}</Button>
+          <Button bsStyle='danger' disabled={!donationId} onClick={this.cancelReservation.bind(null, donationId, onUpdate)}>إلغاء الحجز</Button>
+          <Button bsStyle='success' disabled={!donationId} onClick={this.reportDonation.bind(null, donationId, onUpdate)}>{this.getCancelTitle(reservation.type)}</Button>
         </ButtonGroup>
         <Button bsStyle='success' className={reservation.deliveredOrReceived ? '' : 'hidden'} block disabled>{this.getCancelTitle(reservation.type)}</Button>
       </section>
