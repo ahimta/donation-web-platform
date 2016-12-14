@@ -121,11 +121,14 @@ SystemJS.config({
     'jsbn': 'npm:jsbn@0.1.0',
     'lodash': 'npm:lodash@4.17.2',
     'module': 'npm:jspm-nodelibs-module@0.2.0',
+    'moment': 'npm:moment@2.17.1',
     'net': 'npm:jspm-nodelibs-net@0.2.0',
     'os': 'npm:jspm-nodelibs-os@0.2.0',
     'path': 'npm:jspm-nodelibs-path@0.2.0',
     'process': 'npm:jspm-nodelibs-process@0.2.0',
     'querystring': 'npm:jspm-nodelibs-querystring@0.2.0',
+    'rc-calendar': 'npm:rc-calendar@7.5.1',
+    'rc-time-picker': 'npm:rc-time-picker@2.2.1',
     'react': 'npm:react@15.4.0',
     'react-bootstrap': 'npm:react-bootstrap@0.30.7',
     'react-dom': 'npm:react-dom@15.4.0',
@@ -1635,6 +1638,81 @@ SystemJS.config({
     'npm:jspm-nodelibs-zlib@0.2.0': {
       'map': {
         'zlib-browserify': 'npm:browserify-zlib@0.1.4'
+      }
+    },
+    'npm:rc-calendar@7.5.1': {
+      'map': {
+        'classnames': 'npm:classnames@2.2.5',
+        'rc-util': 'npm:rc-util@3.4.1',
+        'rc-trigger': 'npm:rc-trigger@1.8.1',
+        'babel-runtime': 'npm:babel-runtime@6.20.0',
+        'moment': 'npm:moment@2.17.1'
+      }
+    },
+    'npm:rc-util@3.4.1': {
+      'map': {
+        'classnames': 'npm:classnames@2.2.5',
+        'shallowequal': 'npm:shallowequal@0.2.2',
+        'add-dom-event-listener': 'npm:add-dom-event-listener@1.0.1'
+      }
+    },
+    'npm:rc-trigger@1.8.1': {
+      'map': {
+        'rc-util': 'npm:rc-util@4.0.2',
+        'babel-runtime': 'npm:babel-runtime@6.20.0',
+        'rc-align': 'npm:rc-align@2.3.3',
+        'rc-animate': 'npm:rc-animate@2.3.1'
+      }
+    },
+    'npm:rc-util@4.0.2': {
+      'map': {
+        'shallowequal': 'npm:shallowequal@0.2.2',
+        'add-dom-event-listener': 'npm:add-dom-event-listener@1.0.1'
+      }
+    },
+    'npm:rc-align@2.3.3': {
+      'map': {
+        'rc-util': 'npm:rc-util@4.0.2',
+        'dom-align': 'npm:dom-align@1.5.2'
+      }
+    },
+    'npm:babel-runtime@6.20.0': {
+      'map': {
+        'regenerator-runtime': 'npm:regenerator-runtime@0.10.1',
+        'core-js': 'npm:core-js@2.4.1'
+      }
+    },
+    'npm:shallowequal@0.2.2': {
+      'map': {
+        'lodash.keys': 'npm:lodash.keys@3.1.2'
+      }
+    },
+    'npm:rc-animate@2.3.1': {
+      'map': {
+        'css-animation': 'npm:css-animation@1.3.0'
+      }
+    },
+    'npm:add-dom-event-listener@1.0.1': {
+      'map': {
+        'object-assign': 'npm:object-assign@4.1.0'
+      }
+    },
+    'npm:css-animation@1.3.0': {
+      'map': {
+        'component-classes': 'npm:component-classes@1.2.6'
+      }
+    },
+    'npm:component-classes@1.2.6': {
+      'map': {
+        'component-indexof': 'npm:component-indexof@0.0.3'
+      }
+    },
+    'npm:rc-time-picker@2.2.1': {
+      'map': {
+        'rc-trigger': 'npm:rc-trigger@1.8.1',
+        'moment': 'npm:moment@2.17.1',
+        'babel-runtime': 'npm:babel-runtime@6.20.0',
+        'classnames': 'npm:classnames@2.2.5'
       }
     }
   }

@@ -1,6 +1,7 @@
 /// <reference path="../typings/index.d.ts" />
 
 import firebase from 'firebase';
+import moment from 'moment';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
@@ -22,6 +23,12 @@ import NonfoodDonation from './app/pages/NonfoodDonation';
 import Profiles from './app/pages/Profiles';
 import User from './app/pages/User';
 
+import  'moment/locale/ar-sa';
+
+const store: IStore<any> = configureStore({});
+
+moment.locale('ar-sa');
+
 firebase.initializeApp({
   apiKey: 'AIzaSyCBf9V-x1HK0dtwoY1HE8ebjyDblgeixD0',
   authDomain: 'donation-web-pla-1479993243743.firebaseapp.com',
@@ -29,8 +36,6 @@ firebase.initializeApp({
   storageBucket: 'donation-web-pla-1479993243743.appspot.com',
   messagingSenderId: '349166973233'
 });
-
-const store: IStore<any> = configureStore({});
 
 ReactDOM.render(
   <Provider store={store}>

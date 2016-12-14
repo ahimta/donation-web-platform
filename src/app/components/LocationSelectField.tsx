@@ -10,6 +10,7 @@ export default function LocationSelectField({onChange, value}: {onChange: Functi
       <FormControl componentClass='select' value={value} onChange={onChange}>
         <option value='riyadh'>{t('riyadh')}</option>
         <option value='makkah'>{t('makkah')}</option>
+        <option value='other'>{t('other')}</option>
       </FormControl>
     </FormGroup>
   );

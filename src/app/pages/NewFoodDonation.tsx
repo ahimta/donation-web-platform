@@ -1,5 +1,8 @@
 /// <reference path="../../../typings/index.d.ts" />
 
+import moment from 'moment';
+import Calendar from 'rc-calendar';
+import TimePickerPanel from 'rc-time-picker/lib/Panel';
 import * as React from 'react';
 import {Breadcrumb, Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader, Row} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
@@ -7,6 +10,7 @@ import {hashHistory} from 'react-router';
 import * as auth from '../auth';
 import * as database from '../database';
 import LocationSelectField from '../components/LocationSelectField';
+import rcCalendarLocale from '../rc-calendar-locale';
 
 interface INewFoodDonationProps {}
 
@@ -17,6 +21,7 @@ interface INewFoodDonationState {
   notes: string;
   occasion: string;
   phone: string;
+  pickupDatetime: any;
 }
 
 export default class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
@@ -37,7 +42,8 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
       location: 'riyadh',
       notes: '',
       occasion: 'party',
-      phone: ''
+      phone: '',
+      pickupDatetime: moment()
     };
   }
 
@@ -80,14 +86,11 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
 
             <LocationSelectField onChange={this.handleOnChange('location').bind(this)} value={this.state.location} />
 
-            <FormGroup controlId='pickupTime' dir='rtl'>
-              <ControlLabel>وقت الاستلام</ControlLabel>
-              <Row>
-                <Col xs={3}><FormControl type='number' placeholder='الساعة' /></Col>
-                <Col xs={3}><FormControl type='number' placeholder='اليوم' /></Col>
-                <Col xs={3}><FormControl type='number' placeholder='الشهر' /></Col>
-                <Col xs={3}><FormControl type='number' placeholder='السنة' /></Col>
-              </Row>
+            <FormGroup validationState={this.validateRequired(this.state.phone)}>
+              <InputGroup>
+                <FormControl type='tel' dir='ltr' value={this.state.phone} onChange={this.handleOnChange('phone').bind(this)} required />
+                <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
+              </InputGroup>
             </FormGroup>
 
             <FormGroup>
@@ -97,11 +100,13 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
               </InputGroup>
             </FormGroup>
 
-            <FormGroup validationState={this.validateRequired(this.state.phone)}>
-              <InputGroup>
-                <FormControl type='tel' dir='ltr' value={this.state.phone} onChange={this.handleOnChange('phone').bind(this)} required />
-                <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
-              </InputGroup>
+            <FormGroup controlId='pickupTime' dir='rtl'>
+              <ControlLabel>وقت الاستلام</ControlLabel>
+              <div dir='ltr'>
+                <Calendar locale={rcCalendarLocale} onChange={this.onDatetimeChange.bind(this, 'pickupDatetime')}
+                  showDateInput={true} style={{width: '100%'}} value={this.state.pickupDatetime}
+                  timePicker={<TimePickerPanel showHour={true} showMinute={true} showSecond={true} />}/>
+              </div>
             </FormGroup>
 
             <FormGroup controlId='foodDonationFoodPhotos' dir='rtl'>
@@ -121,12 +126,16 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     );
   }
 
+  private onDatetimeChange(fieldName: string, momentValue: any) {
+    this.setState({[fieldName]: momentValue});
+  }
+
   private handleSubmit(event: any) {
     const {currentUserId} = this.context;
 
     const helper = (donorId: string) => {
-      const {dishes, type, location, notes, occasion, phone} = this.state;
-      const foodDonation = {dishes, type, location, notes, occasion, phone, donorId};
+      const {dishes, type, location, notes, occasion, phone, pickupDatetime} = this.state;
+      const foodDonation = {dishes, type, location, notes, occasion, phone, pickupDatetime: pickupDatetime.toObject(), donorId};
 
       database.createDonation('food', foodDonation).then((newDonationKey) => {
         hashHistory.push(`/donations/food/${newDonationKey}`);
