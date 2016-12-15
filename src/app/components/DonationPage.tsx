@@ -73,7 +73,7 @@ class DonationPage extends React.Component<IDonationPageProps, IDonationPageStat
 
         <Grid className='text-center'>
           <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
-            deleteDonation={this.deleteDonation} donationId={params.id} donorId={donation.donorId}
+            deleteDonation={this.deleteDonation} donationId={params.id} donationType={donationType} donorId={donation.donorId}
             onUpdate={this.getDonation.bind(this)} reservation={reservation} />
         </Grid>
       </section>

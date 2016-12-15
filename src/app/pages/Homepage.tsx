@@ -3,9 +3,13 @@
 import * as React from 'react';
 import {Button, ButtonGroup, Col, Glyphicon, Grid, ListGroup, ListGroupItem, Panel, Row} from 'react-bootstrap';
 
+import * as database from '../database';
+
 interface IHomepageProps {}
 
-interface IHomepageState {}
+interface IHomepageState {
+  activity: any[];
+}
 
 export default class Homepage extends React.Component<IHomepageProps, IHomepageState> {
   public static contextTypes = {
@@ -16,8 +20,22 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
     currentRole: string
   };
 
+  constructor(props: any, context: any) {
+    super(props, context);
+    this.state = {
+      activity: []
+    };
+  }
+
+  componentDidMount() {
+    database.getActivity().then((activity) => {
+      this.setState({activity});
+    });
+  }
+
   render() {
     const {currentRole} = this.context;
+    console.log(this.state.activity);
 
     return (
       <section>

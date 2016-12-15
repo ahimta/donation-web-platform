@@ -1,5 +1,9 @@
 {
   "rules": {
+    "activity": {
+      ".read": true,
+      ".write": true
+    },
     "charities": {
       ".read": true,
       "$uid": {

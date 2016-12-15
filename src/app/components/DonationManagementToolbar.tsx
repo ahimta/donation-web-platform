@@ -7,12 +7,17 @@ import {hashHistory} from 'react-router';
 import * as auth from '../auth';
 import * as database from '../database';
 
+import DonationType from '../types/DonationType';
+import ReservationType from '../types/ReservationType';
+import UserRole from '../types/UserRole';
+
 interface IDonationManagementToolbarProps {
   currentId: string;
   currentRole: string;
   currentUserId: string;
   deleteDonation: Function;
   donationId: string;
+  donationType: string;
   donorId: string;
   onUpdate: Function;
   reservation: any;
@@ -32,13 +37,14 @@ export default class DonationManagementToolbar extends React.Component<IDonation
     currentUserId: React.PropTypes.string.isRequired,
     deleteDonation: React.PropTypes.func.isRequired,
     donationId: React.PropTypes.string.isRequired,
+    donationType: React.PropTypes.string.isRequired,
     donorId: React.PropTypes.string.isRequired,
     onUpdate: React.PropTypes.func,
     reservation: React.PropTypes.object.isRequired
   };
 
   render() {
-    const {currentId, currentRole, currentUserId, deleteDonation, donationId, donorId, onUpdate, reservation} = this.props;
+    const {currentId, currentRole, currentUserId, deleteDonation, donationId, donationType, donorId, onUpdate, reservation} = this.props;
 
     return (
       <section>
@@ -56,7 +62,7 @@ export default class DonationManagementToolbar extends React.Component<IDonation
           </DropdownButton>
         </ButtonGroup>
         <ButtonGroup className={this.getCancelClass(currentId, reservation.reserverId, reservation.deliveredOrReceived)}>
-          <Button bsStyle='danger' disabled={!donationId} onClick={this.cancelReservation.bind(null, donationId, onUpdate)}>إلغاء الحجز</Button>
+          <Button bsStyle='danger' disabled={!donationId} onClick={this.cancelReservation.bind(null, donationType, donationId, currentRole, currentId, onUpdate)}>إلغاء الحجز</Button>
           <Button bsStyle='success' disabled={!donationId} onClick={this.reportDonation.bind(null, donationId, onUpdate)}>{this.getCancelTitle(reservation.type)}</Button>
         </ButtonGroup>
         <Button bsStyle='success' className={reservation.deliveredOrReceived ? '' : 'hidden'} block disabled>{this.getCancelTitle(reservation.type)}</Button>
@@ -64,15 +70,15 @@ export default class DonationManagementToolbar extends React.Component<IDonation
     );
   }
 
-  private cancelReservation(donationId: string, onUpdate: Function) {
-    database.cancelReservation(donationId).then(onUpdate);
+  private cancelReservation(donationType: DonationType, donationId: string, userRole: UserRole, userId: string, onUpdate: Function) {
+    database.cancelReservation(donationType, donationId, userRole, userId).then(onUpdate);
   }
 
   private reportDonation(donationId: string, onUpdate: Function) {
     database.reportDonation(donationId).then(onUpdate);
   }
 
-  private reserveDonation(donationId: string, reservationType: string, currentId: string, onUpdate: Function) {
+  private reserveDonation(donationId: string, reservationType: ReservationType, currentId: string, onUpdate: Function) {
     const helper = (userOrCharityId) => { database.reserveDonation(donationId, reservationType, userOrCharityId).then(onUpdate); };
 
     if (currentId) {
