@@ -61,16 +61,40 @@ export function cancelReservation(donationType: DonationType, donationId: string
   return Promise.all([activityPromise, reservationPromise]);
 }
 
-export function reportDonation(donationId: string): Promise<any> {
-  return firebase.database().ref('reservations').child(donationId).child('deliveredOrReceived').set(true);
+export function reportDonation(donationType: DonationType, donationId: string, reservationType: ReservationType, userRole: UserRole, userId: string) {
+  const activity: IActivity = {
+    actionName: 'delivery',
+    datetime: moment().toObject(),
+    donationId,
+    donationType,
+    userId,
+    userRole
+  };
+  const activityPromise = (reservationType === 'delivery') ? firebase.database().ref('activity').push(activity) : Promise.resolve({});
+  const reservationPromise = firebase.database().ref('reservations').child(donationId).child('deliveredOrReceived').set(true);
+
+  return Promise.all([activityPromise, reservationPromise]);
 }
 
-export function reserveDonation(donationId: string, reservationType: ReservationType, currentUserId: string): Promise<any> {
-  return firebase.database().ref('reservations').child(donationId).set({
+export function reserveDonation(donationType: DonationType, donationId: string, reservationType: ReservationType, userRole: UserRole, currentUserId: string) {
+  const activity: IActivity = {
+    actionName: 'reservation',
+    datetime: moment().toObject(),
+    donationId,
+    donationType,
+    userId: currentUserId,
+    userRole: userRole
+  };
+  const reservation = {
     deliveredOrReceived: false,
     type: reservationType,
     reserverId: currentUserId
-  });
+  };
+
+  const activityPromise = (reservationType === 'delivery') ? firebase.database().ref('activity').push(activity) : Promise.resolve({});
+  const reservationPromise = firebase.database().ref('reservations').child(donationId).set(reservation);
+
+  return Promise.all([activityPromise, reservationPromise]);
 }
 
 export function createDonation(donationType: DonationType, donation: any) {

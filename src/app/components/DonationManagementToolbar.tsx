@@ -52,18 +52,18 @@ export default class DonationManagementToolbar extends React.Component<IDonation
           <Button bsStyle='danger' onClick={deleteDonation.bind(null, donationId)} disabled={currentUserId !== donorId || !donationId}>حذف</Button>
           <DropdownButton bsStyle='success' dir='rtl' id='reserveDonationButton' title={this.getReserveTitle(currentRole, reservation.reserverId)} disabled={!!reservation.reserverId || !donationId} dropup pullRight>
             <MenuItem className={currentRole === 'charity' ? 'hidden text-right' : 'text-right'}
-              onClick={this.reserveDonation.bind(this, donationId, 'receiving', currentId, onUpdate)}>
+              onClick={this.reserveDonation.bind(this, donationType, donationId, 'receiving', currentRole, currentId, onUpdate)}>
               لاستقبال التبرع
             </MenuItem>
             <MenuItem className='text-right'
-              onClick={this.reserveDonation.bind(this, donationId, 'delivery', currentId, onUpdate)}>
+              onClick={this.reserveDonation.bind(this, donationType, donationId, 'delivery', currentRole, currentId, onUpdate)}>
               لتوصيل التبرع
             </MenuItem>
           </DropdownButton>
         </ButtonGroup>
         <ButtonGroup className={this.getCancelClass(currentId, reservation.reserverId, reservation.deliveredOrReceived)}>
           <Button bsStyle='danger' disabled={!donationId} onClick={this.cancelReservation.bind(null, donationType, donationId, currentRole, currentId, onUpdate)}>إلغاء الحجز</Button>
-          <Button bsStyle='success' disabled={!donationId} onClick={this.reportDonation.bind(null, donationId, onUpdate)}>{this.getCancelTitle(reservation.type)}</Button>
+          <Button bsStyle='success' disabled={!donationId} onClick={this.reportDonation.bind(null, donationType, donationId, reservation.type, currentRole, currentId, onUpdate)}>{this.getCancelTitle(reservation.type)}</Button>
         </ButtonGroup>
         <Button bsStyle='success' className={reservation.deliveredOrReceived ? '' : 'hidden'} block disabled>{this.getCancelTitle(reservation.type)}</Button>
       </section>
@@ -74,12 +74,12 @@ export default class DonationManagementToolbar extends React.Component<IDonation
     database.cancelReservation(donationType, donationId, userRole, userId).then(onUpdate);
   }
 
-  private reportDonation(donationId: string, onUpdate: Function) {
-    database.reportDonation(donationId).then(onUpdate);
+  private reportDonation(donationType: DonationType, donationId: string, reservationType: ReservationType, userRole: UserRole, userId: string, onUpdate: Function) {
+    database.reportDonation(donationType, donationId, reservationType, userRole, userId).then(onUpdate);
   }
 
-  private reserveDonation(donationId: string, reservationType: ReservationType, currentId: string, onUpdate: Function) {
-    const helper = (userOrCharityId) => { database.reserveDonation(donationId, reservationType, userOrCharityId).then(onUpdate); };
+  private reserveDonation(donationType: DonationType, donationId: string, reservationType: ReservationType, userRole: UserRole, currentId: string, onUpdate: Function) {
+    const helper = (userOrCharityId) => { database.reserveDonation(donationType, donationId, reservationType, userRole, userOrCharityId).then(onUpdate); };
 
     if (currentId) {
       helper(currentId);
