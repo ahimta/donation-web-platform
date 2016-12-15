@@ -170,6 +170,6 @@ export function getActivity() {
       activity.push(fullActivity);
     });
 
-    return activity;
+    return activity.reverse();
   });
 }

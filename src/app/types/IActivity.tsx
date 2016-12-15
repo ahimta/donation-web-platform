@@ -1,4 +1,8 @@
+import DonationType from './DonationType';
+import UserRole from './UserRole';
+
 interface IActivity {
+  '.key'?: string;
   actionName: ('cancel-reservation' | 'delivery' | 'donation' | 'reservation');
   datetime: {
     years: number;
@@ -10,9 +14,10 @@ interface IActivity {
     milliseconds: number;
   };
   donationId: string;
-  donationType: ('food' | 'nonfood');
+  donationType: DonationType;
+  user?: any;
   userId: string;
-  userRole: ('charity' | 'user');
+  userRole: UserRole;
 }
 
 export default IActivity;

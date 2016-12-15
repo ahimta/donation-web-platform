@@ -1,8 +1,9 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
-import {Button, ButtonGroup, Col, Glyphicon, Grid, ListGroup, ListGroupItem, Panel, Row} from 'react-bootstrap';
+import {Button, ButtonGroup, Col, Glyphicon, Grid, Panel, Row} from 'react-bootstrap';
 
+import ActivityPanel from '../components/ActivityPanel';
 import * as database from '../database';
 
 interface IHomepageProps {}
@@ -35,6 +36,7 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
 
   render() {
     const {currentRole} = this.context;
+    const {activity} = this.state;
     console.log(this.state.activity);
 
     return (
@@ -67,32 +69,7 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
         </Grid>
 
         <Grid>
-          <Panel collapsible defaultExpanded header='النشاطات' className='text-center'>
-            <ListGroup fill>
-              <ListGroupItem className='text-right'>
-                <span>وصلت</span>&nbsp;
-                <a href='#/charities/charity1' disabled>جمعية1</a>&nbsp;
-                <a href='#/donations/donation1'>تبرع</a>&nbsp;
-                <span>منذ</span>&nbsp;
-                <span>40 دقيقة</span>&nbsp;
-              </ListGroupItem>
-              <ListGroupItem className='text-right'>
-                <span>استلمت</span>&nbsp;
-                <a href='#/charities/charity1'>جمعية1</a>&nbsp;
-                <a href='#/donations/donation1'>تبرع</a>&nbsp;
-                <span>منذ</span>&nbsp;
-                <span>50 دقيقة</span>&nbsp;
-              </ListGroupItem>
-              <ListGroupItem className='text-right'>
-                <span>تبرع</span>&nbsp;
-                <a href='#/users/user1'>مستخدم1</a>&nbsp;
-                <a href='#/donations/donation1'>بطعام</a>&nbsp;
-                <span>منذ</span>&nbsp;
-                <span>ساعة</span>&nbsp;
-              </ListGroupItem>
-              <ListGroupItem>&hellip;</ListGroupItem>
-            </ListGroup>
-          </Panel>
+          <ActivityPanel activity={activity} />
         </Grid>
       </section>
     );
