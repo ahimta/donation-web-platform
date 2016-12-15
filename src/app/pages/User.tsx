@@ -6,6 +6,9 @@ import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
 
+import ActivityPanel from '../components/ActivityPanel';
+import * as database from '../database';
+import IActivity from '../types/IActivity';
 import UserInfoPanel from '../components/UserInfoPanel';
 
 interface IUserProps {
@@ -13,6 +16,7 @@ interface IUserProps {
 }
 
 interface IUserState {
+  activity: IActivity[];
   user: any;
 }
 
@@ -22,17 +26,23 @@ export default class User extends React.Component<IUserProps, IUserState> {
   constructor(props: any, context: any) {
     super(props, context);
     this.state = {
+      activity: [],
       user: {}
     };
   }
 
   componentDidMount() {
     const {params} = this.props;
+
     this.bindAsObject(firebase.database().ref(`users/${params.id}`), 'user');
+    database.getActivity().then((activity) => {
+      const filteredActivity = activity.filter((a) => (a.userId === params.id));
+      this.setState({activity: filteredActivity, user: this.state.user});
+    });
   }
 
   render() {
-    const {user} = this.state;
+    const {activity, user} = this.state;
 
     return (
       <section>
@@ -48,6 +58,7 @@ export default class User extends React.Component<IUserProps, IUserState> {
 
         <Grid>
           <UserInfoPanel header='بيانات المستخدم' user={user} hideLink />
+          <ActivityPanel activity={activity} />
         </Grid>
       </section>
     );

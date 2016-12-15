@@ -150,7 +150,7 @@ export function getDonations(donationType: DonationType) {
     });
 }
 
-export function getActivity() {
+export function getActivity(): Promise<IActivity[]> {
   const activityPromise = firebase.database().ref('activity').once('value');
   const charitiesPromise = firebase.database().ref('charities').once('value');
   const usersPromise = firebase.database().ref('users').once('value');

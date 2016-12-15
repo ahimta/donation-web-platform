@@ -6,13 +6,17 @@ import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
 
+import ActivityPanel from '../components/ActivityPanel';
 import CharityInfoPanel from '../components/CharityInfoPanel';
+import * as database from '../database';
+import IActivity from '../types/IActivity';
 
 interface ICharityProps {
   params: {id: string};
 }
 
 interface ICharityState {
+  activity: IActivity[];
   charity: any;
 }
 
@@ -22,17 +26,23 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
   constructor(props: any, context: any) {
     super(props, context);
     this.state = {
+      activity: [],
       charity: {}
     };
   }
 
   componentDidMount() {
     const {id} = this.props.params;
+
     this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity');
+    database.getActivity().then((activity) => {
+      const filteredActivity = activity.filter((a) => (a.userId === id));
+      this.setState({activity: filteredActivity, charity: this.state.charity});
+    });
   }
 
   render() {
-    const {charity} = this.state;
+    const {activity, charity} = this.state;
 
     return (
       <section>
@@ -48,6 +58,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 
         <Grid>
           <CharityInfoPanel charity={charity} />
+          <ActivityPanel activity={activity} />
         </Grid>
       </section>
     );
