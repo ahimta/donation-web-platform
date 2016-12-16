@@ -1,7 +1,7 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
-import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
+import {Breadcrumb, Grid, Image, PageHeader} from 'react-bootstrap';
 import {hashHistory} from 'react-router';
 
 import * as database from '../database';
@@ -51,7 +51,7 @@ class DonationPage extends React.Component<IDonationPageProps, IDonationPageStat
   render() {
     const {currentId, currentRole, currentUserId} = this.context;
     const {params} = this.props;
-    const {donor, donation, reservation} = this.state;
+    const {donation, donor, reservation} = this.state;
 
     return (
       <section>
@@ -67,6 +67,12 @@ class DonationPage extends React.Component<IDonationPageProps, IDonationPageStat
         <Grid>
           <DonationInfoPanel donation={donation} />
           <UserInfoPanel phone={donation.phone} user={donor} />
+        </Grid>
+
+        <hr className={donation.photoUrl ? '' : 'hidden'} />
+
+        <Grid>
+          <Image className={donation.photoUrl ? '' : 'hidden'} src={donation.photoUrl} responsive thumbnail />
         </Grid>
 
         <hr />

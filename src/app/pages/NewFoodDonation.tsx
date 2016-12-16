@@ -9,6 +9,7 @@ import {hashHistory} from 'react-router';
 
 import * as auth from '../auth';
 import * as database from '../database';
+import * as image from '../image';
 import LocationSelectField from '../components/LocationSelectField';
 import rcCalendarLocale from '../rc-calendar-locale';
 
@@ -16,12 +17,14 @@ interface INewFoodDonationProps {}
 
 interface INewFoodDonationState {
   dishes: string;
-  type: string;
   location: string;
-  notes: string;
+  notes?: string;
   occasion: string;
   phone: string;
+  photo?: File;
   pickupDatetime: any;
+  type: string;
+  uploading: boolean;
 }
 
 export default class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> {
@@ -38,12 +41,14 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
 
     this.state = {
       dishes: '',
-      type: 'fruits',
       location: 'riyadh',
       notes: '',
       occasion: 'party',
       phone: '',
-      pickupDatetime: moment()
+      photo: null,
+      pickupDatetime: moment(),
+      type: 'fruits',
+      uploading: false
     };
   }
 
@@ -110,8 +115,8 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
             </FormGroup>
 
             <FormGroup controlId='foodDonationFoodPhotos' dir='rtl'>
-              <ControlLabel>الصور</ControlLabel>
-              <FormControl type='file' placeholder='الصور' />
+              <ControlLabel>صورة للتبرع</ControlLabel>
+              <FormControl accept='image/*' onChange={this.handleOnFileChange.bind(this, 'photo')} type='file' />
             </FormGroup>
 
             <FormGroup controlId='foodDonationNotes' dir='rtl'>
@@ -119,11 +124,17 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
               <FormControl componentClass='textarea' placeholder='ملاحظات' value={this.state.notes} onChange={this.handleOnChange('notes').bind(this)} />
             </FormGroup>
 
-            <Button type='submit' bsStyle='success' bsSize='lg' block>{donatePhrase}</Button>
+            <Button bsSize='lg' bsStyle='success' disabled={this.state.uploading} type='submit' block>{donatePhrase}</Button>
           </Form>
         </Grid>
       </section>
     );
+  }
+
+  private handleOnFileChange(fieldName: string, event: any) {
+    const fileInput: HTMLInputElement = event.target;
+    const file: File = fileInput.files[0];
+    this.setState({photo: file});
   }
 
   private onDatetimeChange(fieldName: string, momentValue: any) {
@@ -134,11 +145,14 @@ export default class NewFoodDonation extends React.Component<INewFoodDonationPro
     const {currentUserId} = this.context;
 
     const helper = (donorId: string) => {
-      const {dishes, type, location, notes, occasion, phone, pickupDatetime} = this.state;
-      const foodDonation = {dishes, type, location, notes, occasion, phone, pickupDatetime: pickupDatetime.toObject(), donorId};
+      const {dishes, location, notes, occasion, phone, photo, pickupDatetime, type} = this.state;
 
-      database.createDonation('food', foodDonation).then((newDonationKey) => {
-        hashHistory.push(`/donations/food/${newDonationKey}`);
+      this.setState({uploading: true});
+      image.upload(photo).then(({url}) => {
+        const foodDonation = {dishes, donorId, location, notes, occasion, phone, photoUrl: url, pickupDatetime: pickupDatetime.toObject(), type};
+        return database.createDonation('food', foodDonation).then((newDonationKey) => {
+          hashHistory.push(`/donations/food/${newDonationKey}`);
+        });
       });
     };
 
