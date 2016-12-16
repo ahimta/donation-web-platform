@@ -31,7 +31,8 @@ export function upload(file?: File) {
       fd.append(IMGUR_IMG_FORM_KEY, file);
       xhr.send(fd);
     } else {
-      reject('Missing file or invalid file type');
+      console.log('Missing file or invalid file type');
+      resolve({id: '', url: ''});
     }
   });
 }

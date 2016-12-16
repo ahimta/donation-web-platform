@@ -1,46 +1,69 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
-import {Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader} from 'react-bootstrap';
-import {hashHistory} from 'react-router';
+import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader } from 'react-bootstrap';
 
-import * as auth from '../auth';
-import * as database from '../database';
 import LocationSelectField from '../components/LocationSelectField';
+import NewDonationPage from '../components/NewDonationPage';
 
-interface INewNonfoodDonationProps {}
+import DonationType from '../types/DonationType';
+import INewDonationPage from '../types/INewDonationPage';
 
-interface INewNonfoodDonationState {
-  type: string;
-  location: string;
-  notes: string;
-  state: string;
-  phone: string;
+interface INewNonfoodDonationProps {
+  readonly currentUserId: string;
+  readonly location: string;
+  readonly notes: string;
+  readonly phone: string;
+  readonly uploading: boolean;
+
+  readonly handleChange: (fieldName: string) => ((event: any) => void);
+  readonly handlePhotoChange: (event: any) => void;
+  readonly handleSubmit: (event: any) => void;
+  readonly validateRequired: (fieldValue: string) => string;
 }
 
-export default class NewNonfoodDonation extends React.Component<INewNonfoodDonationProps, INewNonfoodDonationState> {
-  public static contextTypes = {
-    currentUserId: React.PropTypes.string
+interface INewNonfoodDonationState {
+  readonly state: string;
+  readonly type: string;
+}
+
+class NewNonfoodDonation extends React.Component<INewNonfoodDonationProps, INewNonfoodDonationState> implements INewDonationPage {
+  public static propTypes = {
+    currentUserId: React.PropTypes.string.isRequired,
+    location: React.PropTypes.string.isRequired,
+    notes: React.PropTypes.string.isRequired,
+    phone: React.PropTypes.string.isRequired,
+    uploading: React.PropTypes.bool.isRequired,
+
+    handleChange: React.PropTypes.func.isRequired,
+    handlePhotoChange: React.PropTypes.func.isRequired,
+    handleSubmit: React.PropTypes.func.isRequired,
+    validateRequired: React.PropTypes.func.isRequired,
   };
 
-  public context: {
-    currentUserId: string
-  };
+  public donationType: DonationType = 'nonfood';
 
   constructor(props: any, context: any) {
     super(props, context);
 
     this.state = {
-      type: 'appliances',
-      location: 'riyadh',
-      notes: '',
       state: 'good',
-      phone: ''
+      type: 'appliances'
     };
   }
 
+  getDonation() {
+    const {location, notes, phone} = this.props;
+    const {state, type} = this.state;
+    const donation = {location, notes, phone, state, type};
+
+    return donation;
+  }
+
   render() {
-    const {currentUserId} = this.context;
+    const {currentUserId, location, notes, phone, uploading} = this.props;
+    const {handleChange, handlePhotoChange, handleSubmit, validateRequired} = this.props;
+    const {state, type} = this.state;
     const donatePhrase = currentUserId ? 'تبرع' : 'سجل دخول و تبرع';
 
     return (
@@ -56,10 +79,10 @@ export default class NewNonfoodDonation extends React.Component<INewNonfoodDonat
         </Grid>
 
         <Grid>
-          <Form onSubmit={this.handleSubmit.bind(this)}>
+          <Form onSubmit={handleSubmit}>
             <FormGroup controlId='type' dir='rtl'>
               <ControlLabel>نوع التبرع</ControlLabel>
-              <FormControl componentClass='select' value={this.state.type} onChange={this.handleOnChange('type').bind(this)}>
+              <FormControl componentClass='select' value={type} onChange={this.handleOnChange('type').bind(this)}>
                 <option value='appliances'>أجهزة كهربائية</option>
                 <option value='clothes'>ملابس</option>
                 <option value='toys'>ألعاب</option>
@@ -67,11 +90,11 @@ export default class NewNonfoodDonation extends React.Component<INewNonfoodDonat
               </FormControl>
             </FormGroup>
 
-            <LocationSelectField onChange={this.handleOnChange('location').bind(this)} value={this.state.location} />
+            <LocationSelectField onChange={handleChange('location')} value={location} />
 
             <FormGroup controlId='state' dir='rtl'>
               <ControlLabel>حالة التبرع</ControlLabel>
-              <FormControl componentClass='select' value={this.state.state} onChange={this.handleOnChange('state').bind(this)}>
+              <FormControl componentClass='select' value={state} onChange={this.handleOnChange('state').bind(this)}>
                 <option value='excellent'>ممتازة</option>
                 <option value='good'>جيدة</option>
                 <option value='fair'>لا بأس بها</option>
@@ -79,62 +102,35 @@ export default class NewNonfoodDonation extends React.Component<INewNonfoodDonat
               </FormControl>
             </FormGroup>
 
-            <FormGroup validationState={this.validateRequired(this.state.phone)}>
+            <FormGroup validationState={validateRequired(phone)}>
               <InputGroup>
-                <FormControl type='tel' dir='ltr' value={this.state.phone} onChange={this.handleOnChange('phone').bind(this)} required />
+                <FormControl type='tel' dir='ltr' value={phone} onChange={handleChange('phone')} required />
                 <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
 
             <FormGroup controlId='foodDonationFoodPhotos' dir='rtl'>
-              <ControlLabel>الصور</ControlLabel>
-              <FormControl type='file' placeholder='الصور' />
+              <ControlLabel>صورة للتبرع</ControlLabel>
+              <FormControl onChange={handlePhotoChange} placeholder='صورة للتبرع' type='file' />
             </FormGroup>
 
             <FormGroup controlId='foodDonationNotes' dir='rtl'>
               <ControlLabel>ملاحظات</ControlLabel>
-              <FormControl componentClass='textarea' placeholder='ملاحظات' value={this.state.notes} onChange={this.handleOnChange('notes').bind(this)} />
+              <FormControl componentClass='textarea' placeholder='ملاحظات' value={notes} onChange={handleChange('notes')} />
             </FormGroup>
 
-            <Button type='submit' bsStyle='success' bsSize='lg' block>{donatePhrase}</Button>
+            <Button bsSize='lg' bsStyle='success' disabled={uploading} type='submit' block>{donatePhrase}</Button>
           </Form>
         </Grid>
       </section>
     );
   }
 
-  private handleSubmit(event: any) {
-    const {currentUserId} = this.context;
-
-    const helper = (donorId: string) => {
-      const {type, location, notes, state, phone} = this.state;
-      const nonfoodDonation = {type, location, notes, state, phone, donorId};
-
-      database.createDonation('nonfood', nonfoodDonation).then((newDonationKey) => {
-        hashHistory.push(`/donations/other/${newDonationKey}`);
-      });
-    };
-
-    event.preventDefault();
-
-    if (currentUserId) {
-      helper(currentUserId);
-    } else {
-      auth.login().then(currentUser => helper(currentUser.uid));
-    }
-  }
-
   private handleOnChange(fieldName: string) {
-    return ((event: any) => {
-      this.setState({[fieldName]: event.target.value});
-    });
-  }
-
-  private validateRequired(value: string) {
-    if (value) {
-      return null;
-    } else {
-      return 'error';
-    }
+    return (event: any) => {
+      this.setState({ [fieldName]: event.target.value } as INewNonfoodDonationState);
+    };
   }
 }
+
+export default NewDonationPage(NewNonfoodDonation);
