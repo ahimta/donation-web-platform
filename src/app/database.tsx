@@ -27,7 +27,7 @@ export function removeNonfoodDonation(id: string) {
   return removeDonation('nonfood', id);
 }
 
-export function getDonation(donationType: DonationType, donationId: string): Promise<({donation: any, donor: any, reservation: any})> {
+export function getDonation(donationType: DonationType, donationId: string): Promise<({ donation: any, donor: any, reservation: any })> {
   const refName = getRefName(donationType);
 
   return firebase.database().ref(refName).child(donationId).once('value').then((snapshot) => {
@@ -37,7 +37,7 @@ export function getDonation(donationType: DonationType, donationId: string): Pro
 
     return Promise.all([Promise.resolve(donation), reservationPromise, userPromise]);
   }).then(([donation, reservationSnapshot, userSnapshot]) => {
-    return {donation, donor: userSnapshot.val(), reservation: reservationSnapshot.val()};
+    return { donation, donor: userSnapshot.val(), reservation: reservationSnapshot.val() };
   });
 }
 
@@ -98,32 +98,32 @@ export function reserveDonation(donationType: DonationType, donationId: string, 
 }
 
 export function createDonation(donationType: DonationType, donation: any) {
-    const refName = getRefName(donationType);
+  const refName = getRefName(donationType);
 
-    const donationsRef = firebase.database().ref(refName);
-    const newDonationKey = donationsRef.push().key;
+  const donationsRef = firebase.database().ref(refName);
+  const newDonationKey = donationsRef.push().key;
 
-    const activity: IActivity = {
-      actionName: 'donation',
-      datetime: moment().toObject(),
-      donationId: newDonationKey,
-      donationType: donationType,
-      userId: donation.donorId,
-      userRole: 'user'
-    };
-    const reservation = {
-      deliveredOrReceived: false,
-      type: null,
-      reserverId: null
-    };
+  const activity: IActivity = {
+    actionName: 'donation',
+    datetime: moment().toObject(),
+    donationId: newDonationKey,
+    donationType: donationType,
+    userId: donation.donorId,
+    userRole: 'user'
+  };
+  const reservation = {
+    deliveredOrReceived: false,
+    type: null,
+    reserverId: null
+  };
 
-    return donationsRef.child(newDonationKey).set(donation).then(() => {
-      const activityPromise = firebase.database().ref('activity').push(activity);
-      const reservationPromise = firebase.database().ref('reservations').child(newDonationKey).set(reservation);
-      return Promise.all([activityPromise, reservationPromise]);
-    }).then(() => {
-      return newDonationKey;
-    });
+  return donationsRef.child(newDonationKey).set(donation).then(() => {
+    const activityPromise = firebase.database().ref('activity').push(activity);
+    const reservationPromise = firebase.database().ref('reservations').child(newDonationKey).set(reservation);
+    return Promise.all([activityPromise, reservationPromise]);
+  }).then(() => {
+    return newDonationKey;
+  });
 }
 
 export function getDonations(donationType: DonationType) {
@@ -142,7 +142,7 @@ export function getDonations(donationType: DonationType) {
         const key = donationSnapshot.key;
         const reservation = reservations[key];
 
-        const fullDonation = Immutable.Map(donation).merge(reservation).merge({'.key': key}).toObject();
+        const fullDonation = Immutable.Map(donation).merge(reservation).merge({ '.key': key }).toObject();
         donations.push(fullDonation);
       });
 
@@ -153,19 +153,25 @@ export function getDonations(donationType: DonationType) {
 export function getActivity(): Promise<IActivity[]> {
   const activityPromise = firebase.database().ref('activity').once('value');
   const charitiesPromise = firebase.database().ref('charities').once('value');
+  const foodDonationsPromise = firebase.database().ref('foodDonations').once('value');
+  const nonfoodDonationsPromise = firebase.database().ref('nonfoodDonations').once('value');
   const usersPromise = firebase.database().ref('users').once('value');
 
-  return Promise.all([activityPromise, charitiesPromise, usersPromise]).then(([activitySnapshot, charitiesSnapshot, usersSnapshot]) => {
+  const promises = [activityPromise, charitiesPromise, foodDonationsPromise, nonfoodDonationsPromise, usersPromise];
+  return Promise.all(promises).then(([activitySnapshot, charitiesSnapshot, foodDonationsSnapshot, nonfoodDonationsSnapshot, usersSnapshot]) => {
     const activity = [];
     const charities = charitiesSnapshot.val();
+    const foodDonations = foodDonationsSnapshot.val();
+    const nonfoodDonations = nonfoodDonationsSnapshot.val();
     const users = usersSnapshot.val();
 
     activitySnapshot.forEach((snapshot) => {
       const key = snapshot.key;
       const value: IActivity = snapshot.val();
 
+      const donation = foodDonations[value.donationId] || nonfoodDonations[value.donationId];
       const user = charities[value.userId] || users[value.userId];
-      const fullActivity = Immutable.Map(value).merge({user}).merge({'.key': key}).toJS();
+      const fullActivity = Immutable.Map(value).merge({ donation, user }).merge({ '.key': key }).toJS();
 
       activity.push(fullActivity);
     });

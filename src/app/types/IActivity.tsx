@@ -1,21 +1,17 @@
 import DonationType from './DonationType';
+import IDatetime from './DonationType';
+import IDonation from './IDonation';
+import IUser from './IUser';
 import UserRole from './UserRole';
 
 interface IActivity {
   '.key'?: string;
   actionName: ('cancel-reservation' | 'delivery' | 'donation' | 'reservation');
-  datetime: {
-    years: number;
-    months: number;
-    date: number; // zero-indexed day of month
-    hours: number;
-    minutes: number;
-    seconds: number;
-    milliseconds: number;
-  };
+  datetime: IDatetime;
+  donation?: IDonation;
   donationId: string;
   donationType: DonationType;
-  user?: any;
+  user?: IUser;
   userId: string;
   userRole: UserRole;
 }

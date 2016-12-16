@@ -38,57 +38,49 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
     );
   }
 
-  private getUrlForUser(userRole: UserRole, userId: string) {
-    if (userRole === 'charity') {
-      return `#/charities/${userId}`;
-    } else {
-      return `#/users/${userId}`;
-    }
-  }
-
   private getNameForUser(userRole: UserRole, user: any) {
     return (userRole === 'charity') ? user.name : user.displayName;
   }
 
-  private getUrlForDonation(donationType: DonationType, donationId: string) {
-    return (donationType === 'food') ? `#/donations/food/${donationId}` : `#/donations/other/${donationId}`;
+  private getUrlForDonation(donationType: DonationType, donationId: string, donation: any, text: string) {
+    const href = (donationType === 'food') ? `#/donations/food/${donationId}` : `#/donations/other/${donationId}`;
+    const style = donation ? {} : {cursor: 'not-allowed', pointerEvents: 'none'};
+    return <a href={href} style={style}>{text}</a>;
   }
 
-  private mapActivity({'.key': id, actionName, datetime, donationId, donationType, user, userId, userRole}: IActivity) {
+  private getUrlForUser(userRole: UserRole, userId: string, user: any, text: string) {
+    const href = (userRole === 'charity') ? `#/charities/${userId}` : `#/users/${userId}`;
+    const style = user ? {} : {cursor: 'not-allowed', pointerEvents: 'none'};
+    return <a href={href} style={style}>{text}</a>;
+  }
+
+  private mapActivity({'.key': id, actionName, datetime, donation, donationId, donationType, user, userId, userRole}: IActivity) {
     if (actionName === 'cancel-reservation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
         <span>ألغى/ألغت</span>&nbsp;
-        <a href={this.getUrlForUser(userRole, userId)}>
-          {this.getNameForUser(userRole, user)}
-        </a>&nbsp;
+        {this.getUrlForUser(userRole, userId, user, this.getNameForUser(userRole, user))}&nbsp;
         <span>حجز</span>&nbsp;
-        <a href={this.getUrlForDonation(donationType, donationId)}>تبرع</a>&nbsp;
+        {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
     } else if (actionName === 'delivery') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
         <span>وصل(ت)</span>&nbsp;
-        <a href={this.getUrlForUser(userRole, userId)}>
-          {this.getNameForUser(userRole, user)}
-        </a>&nbsp;
-        <a href={this.getUrlForDonation(donationType, donationId)}>تبرع</a>&nbsp;
+        {this.getUrlForUser(userRole, userId, user, this.getNameForUser(userRole, user))}&nbsp;
+        {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
     } else if (actionName === 'donation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
-        <a href={this.getUrlForDonation(donationType, donationId)}>تبرع(ت)</a>&nbsp;
-        <a href={this.getUrlForUser(userRole, userId)}>
-          {this.getNameForUser(userRole, user)}
-        </a>&nbsp;
+        {this.getUrlForDonation(donationType, donationId, donation, 'تبرع(ت)')}&nbsp;
+        {this.getUrlForUser(userRole, userId, user, this.getNameForUser(userRole, user))}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
     } else if (actionName === 'reservation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
         <span>حجز(ت)</span>&nbsp;
-        <a href={this.getUrlForUser(userRole, userId)}>
-          {this.getNameForUser(userRole, user)}
-        </a>&nbsp;
-        <a href={this.getUrlForDonation(donationType, donationId)}>تبرع</a>&nbsp;
+        {this.getUrlForUser(userRole, userId, user, this.getNameForUser(userRole, user))}&nbsp;
+        {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
     } else {
