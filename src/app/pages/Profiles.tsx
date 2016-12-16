@@ -2,14 +2,14 @@
 
 import firebase from 'firebase';
 import * as React from 'react';
-import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
+import { Breadcrumb, Grid, PageHeader } from 'react-bootstrap';
 import reactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
 
 import CharitiesProfilesPanel from '../components/CharitiesProfilesPanel';
 import UsersProfilesPanel from '../components/UsersProfilesPanel';
 
-interface IProfilesProps {}
+interface IProfilesProps { }
 
 interface IProfilesState {
   charities: any[];
@@ -22,13 +22,10 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
   constructor(props: any, context: any) {
     super(props, context);
 
-    this.state = {
-      charities: [],
-      users: []
-    };
+    this.state = { charities: [], users: [] };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.bindAsArray(firebase.database().ref('charities'), 'charities');
     this.bindAsArray(firebase.database().ref('users'), 'users');
   }

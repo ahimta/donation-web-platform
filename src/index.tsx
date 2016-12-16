@@ -4,12 +4,13 @@ import firebase from 'firebase';
 import moment from 'moment';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {IStore} from '~react-redux~redux';
-import {applyRouterMiddleware, IndexRoute, Redirect, Router, Route, hashHistory} from 'react-router';
-import {useScroll} from 'react-router-scroll';
+import { Provider } from 'react-redux';
+import { IStore } from '~react-redux~redux';
+import { applyRouterMiddleware, IndexRoute, Redirect, Router, Route, hashHistory } from 'react-router';
+import { useScroll } from 'react-router-scroll';
 
 import App from './app/containers/App';
+import Activity from './app/pages/Activity';
 import CharityLogin from './app/pages/CharityLogin';
 import Charity from './app/pages/Charity';
 import CharityRegister from './app/pages/CharityRegister';
@@ -23,7 +24,7 @@ import NonfoodDonation from './app/pages/NonfoodDonation';
 import Profiles from './app/pages/Profiles';
 import User from './app/pages/User';
 
-import  'moment/locale/ar-sa';
+import 'moment/locale/ar-sa';
 
 const store: IStore<any> = configureStore({});
 
@@ -39,10 +40,13 @@ firebase.initializeApp({
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hashHistory}
-      render={applyRouterMiddleware(useScroll((_0, _1) => ([0, 0])))}>
+    <Router history={hashHistory} render={applyRouterMiddleware(useScroll((_0, _1) => ([0, 0])))}>
       <Route path='/' component={App}>
         <IndexRoute component={Homepage} />
+      </Route>
+
+      <Route path='/activity' component={App}>
+        <IndexRoute component={Activity} />
       </Route>
 
       <Route path='/charities' component={App}>

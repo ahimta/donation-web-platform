@@ -2,7 +2,7 @@
 
 import moment from 'moment';
 import * as React from 'react';
-import {ListGroup, ListGroupItem, Panel} from 'react-bootstrap';
+import { ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
 
 import DonationType from '../types/DonationType';
 import IActivity from '../types/IActivity';
@@ -12,30 +12,25 @@ interface IActivityPanelProps {
   activity: any[];
 }
 
-interface IActivityPanelState {}
+interface IActivityPanelState { }
 
 export default class ActivityPanel extends React.Component<IActivityPanelProps, IActivityPanelState> {
-  static defaultProps = {
-    activity: []
-  };
+  static defaultProps = { activity: [] };
 
-  static propTypes = {
-    activity: React.PropTypes.array.isRequired
-  };
+  static propTypes = { activity: React.PropTypes.array.isRequired };
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = {
-      activity: []
-    };
+    this.state = { activity: [] };
   }
 
   render() {
     const {activity} = this.props;
     const Activity = activity.map(this.mapActivity.bind(this));
+    const Header = <span dir='rtl'><span>النشاطات</span><span className='caret'></span></span>;
 
     return (
-      <Panel collapsible defaultExpanded header='النشاطات' className='text-center'>
+      <Panel className='text-center' header={Header} collapsible defaultExpanded>
         <ListGroup fill>
           {Activity}
         </ListGroup>
@@ -79,7 +74,7 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
         <a href={this.getUrlForDonation(donationType, donationId)}>تبرع</a>&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
-    }  else if (actionName === 'donation') {
+    } else if (actionName === 'donation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
         <a href={this.getUrlForDonation(donationType, donationId)}>تبرع(ت)</a>&nbsp;
         <a href={this.getUrlForUser(userRole, userId)}>
@@ -96,7 +91,7 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
         <a href={this.getUrlForDonation(donationType, donationId)}>تبرع</a>&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
-    }  else {
+    } else {
       return <ListGroupItem className='text-right' key={id}></ListGroupItem>;
     }
   }
