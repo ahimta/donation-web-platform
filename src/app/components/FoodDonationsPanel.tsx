@@ -58,7 +58,7 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
 
   private deleteDonationFactory(onUpdate: Function, id: string) {
     return () => {
-      database.removeFoodDonation(id).then(() => {
+      database.removeDonation('food', id).then(() => {
         onUpdate();
       });
     };

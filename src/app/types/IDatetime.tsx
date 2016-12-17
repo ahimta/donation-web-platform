@@ -1,11 +1,11 @@
 interface IDatetime {
-  years: number;
-  months: number;
-  date: number; // zero-indexed day of month
-  hours: number;
-  minutes: number;
-  seconds: number;
-  milliseconds: number;
+  readonly years: number;
+  readonly months: number;
+  readonly date: number; // zero-indexed day of month
+  readonly hours: number;
+  readonly minutes: number;
+  readonly seconds: number;
+  readonly milliseconds: number;
 }
 
 export default IDatetime;

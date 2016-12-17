@@ -3,7 +3,7 @@ export function getDonationRowClass(currentId: string, deliveredOrReceived: bool
     return 'success';
   } else if (currentId === reserverId) {
     return 'danger';
-  }  else if (reserverId) {
+  } else if (reserverId) {
     return 'warning';
   } else {
     return '';

@@ -54,7 +54,7 @@ export default class NonfoodDonationsPanel extends React.Component<INonfoodDonat
 
   private deleteDonationFactory(onUpdate: Function, id: string) {
     return () => {
-      database.removeNonfoodDonation(id).then(() => {
+      database.removeDonation('nonfood', id).then(() => {
         onUpdate();
       });
     };

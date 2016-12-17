@@ -1,19 +1,21 @@
 import DonationType from './DonationType';
-import IDatetime from './DonationType';
+import IDatetime from './IDatetime';
 import IDonation from './IDonation';
+import IFirebaseObject from './IFirebaseObject';
 import IUser from './IUser';
 import UserRole from './UserRole';
 
 interface IActivity {
-  '.key'?: string;
-  actionName: ('cancel-reservation' | 'delivery' | 'donation' | 'reservation');
-  datetime: IDatetime;
-  donation?: IDonation;
-  donationId: string;
-  donationType: DonationType;
-  user?: IUser;
-  userId: string;
-  userRole: UserRole;
+  readonly actionName: ('cancel-reservation' | 'delivery' | 'donation' | 'reservation');
+  readonly datetime: IDatetime;
+  readonly donation?: IDonation;
+  readonly donationId: string;
+  readonly donationType: DonationType;
+  readonly user?: IUser;
+  readonly userId: string;
+  readonly userRole: UserRole;
 }
 
-export default IActivity;
+type T = IActivity & IFirebaseObject;
+
+export default T;
