@@ -31,11 +31,15 @@ export function getDonation(donationType: DonationType, donationId: string): Pro
   const refName = getRefName(donationType);
 
   return firebase.database().ref(refName).child(donationId).once('value').then((snapshot) => {
-    const donation = snapshot.val();
-    const reservationPromise = firebase.database().ref('reservations').child(donationId).once('value');
-    const userPromise = firebase.database().ref('users').child(donation.donorId).once('value');
+    if (snapshot.exists()) {
+      const donation = snapshot.val();
+      const reservationPromise = firebase.database().ref('reservations').child(donationId).once('value');
+      const userPromise = firebase.database().ref('users').child(donation.donorId).once('value');
 
-    return Promise.all([Promise.resolve(donation), reservationPromise, userPromise]);
+      return Promise.all([Promise.resolve(donation), reservationPromise, userPromise]);
+    } else {
+      return Promise.reject({code: 404, description: 'Donation does not exist'});
+    }
   }).then(([donation, reservationSnapshot, userSnapshot]) => {
     return { donation, donor: userSnapshot.val(), reservation: reservationSnapshot.val() };
   });
@@ -142,7 +146,7 @@ export function getDonations(donationType: DonationType) {
         const key = donationSnapshot.key;
         const reservation = reservations[key];
 
-        const fullDonation = Immutable.Map(donation).merge(reservation).merge({ '.key': key }).toObject();
+        const fullDonation = Immutable.Map(reservation).merge(donation).merge({ '.key': key, reservationType: reservation.type }).toObject();
         donations.push(fullDonation);
       });
 

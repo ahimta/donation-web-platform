@@ -91,6 +91,10 @@ class DonationPage extends React.Component<IDonationPageProps, IDonationPageStat
 
     database.getDonation(donationType, params.id).then(({donation, donor, reservation}) => {
       this.setState({donation: donation, donor, reservation});
+    }).catch(({code}) => {
+      if (code === 404) {
+        hashHistory.push('/404');
+      }
     });
   }
 

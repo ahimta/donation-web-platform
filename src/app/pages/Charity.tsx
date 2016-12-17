@@ -4,7 +4,8 @@ import firebase from 'firebase';
 import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
-import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
+import { Breadcrumb, Grid, PageHeader } from 'react-bootstrap';
+import { hashHistory } from 'react-router';
 
 import ActivityPanel from '../components/ActivityPanel';
 import CharityInfoPanel from '../components/CharityInfoPanel';
@@ -12,12 +13,12 @@ import * as database from '../database';
 import IActivity from '../types/IActivity';
 
 interface ICharityProps {
-  params: {id: string};
+  readonly params: { id: string };
 }
 
 interface ICharityState {
-  activity: IActivity[];
-  charity: any;
+  readonly activity: IActivity[];
+  readonly charity: any;
 }
 
 export default class Charity extends React.Component<ICharityProps, ICharityState> {
@@ -25,10 +26,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = {
-      activity: [],
-      charity: {}
-    };
+    this.state = { activity: [], charity: {} };
   }
 
   componentDidMount() {
@@ -37,12 +35,17 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
     this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity');
     database.getActivity().then((activity) => {
       const filteredActivity = activity.filter((a) => (a.userId === id));
-      this.setState({activity: filteredActivity, charity: this.state.charity});
+      this.setState({ activity: filteredActivity, charity: this.state.charity } as ICharityState);
     });
   }
 
   render() {
     const {activity, charity} = this.state;
+
+    if (charity['.value'] === null) {
+      hashHistory.push('/404');
+      return null;
+    }
 
     return (
       <section>

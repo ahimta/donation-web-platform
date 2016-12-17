@@ -4,7 +4,8 @@ import firebase from 'firebase';
 import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
-import {Breadcrumb, Grid, PageHeader} from 'react-bootstrap';
+import { Breadcrumb, Grid, PageHeader } from 'react-bootstrap';
+import { hashHistory } from 'react-router';
 
 import ActivityPanel from '../components/ActivityPanel';
 import * as database from '../database';
@@ -12,7 +13,7 @@ import IActivity from '../types/IActivity';
 import UserInfoPanel from '../components/UserInfoPanel';
 
 interface IUserProps {
-  params: {id: string};
+  params: { id: string };
 }
 
 interface IUserState {
@@ -25,10 +26,7 @@ export default class User extends React.Component<IUserProps, IUserState> {
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = {
-      activity: [],
-      user: {}
-    };
+    this.state = { activity: [], user: {} };
   }
 
   componentDidMount() {
@@ -37,12 +35,17 @@ export default class User extends React.Component<IUserProps, IUserState> {
     this.bindAsObject(firebase.database().ref(`users/${params.id}`), 'user');
     database.getActivity().then((activity) => {
       const filteredActivity = activity.filter((a) => (a.userId === params.id));
-      this.setState({activity: filteredActivity, user: this.state.user});
+      this.setState({ activity: filteredActivity, user: this.state.user });
     });
   }
 
   render() {
     const {activity, user} = this.state;
+
+    if (user['.value'] === null) {
+      hashHistory.push('/404');
+      return null;
+    }
 
     return (
       <section>

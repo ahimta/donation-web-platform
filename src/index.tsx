@@ -21,6 +21,7 @@ import Homepage from './app/pages/Homepage';
 import NewFoodDonation from './app/pages/NewFoodDonation';
 import NewNonfoodDonation from './app/pages/NewNonfoodDonation';
 import NonfoodDonation from './app/pages/NonfoodDonation';
+import NotFound from './app/pages/NotFound';
 import Profiles from './app/pages/Profiles';
 import User from './app/pages/User';
 
@@ -43,6 +44,10 @@ ReactDOM.render(
     <Router history={hashHistory} render={applyRouterMiddleware(useScroll((_0, _1) => ([0, 0])))}>
       <Route path='/' component={App}>
         <IndexRoute component={Homepage} />
+      </Route>
+
+      <Route path='/404' component={App}>
+        <IndexRoute component={NotFound} />
       </Route>
 
       <Route path='/activity' component={App}>
