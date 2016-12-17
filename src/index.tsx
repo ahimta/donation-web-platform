@@ -6,13 +6,13 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { IStore } from '~react-redux~redux';
-import { applyRouterMiddleware, IndexRoute, Redirect, Router, Route, hashHistory } from 'react-router';
+import { applyRouterMiddleware, hashHistory, IndexRoute, Redirect, Route, Router } from 'react-router';
 import { useScroll } from 'react-router-scroll';
 
 import App from './app/containers/App';
 import Activity from './app/pages/Activity';
-import CharityLogin from './app/pages/CharityLogin';
 import Charity from './app/pages/Charity';
+import CharityLogin from './app/pages/CharityLogin';
 import CharityRegister from './app/pages/CharityRegister';
 import configureStore from './app/store/configureStore';
 import Donations from './app/pages/Donations';
@@ -64,10 +64,10 @@ ReactDOM.render(
         <IndexRoute component={Donations} />
 
         <Route path='donate/food' component={NewFoodDonation} />
-        <Route path='donate/other' component={NewNonfoodDonation} />
+        <Route path='donate/nonfood' component={NewNonfoodDonation} />
 
         <Route path='food/:id' component={FoodDonation} />
-        <Route path='other/:id' component={NonfoodDonation} />
+        <Route path='nonfood/:id' component={NonfoodDonation} />
 
         <Route path='receive' component={Donations} />
         <Route path='deliver' component={Donations} />

@@ -43,7 +43,7 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
   }
 
   private getUrlForDonation(donationType: DonationType, donationId: string, donation: any, text: string) {
-    const href = (donationType === 'food') ? `#/donations/food/${donationId}` : `#/donations/other/${donationId}`;
+    const href = (donationType === 'food') ? `#/donations/food/${donationId}` : `#/donations/nonfood/${donationId}`;
     const style = donation ? {} : {cursor: 'not-allowed', pointerEvents: 'none'};
     return <a href={href} style={style}>{text}</a>;
   }

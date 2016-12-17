@@ -65,7 +65,7 @@ export default (DonationPageComponent: any) => class NewDonationPage extends Rea
         const donation = Immutable.Map(wrappedDonation).merge({ donorId, photoUrl: url }).toJS();
 
         return database.createDonation(donationType, donation).then((newDonationKey) => {
-          const donationUrl = (donationType === 'food') ? `/donations/food/${newDonationKey}` : `/donations/other/${newDonationKey}`;
+          const donationUrl = (donationType === 'food') ? `/donations/food/${newDonationKey}` : `/donations/nonfood/${newDonationKey}`;
           hashHistory.push(donationUrl);
         });
       });

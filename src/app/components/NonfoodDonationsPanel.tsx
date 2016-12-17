@@ -71,7 +71,7 @@ export default class NonfoodDonationsPanel extends React.Component<INonfoodDonat
           <td className='text-center'>
             <ButtonGroup bsSize='xs'>
               <Button bsStyle='danger'  onClick={deleteDonationFactory(onUpdate, donation['.key'])} disabled={currentId !== donation.donorId}>حذف</Button>
-              <Button bsStyle='success' href={`#/donations/other/${donation['.key']}`}>تفاصيل أكثر</Button>
+              <Button bsStyle='success' href={`#/donations/nonfood/${donation['.key']}`}>تفاصيل أكثر</Button>
             </ButtonGroup>
           </td>
         </tr>

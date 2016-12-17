@@ -55,7 +55,7 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
             <Col md={4}>
               <Panel header={<span><Glyphicon glyph='gift' />&nbsp;<span>تبرع</span></span>} className='text-center' bsStyle='primary'>
                 <ButtonGroup justified>
-                  <Button bsStyle='success' href='#/donations/donate/other'>بشيء آخر</Button>
+                  <Button bsStyle='success' href='#/donations/donate/nonfood'>بشيء آخر</Button>
                   <Button bsStyle='success' href='#/donations/donate/food'>بطعام</Button>
                 </ButtonGroup>
               </Panel>

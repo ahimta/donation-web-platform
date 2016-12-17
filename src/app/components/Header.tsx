@@ -50,7 +50,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
               <NavItem href='#/donations/deliver' onClick={this.goto.bind(null, '/donations/deliver')}>وصل تبرع</NavItem>
               <NavDropdown className={this.getCharityClass(currentRole)} dir='rtl' id='basic-nav-dropdown-donate' title='تبرع'>
                 <MenuItem className='text-right' href='#/donations/donate/food'>بطعام</MenuItem>
-                <MenuItem className='text-right' href='#/donations/donate/other'>بشيء آخر</MenuItem>
+                <MenuItem className='text-right' href='#/donations/donate/nonfood'>بشيء آخر</MenuItem>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
