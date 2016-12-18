@@ -19,13 +19,12 @@ interface IDonationsState {
 }
 
 export default class Donations extends React.Component<IDonationsProps, IDonationsState> {
-  static contextTypes = { currentRole: React.PropTypes.string };
+  static contextTypes = { currentId: React.PropTypes.string, currentRole: React.PropTypes.string };
 
-  context: { currentRole: UserRole };
+  context: { currentId: string, currentRole: UserRole };
 
   constructor(props: any, context: any) {
     super(props, context);
-
     this.state = { foodDonations: [], nonfoodDonations: [] };
   }
 
@@ -34,7 +33,7 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
   }
 
   render() {
-    const {currentRole} = this.context;
+    const {currentId, currentRole} = this.context;
     const {foodDonations, nonfoodDonations} = this.state;
 
     return (<section>
@@ -45,11 +44,9 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
           <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
           <Breadcrumb.Item active>التبرعات</Breadcrumb.Item>
         </Breadcrumb>
-      </Grid>
 
-      <Grid>
-        <FoodDonationsPanel donations={foodDonations} onUpdate={this.update.bind(this)} />
-        <NonfoodDonationsPanel donations={nonfoodDonations} onUpdate={this.update.bind(this)} />
+        <FoodDonationsPanel currentId={currentId} donations={foodDonations} onUpdate={this.update.bind(this)} />
+        <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} onUpdate={this.update.bind(this)} />
       </Grid>
 
       <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
@@ -62,12 +59,12 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
   }
 
   private update() {
-    database.getDonations('food').then((donations) => {
-      this.setState({ foodDonations: donations } as IDonationsState);
+    database.getDonations('food').then((foodDonations) => {
+      this.setState({ foodDonations } as IDonationsState);
     });
 
-    database.getDonations('nonfood').then((donations) => {
-      this.setState({ nonfoodDonations: donations } as IDonationsState);
+    database.getDonations('nonfood').then((nonfoodDonations) => {
+      this.setState({ nonfoodDonations } as IDonationsState);
     });
   }
 }
