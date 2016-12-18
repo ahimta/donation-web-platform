@@ -97,7 +97,7 @@ export function reserveDonation(donationType: DonationType, donationId: string, 
   return Promise.all([activityPromise, reservationPromise]);
 }
 
-export function createDonation(donationType: DonationType, donation: any): Promise<string> {
+export function createDonation(donationType: DonationType, donation: IDonation): Promise<string> {
   const refName = getRefName(donationType);
   const donationsRef = firebase.database().ref(refName);
   const newDonationKey = donationsRef.push().key;

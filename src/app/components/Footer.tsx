@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-export default function Footer(_: React.Props<any>) {
+export default function Footer() {
   return (
     <footer>
       <a target='_blank' href='https://sa.linkedin.com/in/ahimta'>

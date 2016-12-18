@@ -1,21 +1,13 @@
 import IDatetime from './IDatetime';
+import IDonationObject from './IDonationObject';
 import IFirebaseObject from './IFirebaseObject';
-import IUser from './IUser';
 
 interface IFoodDonation {
   readonly dishes: string;
-  readonly donor?: IUser;
-  readonly donorId?: string;
-  readonly location: string;
-  readonly notes: string;
   readonly occasion: string;
-  readonly phone: string;
-  readonly photoUrl?: string;
   readonly pickupDatetime: IDatetime;
-  readonly type: string;
-  readonly user?: IUser;
 }
 
-type FoodDonation = IFirebaseObject & IFoodDonation;
+type FoodDonation = IDonationObject & IFirebaseObject & IFoodDonation;
 
 export default FoodDonation;

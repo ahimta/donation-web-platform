@@ -5,7 +5,6 @@ import { hashHistory } from 'react-router';
 import * as auth from '../auth';
 import * as database from '../database';
 import * as image from '../image';
-
 import INewDonationPage from '../types/INewDonationPage';
 
 interface INewDonationPageProps { }
@@ -19,21 +18,14 @@ interface INewDonationPageState {
 }
 
 export default (DonationPageComponent: any) => class NewDonationPage extends React.Component<INewDonationPageProps, INewDonationPageState> {
-  public static contextTypes = { currentUserId: React.PropTypes.string };
-
-  public context: { currentUserId: string };
+  static contextTypes = { currentUserId: React.PropTypes.string };
+  context: { currentUserId: string };
   private WrappedElement: INewDonationPage;
 
   constructor(props: any, context: any) {
     super(props, context);
 
-    this.state = {
-      location: 'riyadh',
-      notes: '',
-      phone: '',
-      photo: null,
-      uploading: false
-    };
+    this.state = { location: 'riyadh', notes: '', phone: '', photo: null, uploading: false };
   }
 
   render() {
@@ -87,10 +79,6 @@ export default (DonationPageComponent: any) => class NewDonationPage extends Rea
   }
 
   private validateRequired(value: string) {
-    if (value) {
-      return null;
-    } else {
-      return 'error';
-    }
+    return value ? null : 'error';
   }
 };

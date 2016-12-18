@@ -9,7 +9,7 @@ import IActivity from '../types/IActivity';
 import UserRole from '../types/UserRole';
 
 interface IActivityPanelProps {
-  activity: any[];
+  activity: IActivity[];
 }
 
 interface IActivityPanelState { }
@@ -29,13 +29,11 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
     const Activity = activity.map(this.mapActivity.bind(this));
     const Header = <span dir='rtl'><span>النشاطات</span><span className='caret'></span></span>;
 
-    return (
-      <Panel className='text-center' header={Header} collapsible defaultExpanded>
-        <ListGroup fill>
-          {Activity}
-        </ListGroup>
-      </Panel>
-    );
+    return (<Panel className='text-center' header={Header} collapsible defaultExpanded>
+      <ListGroup fill>
+        {Activity}
+      </ListGroup>
+    </Panel>);
   }
 
   private getNameForUser(userRole: UserRole, user: any) {
@@ -44,13 +42,13 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
 
   private getUrlForDonation(donationType: DonationType, donationId: string, donation: any, text: string) {
     const href = (donationType === 'food') ? `#/donations/food/${donationId}` : `#/donations/nonfood/${donationId}`;
-    const style = donation ? {} : {cursor: 'not-allowed', pointerEvents: 'none'};
+    const style = donation ? {} : { cursor: 'not-allowed', pointerEvents: 'none' };
     return <a href={href} style={style}>{text}</a>;
   }
 
   private getUrlForUser(userRole: UserRole, userId: string, user: any, text: string) {
     const href = (userRole === 'charity') ? `#/charities/${userId}` : `#/users/${userId}`;
-    const style = user ? {} : {cursor: 'not-allowed', pointerEvents: 'none'};
+    const style = user ? {} : { cursor: 'not-allowed', pointerEvents: 'none' };
     return <a href={href} style={style}>{text}</a>;
   }
 
