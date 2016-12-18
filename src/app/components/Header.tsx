@@ -5,7 +5,6 @@ import { Glyphicon, MenuItem, Nav, Navbar, NavItem, NavDropdown } from 'react-bo
 import { hashHistory } from 'react-router';
 
 import * as auth from '../auth';
-import IUser from '../types/IUser';
 import UserRole from '../types/UserRole';
 
 interface IHeaderProps { }
@@ -13,7 +12,6 @@ interface IHeaderState { }
 
 export default class Header extends React.Component<IHeaderProps, IHeaderState> {
   static contextTypes = { currentRole: React.PropTypes.string };
-
   context: { currentRole: UserRole };
 
   render() {
@@ -29,7 +27,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav className='text-right'>
-            <NavItem className={this.getLoginClass(currentRole)} href='#/charities/register' onClick={this.goto.bind(null, '/charities/register')}>سجل كجمعية</NavItem>
+            <NavItem href='#/charities/register' onClick={this.goto.bind(null, '/charities/register')}>سجل كجمعية</NavItem>
             <NavDropdown title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentRole)}>
               <MenuItem className='text-right' href='#/charities/login'>كجمعية</MenuItem>
               <MenuItem className='text-right' onClick={auth.login}>كفرد</MenuItem>
@@ -58,12 +56,12 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
     return (currentRole === 'charity') ? 'hidden' : '';
   }
 
-  private getLoginClass(user: IUser): string {
-    return user ? 'hidden' : '';
+  private getLoginClass(userRole: UserRole): string {
+    return userRole ? 'hidden' : '';
   }
 
-  private getLogoutClass(user: IUser): string {
-    return user ? '' : 'hidden';
+  private getLogoutClass(userRole: UserRole): string {
+    return userRole ? '' : 'hidden';
   }
 
   private goto(location: string) {
