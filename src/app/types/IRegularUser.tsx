@@ -7,6 +7,6 @@ interface IRegularUser {
   readonly uid?: string;
 }
 
-type T = IFirebaseObject & IRegularUser;
+type RegularUser = IFirebaseObject & IRegularUser;
 
-export default T;
+export default RegularUser;

@@ -16,6 +16,6 @@ interface IFoodDonation {
   readonly user?: IUser;
 }
 
-type T = IFirebaseObject & IFoodDonation;
+type FoodDonation = IFirebaseObject & IFoodDonation;
 
-export default T;
+export default FoodDonation;

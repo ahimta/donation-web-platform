@@ -8,13 +8,13 @@ import * as database from '../database';
 
 import IActivity from '../types/IActivity';
 
-interface IProfilesProps { }
+interface IActivityProps { }
 
-interface IProfilesState {
+interface IActivityState {
   readonly activity: IActivity[];
 }
 
-export default class Profiles extends React.Component<IProfilesProps, IProfilesState> {
+export default class Activity extends React.Component<IActivityProps, IActivityState> {
   constructor(props: any, context: any) {
     super(props, context);
 
@@ -38,6 +38,7 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
           <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
           <Breadcrumb.Item active>النشاطات</Breadcrumb.Item>
         </Breadcrumb>
+
         <ActivityPanel activity={activity} />
       </Grid>
     </section>);

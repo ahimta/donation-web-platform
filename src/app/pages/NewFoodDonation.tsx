@@ -11,6 +11,7 @@ import NewDonationPage from '../components/NewDonationPage';
 import rcCalendarLocale from '../rc-calendar-locale';
 
 import DonationType from '../types/DonationType';
+import IFoodDonation from '../types/IFoodDonation';
 import INewDonationPage from '../types/INewDonationPage';
 
 interface INewFoodDonationProps {
@@ -34,7 +35,7 @@ interface INewFoodDonationState {
 }
 
 class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDonationState> implements INewDonationPage {
-  public static propTypes = {
+  static propTypes = {
     currentUserId: React.PropTypes.string.isRequired,
     location: React.PropTypes.string.isRequired,
     notes: React.PropTypes.string.isRequired,
@@ -47,23 +48,17 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
     validateRequired: React.PropTypes.func.isRequired,
   };
 
-  public donationType: DonationType = 'food';
+  donationType: DonationType = 'food';
 
   constructor(props: any, context: any) {
     super(props, context);
-
-    this.state = {
-      dishes: '',
-      occasion: 'party',
-      pickupDatetime: moment(),
-      type: 'fruits'
-    };
+    this.state = { dishes: '', occasion: 'party', pickupDatetime: moment(), type: 'fruits' };
   }
 
-  getDonation() {
+  getDonation(): IFoodDonation {
     const {location, notes, phone} = this.props;
     const {dishes, occasion, pickupDatetime, type} = this.state;
-    const donation = {dishes, location, notes, occasion, phone, pickupDatetime: pickupDatetime.toObject(), type};
+    const donation = { dishes, location, notes, occasion, phone, pickupDatetime: pickupDatetime.toObject(), type };
 
     return donation;
   }
@@ -83,9 +78,7 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
           <Breadcrumb.Item href='#/donations'>التبرعات</Breadcrumb.Item>
           <Breadcrumb.Item active>تبرع بطعام</Breadcrumb.Item>
         </Breadcrumb>
-      </Grid>
 
-      <Grid>
         <Form onSubmit={handleSubmit}>
           <FormGroup controlId='foodDonationFoodType' dir='rtl'>
             <ControlLabel>نوع الطعام</ControlLabel>
@@ -125,7 +118,7 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
           <FormGroup controlId='pickupTime' dir='rtl'>
             <ControlLabel>وقت الاستلام</ControlLabel>
             <div dir='ltr'>
-              <Calendar locale={rcCalendarLocale} onChange={this.onDatetimeChange}
+              <Calendar locale={rcCalendarLocale} onChange={this.handleDatetimeChange}
                 showDateInput={true} style={{ width: '100%' }} value={pickupDatetime}
                 timePicker={<TimePickerPanel showHour={true} showMinute={true} showSecond={true} />} />
             </div>
@@ -147,7 +140,7 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
     </section>);
   }
 
-  private onDatetimeChange(momentValue: any) {
+  private handleDatetimeChange(momentValue: any) {
     this.setState({ pickupDatetime: momentValue } as INewFoodDonationState);
   }
 

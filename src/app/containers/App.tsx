@@ -10,7 +10,7 @@ interface IAppProps {
   children: Object;
 }
 
-interface IAppState {
+interface IAppState {
   currentCharityId: string;
   currentId: string;
   currentRole: string;
@@ -18,16 +18,14 @@ interface IAppState {
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
-  static propTypes = {
-    children: React.PropTypes.object.isRequired
-  };
-
   static childContextTypes = {
     currentCharityId: React.PropTypes.string,
     currentId: React.PropTypes.string,
     currentRole: React.PropTypes.string,
     currentUserId: React.PropTypes.string
   };
+
+  static propTypes = { children: React.PropTypes.object.isRequired };
 
   private unsubscribe: () => void;
 
@@ -54,13 +52,13 @@ export default class App extends React.Component<IAppProps, IAppState> {
         if (providerId === 'google.com') {
           const {displayName, email, photoURL, uid} = user;
 
-          this.setState({currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid});
-          firebase.database().ref('users').child(uid).set({displayName, email, photoURL, uid});
+          this.setState({ currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid });
+          firebase.database().ref('users').child(uid).set({ displayName, email, photoURL, uid });
         } else if (providerId === 'password') {
-          this.setState({currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: ''});
+          this.setState({ currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: '' });
         }
       } else {
-        this.setState({currentCharityId: '', currentId: '', currentRole: '', currentUserId: ''});
+        this.setState({ currentCharityId: '', currentId: '', currentRole: '', currentUserId: '' });
       }
     });
   }

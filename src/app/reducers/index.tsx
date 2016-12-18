@@ -1,7 +1,7 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
 function reducer(state: any = {}, action: any) {
   return state;
 }
 
-export default combineReducers({reducer});
+export default combineReducers({ reducer });

@@ -9,11 +9,14 @@ import ReactFireMixin from 'reactfire';
 import CharitiesProfilesPanel from '../components/CharitiesProfilesPanel';
 import UsersProfilesPanel from '../components/UsersProfilesPanel';
 
+import ICharity from '../types/ICharity';
+import IRegularUser from '../types/IRegularUser';
+
 interface IProfilesProps { }
 
 interface IProfilesState {
-  charities: any[];
-  users: any[];
+  readonly charities: ICharity[];
+  readonly users: IRegularUser[];
 }
 
 export default class Profiles extends React.Component<IProfilesProps, IProfilesState> {
@@ -21,7 +24,6 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
 
   constructor(props: any, context: any) {
     super(props, context);
-
     this.state = { charities: [], users: [] };
   }
 
@@ -33,23 +35,19 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
   render() {
     const {charities, users} = this.state;
 
-    return (
-      <section>
-        <PageHeader className='text-center'>الحسابات</PageHeader>
+    return (<section>
+      <PageHeader className='text-center'>الحسابات</PageHeader>
 
-        <Grid>
-          <Breadcrumb dir='rtl'>
-            <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
-            <Breadcrumb.Item active>الحسابات</Breadcrumb.Item>
-          </Breadcrumb>
-        </Grid>
+      <Grid>
+        <Breadcrumb dir='rtl'>
+          <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
+          <Breadcrumb.Item active>الحسابات</Breadcrumb.Item>
+        </Breadcrumb>
 
-        <Grid>
-          <CharitiesProfilesPanel charities={charities} />
-          <UsersProfilesPanel users={users} />
-        </Grid>
-      </section>
-    );
+        <CharitiesProfilesPanel charities={charities} />
+        <UsersProfilesPanel users={users} />
+      </Grid>
+    </section>);
   }
 }
 

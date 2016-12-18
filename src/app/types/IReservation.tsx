@@ -6,6 +6,6 @@ interface IReservation {
   readonly type: string;
 }
 
-type T = IFirebaseObject & IReservation;
+type Reservation = IFirebaseObject & IReservation;
 
-export default T;
+export default Reservation;

@@ -13,6 +13,6 @@ interface INonfoodDonation {
   readonly user?: IUser;
 }
 
-type T = IFirebaseObject & INonfoodDonation;
+type NonfoodDonation = IFirebaseObject & INonfoodDonation;
 
-export default T;
+export default NonfoodDonation;

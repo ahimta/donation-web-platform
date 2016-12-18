@@ -10,6 +10,6 @@ interface ICharity {
   readonly website: string;
 }
 
-type T = ICharity & IFirebaseObject;
+type Charity = ICharity & IFirebaseObject;
 
-export default T;
+export default Charity;

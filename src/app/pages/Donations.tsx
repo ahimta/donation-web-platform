@@ -1,35 +1,32 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
-import {Breadcrumb, Button, ButtonGroup, Grid, PageHeader} from 'react-bootstrap';
+import { Breadcrumb, Button, ButtonGroup, Grid, PageHeader } from 'react-bootstrap';
 
 import * as database from '../database';
 import FoodDonationsPanel from '../components/FoodDonationsPanel';
 import NonfoodDonationsPanel from '../components/NonfoodDonationsPanel';
 
-interface IDonationsProps {}
+import IFoodDonation from '../types/IFoodDonation';
+import INonfoodDonation from '../types/INonfoodDonation';
+import UserRole from '../types/UserRole';
+
+interface IDonationsProps { }
 
 interface IDonationsState {
-  foodDonations: any[];
-  nonfoodDonations: any[];
+  foodDonations: IFoodDonation[];
+  nonfoodDonations: INonfoodDonation[];
 }
 
 export default class Donations extends React.Component<IDonationsProps, IDonationsState> {
-  public static contextTypes = {
-    currentRole: React.PropTypes.string
-  };
+  static contextTypes = { currentRole: React.PropTypes.string };
 
-  public context: {
-    currentRole: string
-  };
+  context: { currentRole: UserRole };
 
   constructor(props: any, context: any) {
     super(props, context);
 
-    this.state = {
-      foodDonations: [],
-      nonfoodDonations: []
-    };
+    this.state = { foodDonations: [], nonfoodDonations: [] };
   }
 
   componentDidMount() {
@@ -40,41 +37,37 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
     const {currentRole} = this.context;
     const {foodDonations, nonfoodDonations} = this.state;
 
-    return (
-      <section>
-        <PageHeader className='text-center'>التبرعات</PageHeader>
+    return (<section>
+      <PageHeader className='text-center'>التبرعات</PageHeader>
 
-        <Grid>
-          <Breadcrumb dir='rtl'>
-            <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
-            <Breadcrumb.Item active>التبرعات</Breadcrumb.Item>
-          </Breadcrumb>
-        </Grid>
+      <Grid>
+        <Breadcrumb dir='rtl'>
+          <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
+          <Breadcrumb.Item active>التبرعات</Breadcrumb.Item>
+        </Breadcrumb>
+      </Grid>
 
-        <Grid>
-          <FoodDonationsPanel donations={foodDonations} onUpdate={this.update.bind(this)} />
-          <NonfoodDonationsPanel donations={nonfoodDonations} onUpdate={this.update.bind(this)} />
-        </Grid>
+      <Grid>
+        <FoodDonationsPanel donations={foodDonations} onUpdate={this.update.bind(this)} />
+        <NonfoodDonationsPanel donations={nonfoodDonations} onUpdate={this.update.bind(this)} />
+      </Grid>
 
-        <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
-          <ButtonGroup bsSize='lg' justified>
-            <Button bsStyle='success' href='#/donations/donate/nonfood'>تبرع بشيء آخر</Button>
-            <Button bsStyle='success' href='#/donations/donate/food'>تبرع بطعام</Button>
-          </ButtonGroup>
-        </Grid>
-      </section>
-    );
+      <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
+        <ButtonGroup bsSize='lg' justified>
+          <Button bsStyle='success' href='#/donations/donate/nonfood'>تبرع بشيء آخر</Button>
+          <Button bsStyle='success' href='#/donations/donate/food'>تبرع بطعام</Button>
+        </ButtonGroup>
+      </Grid>
+    </section>);
   }
 
   private update() {
     database.getDonations('food').then((donations) => {
-      const {nonfoodDonations} = this.state;
-      this.setState({foodDonations: donations, nonfoodDonations});
+      this.setState({ foodDonations: donations } as IDonationsState);
     });
 
     database.getDonations('nonfood').then((donations) => {
-      const {foodDonations} = this.state;
-      this.setState({nonfoodDonations: donations, foodDonations});
+      this.setState({ nonfoodDonations: donations } as IDonationsState);
     });
   }
 }

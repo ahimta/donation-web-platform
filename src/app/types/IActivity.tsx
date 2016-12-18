@@ -16,6 +16,6 @@ interface IActivity {
   readonly userRole: UserRole;
 }
 
-type T = IActivity & IFirebaseObject;
+type Activity = IActivity & IFirebaseObject;
 
-export default T;
+export default Activity;

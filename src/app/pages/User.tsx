@@ -10,6 +10,7 @@ import { hashHistory } from 'react-router';
 import ActivityPanel from '../components/ActivityPanel';
 import * as database from '../database';
 import IActivity from '../types/IActivity';
+import IRegularUser from '../types/IRegularUser';
 import UserInfoPanel from '../components/UserInfoPanel';
 
 interface IUserProps {
@@ -18,7 +19,7 @@ interface IUserProps {
 
 interface IUserState {
   activity: IActivity[];
-  user: any;
+  user: IRegularUser;
 }
 
 export default class User extends React.Component<IUserProps, IUserState> {
@@ -26,13 +27,13 @@ export default class User extends React.Component<IUserProps, IUserState> {
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = { activity: [], user: {} };
+    this.state = { activity: [], user: {} as IRegularUser };
   }
 
   componentDidMount() {
     const {params} = this.props;
-
     this.bindAsObject(firebase.database().ref(`users/${params.id}`), 'user');
+
     database.getActivity().then((activity) => {
       const filteredActivity = activity.filter((a) => (a.userId === params.id));
       this.setState({ activity: filteredActivity, user: this.state.user });
@@ -47,24 +48,20 @@ export default class User extends React.Component<IUserProps, IUserState> {
       return null;
     }
 
-    return (
-      <section>
-        <PageHeader className='text-center'>صفحة مستخدم</PageHeader>
+    return (<section>
+      <PageHeader className='text-center'>صفحة مستخدم</PageHeader>
 
-        <Grid>
-          <Breadcrumb dir='rtl'>
-            <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
-            <Breadcrumb.Item href='#/profiles'>الحسابات</Breadcrumb.Item>
-            <Breadcrumb.Item active>صفحة مستخدم</Breadcrumb.Item>
-          </Breadcrumb>
-        </Grid>
+      <Grid>
+        <Breadcrumb dir='rtl'>
+          <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
+          <Breadcrumb.Item href='#/profiles'>الحسابات</Breadcrumb.Item>
+          <Breadcrumb.Item active>صفحة مستخدم</Breadcrumb.Item>
+        </Breadcrumb>
 
-        <Grid>
-          <UserInfoPanel header='بيانات المستخدم' user={user} hideLink />
-          <ActivityPanel activity={activity} />
-        </Grid>
-      </section>
-    );
+        <UserInfoPanel header='بيانات المستخدم' user={user} hideLink />
+        <ActivityPanel activity={activity} />
+      </Grid>
+    </section>);
   }
 }
 

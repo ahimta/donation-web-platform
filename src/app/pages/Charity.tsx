@@ -2,10 +2,10 @@
 
 import firebase from 'firebase';
 import * as React from 'react';
-import ReactFireMixin from 'reactfire';
-import reactMixin from 'react-mixin';
 import { Breadcrumb, Grid, PageHeader } from 'react-bootstrap';
+import reactMixin from 'react-mixin';
 import { hashHistory } from 'react-router';
+import ReactFireMixin from 'reactfire';
 
 import ActivityPanel from '../components/ActivityPanel';
 import CharityInfoPanel from '../components/CharityInfoPanel';
@@ -31,8 +31,8 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 
   componentDidMount() {
     const {id} = this.props.params;
-
     this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity');
+
     database.getActivity().then((activity) => {
       const filteredActivity = activity.filter((a) => (a.userId === id));
       this.setState({ activity: filteredActivity, charity: this.state.charity } as ICharityState);
@@ -47,24 +47,20 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
       return null;
     }
 
-    return (
-      <section>
-        <PageHeader className='text-center'>صفحة جمعية</PageHeader>
+    return (<section>
+      <PageHeader className='text-center'>صفحة جمعية</PageHeader>
 
-        <Grid>
-          <Breadcrumb dir='rtl'>
-            <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
-            <Breadcrumb.Item href='#/profiles'>الحسابات</Breadcrumb.Item>
-            <Breadcrumb.Item active>صفحة جمعية</Breadcrumb.Item>
-          </Breadcrumb>
-        </Grid>
+      <Grid>
+        <Breadcrumb dir='rtl'>
+          <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
+          <Breadcrumb.Item href='#/profiles'>الحسابات</Breadcrumb.Item>
+          <Breadcrumb.Item active>صفحة جمعية</Breadcrumb.Item>
+        </Breadcrumb>
 
-        <Grid>
-          <CharityInfoPanel charity={charity} />
-          <ActivityPanel activity={activity} />
-        </Grid>
-      </section>
-    );
+        <CharityInfoPanel charity={charity} />
+        <ActivityPanel activity={activity} />
+      </Grid>
+    </section>);
   }
 }
 
