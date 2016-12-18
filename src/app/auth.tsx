@@ -23,6 +23,16 @@ export function logout(): Promise<void> {
   });
 }
 
+export function ensureLoggedIn(userId?: string): Promise<string> {
+  if (userId) {
+    return Promise.resolve(userId);
+  } else {
+    return login().then((user) => {
+      return user.uid;
+    });
+  }
+}
+
 export function registerCharity({description, email, location, name, password, phone, website}: ICharity): Promise<any> {
 
   return firebase.auth().createUserWithEmailAndPassword(email, password).then((loggedInCharity) => {

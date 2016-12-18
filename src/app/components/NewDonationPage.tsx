@@ -24,7 +24,6 @@ export default (DonationPageComponent: any) => class NewDonationPage extends Rea
 
   constructor(props: any, context: any) {
     super(props, context);
-
     this.state = { location: 'riyadh', notes: '', phone: '', photo: null, uploading: false };
   }
 
@@ -50,7 +49,8 @@ export default (DonationPageComponent: any) => class NewDonationPage extends Rea
     const donationType = WrappedElement.donationType;
     const wrappedDonation = WrappedElement.getDonation();
 
-    const helper = (donorId: string) => {
+    event.preventDefault();
+    auth.ensureLoggedIn(currentUserId).then((donorId: string) => {
       this.setState({ uploading: true } as INewDonationPageState);
 
       image.upload(photo).then(({url}) => {
@@ -61,15 +61,7 @@ export default (DonationPageComponent: any) => class NewDonationPage extends Rea
           hashHistory.push(donationUrl);
         });
       });
-    };
-
-    event.preventDefault();
-
-    if (currentUserId) {
-      helper(currentUserId);
-    } else {
-      auth.login().then(currentUser => helper(currentUser.uid));
-    }
+    });
   }
 
   private handleChange(fieldName: string) {

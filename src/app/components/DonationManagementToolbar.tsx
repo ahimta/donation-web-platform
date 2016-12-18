@@ -115,16 +115,8 @@ export default class DonationManagementToolbar extends React.Component<IDonation
   }
 
   private reserveDonation(donationType: DonationType, donationId: string, reservationType: ReservationType, userRole: UserRole, currentId: string, onUpdate: Function) {
-    const helper = (userOrCharityId) => {
-      database.reserveDonation(donationType, donationId, reservationType, userRole, userOrCharityId).then(onUpdate);
-    };
-
-    if (currentId) {
-      helper(currentId);
-    } else {
-      auth.login().then((user) => {
-        helper(user.uid);
-      });
-    }
+    auth.ensureLoggedIn(currentId).then((userId) => {
+      database.reserveDonation(donationType, donationId, reservationType, userRole, userId).then(onUpdate);
+    });
   }
 }
