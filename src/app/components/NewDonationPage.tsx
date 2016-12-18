@@ -6,6 +6,7 @@ import * as auth from '../auth';
 import * as database from '../database';
 import * as image from '../image';
 import INewDonationPage from '../types/INewDonationPage';
+import * as storage from '../storage';
 
 interface INewDonationPageProps { }
 
@@ -24,7 +25,7 @@ export default (DonationPageComponent: any) => class NewDonationPage extends Rea
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = { location: 'riyadh', notes: '', phone: '', photo: null, uploading: false };
+    this.state = { location: 'riyadh', notes: '', phone: storage.getItem('phone'), photo: null, uploading: false };
   }
 
   render() {
@@ -43,13 +44,15 @@ export default (DonationPageComponent: any) => class NewDonationPage extends Rea
 
   private handleSubmit(event: any) {
     const {currentUserId} = this.context;
-    const {photo} = this.state;
+    const {phone, photo} = this.state;
 
     const WrappedElement = this.WrappedElement;
     const donationType = WrappedElement.donationType;
     const wrappedDonation = WrappedElement.getDonation();
 
     event.preventDefault();
+    storage.setItem('phone', phone);
+
     auth.ensureLoggedIn(currentUserId).then((donorId: string) => {
       this.setState({ uploading: true } as INewDonationPageState);
 
