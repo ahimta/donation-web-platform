@@ -5,16 +5,17 @@ import * as React from 'react';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import * as storage from '../storage';
 
 interface IAppProps {
-  children: Object;
+  readonly children: Object;
 }
 
 interface IAppState {
-  currentCharityId: string;
-  currentId: string;
-  currentRole: string;
-  currentUserId: string;
+  readonly currentCharityId: string;
+  readonly currentId: string;
+  readonly currentRole: string;
+  readonly currentUserId: string;
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
@@ -31,13 +32,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   constructor(props: any, context: any) {
     super(props, context);
-
-    this.state = {
-      currentCharityId: '',
-      currentId: '',
-      currentUserId: '',
-      currentRole: ''
-    };
+    this.state = { currentCharityId: '', currentId: '', currentUserId: '', currentRole: '' };
   }
 
   getChildContext() {
@@ -50,10 +45,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
         const [{providerId}] = user.providerData;
 
         if (providerId === 'google.com') {
+          const phone = storage.getItem('phone');
           const {displayName, email, photoURL, uid} = user;
 
           this.setState({ currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid });
-          firebase.database().ref('users').child(uid).set({ displayName, email, photoURL, uid });
+          firebase.database().ref('users').child(uid).set({ displayName, email, phone, photoURL, uid });
         } else if (providerId === 'password') {
           this.setState({ currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: '' });
         }
