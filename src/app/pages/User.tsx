@@ -9,8 +9,10 @@ import { hashHistory } from 'react-router';
 
 import ActivityPanel from '../components/ActivityPanel';
 import * as database from '../database';
+import EmailLink from '../components/EmailLink';
 import IActivity from '../types/IActivity';
 import IRegularUser from '../types/IRegularUser';
+import PhoneLink from '../components/PhoneLink';
 
 interface IUserProps {
   params: { id: string };
@@ -69,11 +71,11 @@ export default class User extends React.Component<IUserProps, IUserState> {
               </tr>
               <tr>
                 <th className='text-center'>الجوال/الواتساب</th>
-                <td className='text-center'><a dir='ltr' href={`tel:${user.phone}`}>{user.phone}</a></td>
+                <td className='text-center'><PhoneLink phone={user.phone} /></td>
               </tr>
               <tr>
                 <th className='text-center'>الإيميل</th>
-                <td className='text-center'><a href={`mailto:${user.email}`} target='_blank'>{user.email}</a></td>
+                <td className='text-center'><EmailLink email={user.email} /></td>
               </tr>
             </tbody>
           </Table>

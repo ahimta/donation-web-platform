@@ -7,6 +7,7 @@ import reactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
 
 import ICharity from '../types/ICharity';
+import PhoneLink from '../components/PhoneLink';
 import t from '../translate';
 
 interface ICharitiesProps { }
@@ -60,7 +61,7 @@ export default class Charities extends React.Component<ICharitiesProps, IChariti
     return (<tr key={uid}>
       <td className='text-center'><a href={`#/charities/${uid}`}>{name}</a></td>
       <td className='text-center'>{t(location)}</td>
-      <td className='text-center'><a dir='ltr' href={`tel:${phone}`}>{phone}</a></td>
+      <td className='text-center'><PhoneLink phone={phone} /></td>
     </tr>);
   }
 }

@@ -9,7 +9,10 @@ import ReactFireMixin from 'reactfire';
 
 import ActivityPanel from '../components/ActivityPanel';
 import * as database from '../database';
+import EmailLink from '../components/EmailLink';
 import IActivity from '../types/IActivity';
+import ICharity from '../types/ICharity';
+import PhoneLink from '../components/PhoneLink';
 import t from '../translate';
 
 interface ICharityProps {
@@ -18,7 +21,7 @@ interface ICharityProps {
 
 interface ICharityState {
   readonly activity: IActivity[];
-  readonly charity: any;
+  readonly charity: ICharity;
 }
 
 export default class Charity extends React.Component<ICharityProps, ICharityState> {
@@ -26,7 +29,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = { activity: [], charity: {} };
+    this.state = { activity: [], charity: {} as ICharity };
   }
 
   componentDidMount() {
@@ -74,11 +77,11 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
               </tr>
               <tr>
                 <th className='text-center'>الجوال/الواتساب</th>
-                <td className='text-center'><a dir='ltr' href={`tel:${charity.phone}`}>{charity.phone}</a></td>
+                <td className='text-center'><PhoneLink phone={charity.phone} /></td>
               </tr>
               <tr>
                 <th className='text-center'>الإيميل</th>
-                <td className='text-center'><a href={`mailto:${charity.email}`} target='_blank'>{charity.email}</a></td>
+                <td className='text-center'><EmailLink email={charity.email} /></td>
               </tr>
               <tr>
                 <th className='text-center'>الموقع الرسمي</th>

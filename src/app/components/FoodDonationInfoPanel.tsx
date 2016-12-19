@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Panel, Table } from 'react-bootstrap';
 
 import IFoodDonation from '../types/IFoodDonation';
+import PhoneLink from '../components/PhoneLink';
 import t from '../translate';
 
 interface IFoodDonationInfoPanelProps {
@@ -48,7 +49,7 @@ export default class FoodDonationInfoPanel extends React.Component<IFoodDonation
           </tr>
           <tr>
             <th className='text-center'>الجوال/الواتساب</th>
-            <td className='text-center'><a dir='ltr' href={`tel:${phone}`}>{phone}</a></td>
+            <td className='text-center'><PhoneLink phone={phone} /></td>
           </tr>
           <tr className={dishes ? '' : 'hidden'}>
             <th className='text-center'>الأطباق</th>
