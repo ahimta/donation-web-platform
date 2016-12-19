@@ -42,9 +42,10 @@ export default class FoodDonationInfoPanel extends React.Component<IFoodDonation
           <tr>
             <th className='text-center'>وقت الاستلام</th>
             <td className='text-center'>
-              <span>متوفر</span>
+              <span>{moment(pickupDatetime).format('dddd YYYY/MM/DD - hh A')}</span>&nbsp;
+              (<span>متوفر</span>
               &nbsp;
-              <span>{moment(pickupDatetime).fromNow()}</span>
+              <span>{moment(pickupDatetime).fromNow()}</span>)
             </td>
           </tr>
           <tr>
