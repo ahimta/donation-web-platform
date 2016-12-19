@@ -49,6 +49,10 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
       const {params} = this.props;
       const {donation, reservation} = this.state;
 
+      const ManagementToolbar = <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
+        deleteDonation={this.deleteDonation} donationId={params.id} donationType={donationType} donorId={donation.donorId}
+        onUpdate={this.getDonation.bind(this)} reservation={reservation} />;
+
       return (<section>
         <PageHeader className='text-center'>{title}</PageHeader>
         <Grid>
@@ -58,21 +62,13 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
             <Breadcrumb.Item active>{title}</Breadcrumb.Item>
           </Breadcrumb>
 
-          <DonationInfoPanel donation={donation} />
+          <DonationInfoPanel donation={donation} footer={ManagementToolbar} />
         </Grid>
 
         <hr className={donation.photoUrl ? '' : 'hidden'} />
 
         <Grid className={donation.photoUrl ? '' : 'hidden'}>
           <Image src={donation.photoUrl} responsive thumbnail />
-        </Grid>
-
-        <hr />
-
-        <Grid className='text-center'>
-          <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
-            deleteDonation={this.deleteDonation} donationId={params.id} donationType={donationType} donorId={donation.donorId}
-            onUpdate={this.getDonation.bind(this)} reservation={reservation} />
         </Grid>
       </section>);
     }

@@ -8,19 +8,21 @@ import IFoodDonation from '../types/IFoodDonation';
 import t from '../translate';
 
 interface IFoodDonationInfoPanelProps {
-  donation: IFoodDonation;
+  readonly donation: IFoodDonation;
+  readonly footer: any;
 }
 
 interface IFoodDonationInfoPanelState { }
 
 export default class FoodDonationInfoPanel extends React.Component<IFoodDonationInfoPanelProps, IFoodDonationInfoPanelState> {
   static defautProps = { donation: {} };
-  static propTypes = { donation: React.PropTypes.object.isRequired };
+  static propTypes = { donation: React.PropTypes.object.isRequired, footer: React.PropTypes.element.isRequired };
 
   render() {
-    const {dishes, location, notes, occasion, phone, pickupDatetime, type} = this.props.donation;
+    const {donation, footer} = this.props;
+    const {dishes, location, notes, occasion, phone, pickupDatetime, type} = donation;
 
-    return (<Panel header='بيانات التبرع' footer={notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
+    return (<Panel header='بيانات التبرع' footer={footer} bsStyle='primary' className='text-center' collapsible defaultExpanded>
       <Table fill>
         <tbody dir='rtl'>
           <tr>
@@ -36,10 +38,6 @@ export default class FoodDonationInfoPanel extends React.Component<IFoodDonation
             <td className='text-center'>{t(location)}</td>
           </tr>
           <tr>
-            <th className='text-center'>الأطباق</th>
-            <td className='text-center'>{dishes}</td>
-          </tr>
-          <tr>
             <th className='text-center'>وقت الاستلام</th>
             <td className='text-center'>
               <span>{moment(pickupDatetime).format('dddd YYYY/MM/DD - hh A')}</span>&nbsp;
@@ -51,6 +49,14 @@ export default class FoodDonationInfoPanel extends React.Component<IFoodDonation
           <tr>
             <th className='text-center'>الجوال/الواتساب</th>
             <td className='text-center'><a dir='ltr' href={`tel:${phone}`}>{phone}</a></td>
+          </tr>
+          <tr className={dishes ? '' : 'hidden'}>
+            <th className='text-center'>الأطباق</th>
+            <td className='text-center'>{dishes}</td>
+          </tr>
+          <tr className={notes ? '' : 'hidden'}>
+            <th className='text-center'>ملاحظات</th>
+            <td className='text-center'>{notes}</td>
           </tr>
         </tbody>
       </Table>

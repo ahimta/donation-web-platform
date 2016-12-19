@@ -31,7 +31,7 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
     const Activity = activity.map(this.mapActivity.bind(this));
     const Header = <span dir='rtl'><span>النشاطات</span><span className='caret'></span></span>;
 
-    return (<Panel className='text-center' header={Header} collapsible defaultExpanded>
+    return (<Panel bsStyle='primary' className='text-center' header={Header} collapsible defaultExpanded>
       <ListGroup fill>
         {Activity}
       </ListGroup>

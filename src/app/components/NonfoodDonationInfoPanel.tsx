@@ -7,19 +7,21 @@ import INonfoodDonation from '../types/INonfoodDonation';
 import t from '../translate';
 
 interface INonfoodDonationInfoPanelProps {
-  donation: INonfoodDonation;
+  readonly donation: INonfoodDonation;
+  readonly footer: any;
 }
 
 interface INonfoodDonationInfoPanelState { }
 
 export default class NonfoodDonationInfoPanel extends React.Component<INonfoodDonationInfoPanelProps, INonfoodDonationInfoPanelState> {
   static defautProps = { donation: {} };
-  static propTypes = { donation: React.PropTypes.object.isRequired };
+  static propTypes = { donation: React.PropTypes.object.isRequired, footer: React.PropTypes.element.isRequired };
 
   render() {
-    const {location, notes, phone, state, type} = this.props.donation;
+    const {donation, footer} = this.props;
+    const {location, notes, phone, state, type} = donation;
 
-    return (<Panel bsStyle='primary' className='text-center' footer={notes} header='بيانات التبرع'
+    return (<Panel bsStyle='primary' className='text-center' footer={footer} header='بيانات التبرع'
       collapsible defaultExpanded>
       <Table fill>
         <tbody dir='rtl'>
@@ -38,6 +40,10 @@ export default class NonfoodDonationInfoPanel extends React.Component<INonfoodDo
           <tr>
             <th className='text-center'>الجوال/الواتساب</th>
             <td className='text-center'><a dir='ltr' href={`tel:${phone}`}>{phone}</a></td>
+          </tr>
+          <tr className={notes ? '' : 'hidden'}>
+            <th className='text-center'>ملاحظات</th>
+            <td className='text-center'>{notes}</td>
           </tr>
         </tbody>
       </Table>
