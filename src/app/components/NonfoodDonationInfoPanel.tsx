@@ -17,23 +17,27 @@ export default class NonfoodDonationInfoPanel extends React.Component<INonfoodDo
   static propTypes = { donation: React.PropTypes.object.isRequired };
 
   render() {
-    const {donation} = this.props;
+    const {location, notes, phone, state, type} = this.props.donation;
 
-    return (<Panel bsStyle='primary' className='text-center' footer={donation.notes} header='بيانات التبرع'
+    return (<Panel bsStyle='primary' className='text-center' footer={notes} header='بيانات التبرع'
       collapsible defaultExpanded>
       <Table fill>
         <tbody dir='rtl'>
           <tr>
             <th className='text-center'>النوع</th>
-            <td className='text-center'>{t(donation.type)}</td>
+            <td className='text-center'>{t(type)}</td>
           </tr>
           <tr>
             <th className='text-center'>حالة التبرع</th>
-            <td className='text-center'>{t(donation.state)}</td>
+            <td className='text-center'>{t(state)}</td>
           </tr>
           <tr>
             <th className='text-center'>الموقع</th>
-            <td className='text-center'>{t(donation.location)}</td>
+            <td className='text-center'>{t(location)}</td>
+          </tr>
+          <tr>
+            <th className='text-center'>الجوال/الواتساب</th>
+            <td className='text-center'><a href={`tel:${phone}`}>{phone}</a></td>
           </tr>
         </tbody>
       </Table>

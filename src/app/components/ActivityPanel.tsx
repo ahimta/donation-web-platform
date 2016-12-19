@@ -72,7 +72,7 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
       </ListGroupItem>);
     } else if (actionName === 'donation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
-        {this.getUrlForDonation(donationType, donationId, donation, 'تبرع(ت)')}&nbsp;
+        {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
         {this.getUrlForUser(userRole, userId, user)}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);

@@ -6,7 +6,6 @@ import { hashHistory } from 'react-router';
 
 import * as database from '../database';
 import DonationManagementToolbar from '../components/DonationManagementToolbar';
-import UserInfoPanel from '../components/UserInfoPanel';
 
 import DonationType from '../types/DonationType';
 import IDonation from '../types/IDonation';
@@ -63,7 +62,6 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
           </Breadcrumb>
 
           <DonationInfoPanel donation={donation} />
-          <UserInfoPanel phone={donation.phone} user={donor} />
         </Grid>
 
         <hr className={donation.photoUrl ? '' : 'hidden'} />

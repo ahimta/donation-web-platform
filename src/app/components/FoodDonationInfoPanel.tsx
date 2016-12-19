@@ -18,34 +18,38 @@ export default class FoodDonationInfoPanel extends React.Component<IFoodDonation
   static propTypes = { donation: React.PropTypes.object.isRequired };
 
   render() {
-    const {donation} = this.props;
+    const {dishes, location, notes, occasion, phone, pickupDatetime, type} = this.props.donation;
 
-    return (<Panel header='بيانات التبرع' footer={donation.notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
+    return (<Panel header='بيانات التبرع' footer={notes} bsStyle='primary' className='text-center' collapsible defaultExpanded>
       <Table fill>
         <tbody dir='rtl'>
           <tr>
             <th className='text-center'>النوع</th>
-            <td className='text-center'>{t(donation.type)}</td>
+            <td className='text-center'>{t(type)}</td>
           </tr>
           <tr>
             <th className='text-center'>المناسبة</th>
-            <td className='text-center'>{t(donation.occasion)}</td>
+            <td className='text-center'>{t(occasion)}</td>
           </tr>
           <tr>
             <th className='text-center'>الموقع</th>
-            <td className='text-center'>{t(donation.location)}</td>
+            <td className='text-center'>{t(location)}</td>
           </tr>
           <tr>
             <th className='text-center'>الأطباق</th>
-            <td className='text-center'>{donation.dishes}</td>
+            <td className='text-center'>{dishes}</td>
           </tr>
           <tr>
-            <th className='text-center'>الحالة</th>
+            <th className='text-center'>وقت الاستلام</th>
             <td className='text-center'>
               <span>متوفر</span>
               &nbsp;
-              <span>{moment(donation.pickupDatetime).fromNow()}</span>
+              <span>{moment(pickupDatetime).fromNow()}</span>
             </td>
+          </tr>
+          <tr>
+            <th className='text-center'>الجوال/الواتساب</th>
+            <td className='text-center'><a href={`tel:${phone}`}>{phone}</a></td>
           </tr>
         </tbody>
       </Table>
