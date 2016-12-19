@@ -11,6 +11,7 @@ import { useScroll } from 'react-router-scroll';
 
 import App from './app/containers/App';
 import Activity from './app/pages/Activity';
+import Charities from './app/pages/Charities';
 import Charity from './app/pages/Charity';
 import CharityLogin from './app/pages/CharityLogin';
 import CharityRegister from './app/pages/CharityRegister';
@@ -22,7 +23,6 @@ import NewFoodDonation from './app/pages/NewFoodDonation';
 import NewNonfoodDonation from './app/pages/NewNonfoodDonation';
 import NonfoodDonation from './app/pages/NonfoodDonation';
 import NotFound from './app/pages/NotFound';
-import Profiles from './app/pages/Profiles';
 import User from './app/pages/User';
 
 import 'moment/locale/ar-sa';
@@ -55,6 +55,7 @@ ReactDOM.render(
       </Route>
 
       <Route path='/charities' component={App}>
+        <IndexRoute component={Charities} />
         <Route path='login' component={CharityLogin} />
         <Route path='register' component={CharityRegister} />
         <Route path=':id' component={Charity} />
@@ -71,10 +72,6 @@ ReactDOM.render(
 
         <Route path='receive' component={Donations} />
         <Route path='deliver' component={Donations} />
-      </Route>
-
-      <Route path='/profiles' component={App}>
-        <IndexRoute component={Profiles} />
       </Route>
 
       <Route path='/users' component={App}>

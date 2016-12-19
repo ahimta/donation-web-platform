@@ -34,7 +34,7 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
       <Grid>
         <Breadcrumb dir='rtl'>
           <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
-          <Breadcrumb.Item href='#/profiles'>الحسابات</Breadcrumb.Item>
+          <Breadcrumb.Item href='#/charities'>الجمعيات</Breadcrumb.Item>
           <Breadcrumb.Item active>تسجيل كجمعية</Breadcrumb.Item>
         </Breadcrumb>
 

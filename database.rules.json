@@ -2,7 +2,9 @@
   "rules": {
     "activity": {
       ".read": true,
-      ".write": true
+      "$id": {
+      	".write": "!data.exists() && auth !== null && newData.child('userId').val() === auth.uid"
+      }
     },
     "charities": {
       ".read": true,

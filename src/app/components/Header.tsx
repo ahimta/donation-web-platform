@@ -28,7 +28,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         <Navbar.Collapse>
           <Nav className='text-right'>
             <NavItem className={this.getLogoutClass(currentRole)} onClick={auth.logout}>سجل خروج</NavItem>
-            <NavItem href='#/charities/register' onClick={this.goto.bind(null, '/charities/register')}>سجل كجمعية</NavItem>
+            <NavItem className={currentRole === 'charity' ? 'hidden' : ''} href='#/charities/register' onClick={this.goto.bind(null, '/charities/register')}>سجل كجمعية</NavItem>
             <NavItem className={this.getLogoutClass(currentRole)} href={`#${this.getAccountUrl(currentRole, currentId)}`} onClick={this.goto.bind(null, this.getAccountUrl(currentRole, currentId))}>حسابي</NavItem>
             <NavDropdown title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentRole)}>
               <MenuItem className='text-right' href='#/charities/login'>كجمعية</MenuItem>
@@ -38,7 +38,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
           <Nav pullRight className='text-right'>
             <NavDropdown title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'>
               <MenuItem className='text-right' href='#/donations'>التبرعات</MenuItem>
-              <MenuItem className='text-right' href='#/profiles'>الحسابات</MenuItem>
+              <MenuItem className='text-right' href='#/charities'>الجمعيات</MenuItem>
               <MenuItem className='text-right' href='#/activity'>النشاطات</MenuItem>
             </NavDropdown>
             <NavItem className={this.getCharityClass(currentRole)} href='#/donations/receive' onClick={this.goto.bind(null, '/donations/receive')}>استقبل تبرع</NavItem>

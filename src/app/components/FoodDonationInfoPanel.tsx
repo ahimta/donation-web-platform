@@ -49,7 +49,7 @@ export default class FoodDonationInfoPanel extends React.Component<IFoodDonation
           </tr>
           <tr>
             <th className='text-center'>الجوال/الواتساب</th>
-            <td className='text-center'><a href={`tel:${phone}`}>{phone}</a></td>
+            <td className='text-center'><a dir='ltr' href={`tel:${phone}`}>{phone}</a></td>
           </tr>
         </tbody>
       </Table>
