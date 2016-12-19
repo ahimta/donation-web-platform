@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import IActivity from './types/IActivity';
 import IDonation from './types/IDonation';
-import IRegularUser from './types/IRegularUser';
 import IReservation from './types/IReservation';
 import DonationType from './types/DonationType';
 import ReservationType from './types/ReservationType';
@@ -133,14 +132,15 @@ export function getDonations(donationType: DonationType): Promise<IDonation[]> {
   const promises = [donationsRef.once('value'), reservationsRef.once('value')];
   return Promise.all(promises).then(([donationsSnapshot, reservationsSnapshot]) => {
     const donations = [];
-    const reservations = reservationsSnapshot.val();
+    const reservations = reservationsSnapshot.val() || [];
 
     donationsSnapshot.forEach((donationSnapshot) => {
       const donation = donationSnapshot.val();
       const key = donationSnapshot.key;
       const reservation = reservations[key];
+      const reservationType = reservation && reservation.type;
 
-      const fullDonation = Immutable.Map(reservation).merge(donation).merge({ '.key': key, reservationType: reservation.type }).toObject();
+      const fullDonation = Immutable.Map(reservation).merge(donation).merge({ '.key': key, reservationType }).toObject();
       donations.push(fullDonation);
     });
 
@@ -157,9 +157,9 @@ export function getActivity(): Promise<IActivity[]> {
   const promises = [activityPromise, charitiesPromise, foodDonationsPromise, nonfoodDonationsPromise];
   return Promise.all(promises).then(([activitySnapshot, charitiesSnapshot, foodDonationsSnapshot, nonfoodDonationsSnapshot]) => {
     const activity = [];
-    const charities = charitiesSnapshot.val();
-    const foodDonations = foodDonationsSnapshot.val();
-    const nonfoodDonations = nonfoodDonationsSnapshot.val();
+    const charities = charitiesSnapshot.val() || [];
+    const foodDonations = foodDonationsSnapshot.val() || [];
+    const nonfoodDonations = nonfoodDonationsSnapshot.val() || [];
 
     activitySnapshot.forEach((snapshot) => {
       const key = snapshot.key;

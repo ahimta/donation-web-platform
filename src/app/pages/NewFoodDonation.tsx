@@ -8,6 +8,7 @@ import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, I
 
 import LocationSelectField from '../components/LocationSelectField';
 import NewDonationPage from '../components/NewDonationPage';
+import PhotoInputGroup from '../components/PhotoInputGroup';
 import rcCalendarLocale from '../rc-calendar-locale';
 
 import DonationType from '../types/DonationType';
@@ -124,10 +125,7 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
             </div>
           </FormGroup>
 
-          <FormGroup controlId='foodDonationFoodPhotos' dir='rtl'>
-            <ControlLabel>صورة للتبرع</ControlLabel>
-            <FormControl accept='image/*' onChange={handlePhotoChange} type='file' />
-          </FormGroup>
+          <PhotoInputGroup handlePhotoChange={handlePhotoChange} label='صورة للتبرع' />
 
           <FormGroup controlId='foodDonationNotes' dir='rtl'>
             <ControlLabel>ملاحظات</ControlLabel>

@@ -33,11 +33,12 @@ export function ensureLoggedIn(userId?: string): Promise<string> {
   }
 }
 
-export function registerCharity({description, email, location, name, password, phone, website}: ICharity): Promise<any> {
+export function registerCharity({description, email, location, name, password, phone, photoUrl, website}: ICharity): Promise<any> {
 
   return firebase.auth().createUserWithEmailAndPassword(email, password).then((loggedInCharity) => {
     const {email, uid} = loggedInCharity;
-    return firebase.database().ref('charities').child(uid).set({ description, email, location, name, phone, website });
+    const charity: ICharity = { description, email, location, name, phone, photoUrl, website };
+    return firebase.database().ref('charities').child(uid).set(charity);
   }).catch((error) => {
     console.log(error);
   });

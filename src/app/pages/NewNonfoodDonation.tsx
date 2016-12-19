@@ -5,6 +5,7 @@ import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, I
 
 import LocationSelectField from '../components/LocationSelectField';
 import NewDonationPage from '../components/NewDonationPage';
+import PhotoInputGroup from '../components/PhotoInputGroup';
 
 import DonationType from '../types/DonationType';
 import INewDonationPage from '../types/INewDonationPage';
@@ -105,10 +106,7 @@ class NewNonfoodDonation extends React.Component<INewNonfoodDonationProps, INewN
             </InputGroup>
           </FormGroup>
 
-          <FormGroup controlId='foodDonationFoodPhotos' dir='rtl'>
-            <ControlLabel>صورة للتبرع</ControlLabel>
-            <FormControl onChange={handlePhotoChange} placeholder='صورة للتبرع' type='file' />
-          </FormGroup>
+          <PhotoInputGroup handlePhotoChange={handlePhotoChange} label='صورة للتبرع' />
 
           <FormGroup controlId='foodDonationNotes' dir='rtl'>
             <ControlLabel>ملاحظات</ControlLabel>

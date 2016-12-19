@@ -7,6 +7,7 @@ interface ICharity {
   readonly name: string;
   readonly password?: string;
   readonly phone: string;
+  readonly photoUrl?: string;
   readonly website: string;
 }
 

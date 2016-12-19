@@ -13,6 +13,7 @@ import EmailLink from '../components/EmailLink';
 import IActivity from '../types/IActivity';
 import IRegularUser from '../types/IRegularUser';
 import PhoneLink from '../components/PhoneLink';
+import PhotoPanel from '../components/PhotoPanel';
 
 interface IUserProps {
   params: { id: string };
@@ -81,6 +82,7 @@ export default class User extends React.Component<IUserProps, IUserState> {
           </Table>
         </Panel>
 
+        <PhotoPanel header='صورة المستخدم' photoUrl={user.photoURL} />
         <ActivityPanel activity={activity} />
       </Grid>
     </section>);

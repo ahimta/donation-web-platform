@@ -5,7 +5,8 @@ import { Breadcrumb, Grid, Image, PageHeader, Panel } from 'react-bootstrap';
 import { hashHistory } from 'react-router';
 
 import * as database from '../database';
-import DonationManagementToolbar from '../components/DonationManagementToolbar';
+import DonationManagementToolbar from './DonationManagementToolbar';
+import PhotoPanel from './PhotoPanel';
 
 import DonationType from '../types/DonationType';
 import IDonation from '../types/IDonation';
@@ -63,10 +64,7 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
           </Breadcrumb>
 
           <DonationInfoPanel donation={donation} footer={ManagementToolbar} />
-
-          <Panel bsStyle='primary' className={donation.photoUrl ? 'text-center' : 'hidden'} header='صورة للتبرع'>
-            <Image src={donation.photoUrl} responsive thumbnail />
-          </Panel>
+          <PhotoPanel header='صورة للتبرع' photoUrl={donation.photoUrl} />
         </Grid>
       </section>);
     }

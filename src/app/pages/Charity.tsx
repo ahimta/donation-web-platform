@@ -13,6 +13,7 @@ import EmailLink from '../components/EmailLink';
 import IActivity from '../types/IActivity';
 import ICharity from '../types/ICharity';
 import PhoneLink from '../components/PhoneLink';
+import PhotoPanel from '../components/PhotoPanel';
 import t from '../translate';
 
 interface ICharityProps {
@@ -83,14 +84,15 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
                 <th className='text-center'>الإيميل</th>
                 <td className='text-center'><EmailLink email={charity.email} /></td>
               </tr>
-              <tr>
+              <tr className={charity.website ? '' : 'hidden'}>
                 <th className='text-center'>الموقع الرسمي</th>
-                <td className='text-center'><a href={charity.website} target='_blank'>{charity.website}</a></td>
+                <td className='text-center'><a dir='ltr' href={charity.website} target='_blank'>{charity.website}</a></td>
               </tr>
             </tbody>
           </Table>
         </Panel>
 
+        <PhotoPanel header='شعار الجمعية' photoUrl={charity.photoUrl} />
         <ActivityPanel activity={activity} />
       </Grid>
     </section>);

@@ -1,28 +1,34 @@
 /// <reference path="../../../typings/index.d.ts" />
 
+import * as Immutable from 'immutable';
 import * as React from 'react';
 import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader } from 'react-bootstrap';
 import { hashHistory } from 'react-router';
 
 import * as auth from '../auth';
 import ICharity from '../types/ICharity';
+import * as image from '../image';
 import LocationSelectField from '../components/LocationSelectField';
+import PhotoInputGroup from '../components/PhotoInputGroup';
 
 interface ICharityRegisterProps { }
-
-type ICharityRegisterState = ICharity;
+type ICharityRegisterState = ICharity & {
+  readonly photo: File;
+  readonly uploading: boolean;
+};
 
 export default class CharityRegister extends React.Component<ICharityRegisterProps, ICharityRegisterState> {
   constructor(props: any, context: any) {
     super(props, context);
-
     this.state = {
       description: '',
       email: '',
+      photo: null,
       location: 'riyadh',
       name: '',
       password: '',
       phone: '',
+      uploading: false,
       website: ''
     };
   }
@@ -76,19 +82,16 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
             </InputGroup>
           </FormGroup>
 
-          <FormGroup controlId='foodDonationFoodPhotos' dir='rtl'>
-            <ControlLabel>شعار الجمعية</ControlLabel>
-            <FormControl type='file' placeholder='شعار الجمعية' />
-          </FormGroup>
+          <PhotoInputGroup handlePhotoChange={this.handlePhotoChange.bind(this)} label='شعار الجمعية' />
 
           <LocationSelectField onChange={this.handleOnChange('location').bind(this)} value={this.state.location} />
 
-          <FormGroup controlId='foodDonationNotes' dir='rtl'>
+          <FormGroup controlId='charityDescription' dir='rtl'>
             <ControlLabel>عن الجمعية</ControlLabel>
             <FormControl componentClass='textarea' placeholder='عن الجمعية' value={this.state.description} onChange={this.handleOnChange('description').bind(this)} />
           </FormGroup>
 
-          <Button type='submit' bsStyle='success' bsSize='lg' block>سجل كجمعية</Button>
+          <Button bsSize='lg' bsStyle='success' disabled={this.state.uploading} type='submit' block>سجل كجمعية</Button>
         </Form>
       </Grid>
     </section>);
@@ -100,10 +103,23 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
     };
   }
 
+  private handlePhotoChange(event: any) {
+    const fileInput: HTMLInputElement = event.target;
+    const file: File = fileInput.files[0];
+    this.setState({ photo: file } as ICharityRegisterState);
+  }
+
   private handleSubmit(event: any) {
+    const {photo} = this.state;
+
     event.preventDefault();
-    auth.registerCharity(this.state).then((_) => {
-      hashHistory.push('/donations');
+    this.setState({ uploading: true } as ICharityRegisterState);
+
+    image.upload(photo).then(({url}) => {
+      const charity: ICharity = Immutable.Map(this.state).merge({ photoUrl: url } as any).toJS();
+      return auth.registerCharity(charity).then((_) => {
+        hashHistory.push('/donations');
+      });
     });
   }
 
