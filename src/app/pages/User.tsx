@@ -31,7 +31,10 @@ export default class User extends React.Component<IUserProps, IUserState> {
 
   componentDidMount() {
     const {params} = this.props;
-    this.bindAsObject(firebase.database().ref(`users/${params.id}`), 'user');
+    this.bindAsObject(firebase.database().ref(`users/${params.id}`), 'user', (error: Error) => {
+      console.log(error);
+      hashHistory.push('/404');
+    });
 
     database.getActivity().then((activity) => {
       const filteredActivity = activity.filter((a) => (a.userRole === 'user' && a.userId === params.id));
@@ -42,6 +45,7 @@ export default class User extends React.Component<IUserProps, IUserState> {
   render() {
     const {activity, user} = this.state;
 
+    // hack
     if (user['.value'] === null) {
       hashHistory.push('/404');
       return null;

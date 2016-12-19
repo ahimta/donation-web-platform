@@ -1,7 +1,7 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
-import { Breadcrumb, Grid, Image, PageHeader } from 'react-bootstrap';
+import { Breadcrumb, Grid, Image, PageHeader, Panel } from 'react-bootstrap';
 import { hashHistory } from 'react-router';
 
 import * as database from '../database';
@@ -63,12 +63,10 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
           </Breadcrumb>
 
           <DonationInfoPanel donation={donation} footer={ManagementToolbar} />
-        </Grid>
 
-        <hr className={donation.photoUrl ? '' : 'hidden'} />
-
-        <Grid className={donation.photoUrl ? '' : 'hidden'}>
-          <Image src={donation.photoUrl} responsive thumbnail />
+          <Panel bsStyle='primary' className={donation.photoUrl ? 'text-center' : 'hidden'} header='صورة للتبرع'>
+            <Image src={donation.photoUrl} responsive thumbnail />
+          </Panel>
         </Grid>
       </section>);
     }

@@ -31,7 +31,9 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 
   componentDidMount() {
     const {id} = this.props.params;
-    this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity');
+    this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity', (error: Error) => {
+      console.log(error);
+    });
 
     database.getActivity().then((activity) => {
       const filteredActivity = activity.filter((a) => (a.userRole === 'charity' && a.userId === id));
@@ -42,6 +44,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
   render() {
     const {activity, charity} = this.state;
 
+    // hack
     if (charity['.value'] === null) {
       hashHistory.push('/404');
       return null;
