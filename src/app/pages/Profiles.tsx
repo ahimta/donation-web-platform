@@ -7,16 +7,12 @@ import reactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
 
 import CharitiesProfilesPanel from '../components/CharitiesProfilesPanel';
-import UsersProfilesPanel from '../components/UsersProfilesPanel';
-
 import ICharity from '../types/ICharity';
-import IRegularUser from '../types/IRegularUser';
 
 interface IProfilesProps { }
 
 interface IProfilesState {
   readonly charities: ICharity[];
-  readonly users: IRegularUser[];
 }
 
 export default class Profiles extends React.Component<IProfilesProps, IProfilesState> {
@@ -24,16 +20,15 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = { charities: [], users: [] };
+    this.state = { charities: [] };
   }
 
   componentDidMount() {
     this.bindAsArray(firebase.database().ref('charities'), 'charities');
-    this.bindAsArray(firebase.database().ref('users'), 'users');
   }
 
   render() {
-    const {charities, users} = this.state;
+    const {charities} = this.state;
 
     return (<section>
       <PageHeader className='text-center'>الحسابات</PageHeader>
@@ -45,7 +40,6 @@ export default class Profiles extends React.Component<IProfilesProps, IProfilesS
         </Breadcrumb>
 
         <CharitiesProfilesPanel charities={charities} />
-        <UsersProfilesPanel users={users} />
       </Grid>
     </section>);
   }

@@ -34,7 +34,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
     this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity');
 
     database.getActivity().then((activity) => {
-      const filteredActivity = activity.filter((a) => (a.userId === id));
+      const filteredActivity = activity.filter((a) => (a.userRole === 'charity' && a.userId === id));
       this.setState({ activity: filteredActivity, charity: this.state.charity } as ICharityState);
     });
   }

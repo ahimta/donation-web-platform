@@ -9,7 +9,6 @@ import DonationManagementToolbar from '../components/DonationManagementToolbar';
 
 import DonationType from '../types/DonationType';
 import IDonation from '../types/IDonation';
-import IRegularUser from '../types/IRegularUser';
 import IReservation from '../types/IReservation';
 import UserRole from '../types/UserRole';
 
@@ -18,7 +17,6 @@ interface IDonationPageProps {
 }
 
 interface IDonationPageState {
-  donor: IRegularUser;
   donation: IDonation;
   reservation: IReservation;
 }
@@ -37,7 +35,6 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
       super(props, context);
 
       this.state = {
-        donor: {} as IRegularUser,
         donation: { donorId: '' } as IDonation,
         reservation: {} as IReservation
       };
@@ -50,7 +47,7 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
     render() {
       const {currentId, currentRole, currentUserId} = this.context;
       const {params} = this.props;
-      const {donation, donor, reservation} = this.state;
+      const {donation, reservation} = this.state;
 
       return (<section>
         <PageHeader className='text-center'>{title}</PageHeader>
@@ -83,8 +80,8 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
     private getDonation() {
       const {params} = this.props;
 
-      database.getDonation(donationType, params.id).then(({donation, donor, reservation}) => {
-        this.setState({ donation, donor, reservation });
+      database.getDonation(donationType, params.id).then(({donation, reservation}) => {
+        this.setState({ donation, reservation });
       }).catch(({code}) => {
         if (code === 404) {
           hashHistory.push('/404');

@@ -35,7 +35,7 @@ export default class User extends React.Component<IUserProps, IUserState> {
     this.bindAsObject(firebase.database().ref(`users/${params.id}`), 'user');
 
     database.getActivity().then((activity) => {
-      const filteredActivity = activity.filter((a) => (a.userId === params.id));
+      const filteredActivity = activity.filter((a) => (a.userRole === 'user' && a.userId === params.id));
       this.setState({ activity: filteredActivity, user: this.state.user });
     });
   }

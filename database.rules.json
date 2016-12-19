@@ -39,8 +39,9 @@
       }
     },
     "users": {
-      ".read": true,
+      ".read": false,
       "$uid": {
+        ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid"
       }
     }
