@@ -11,11 +11,11 @@ interface IHeaderProps { }
 interface IHeaderState { }
 
 export default class Header extends React.Component<IHeaderProps, IHeaderState> {
-  static contextTypes = { currentRole: React.PropTypes.string };
-  context: { currentRole: UserRole };
+  static contextTypes = { currentId: React.PropTypes.string, currentRole: React.PropTypes.string };
+  context: { currentId: string, currentRole: UserRole };
 
   render() {
-    const {currentRole} = this.context;
+    const {currentId, currentRole} = this.context;
 
     return (<header style={{ marginBottom: '5em' }}>
       <Navbar collapseOnSelect fixedTop inverse>
@@ -27,12 +27,13 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav className='text-right'>
+            <NavItem className={this.getLogoutClass(currentRole)} onClick={auth.logout}>سجل خروج</NavItem>
             <NavItem href='#/charities/register' onClick={this.goto.bind(null, '/charities/register')}>سجل كجمعية</NavItem>
+            <NavItem className={this.getLogoutClass(currentRole)} href={`#${this.getAccountUrl(currentRole, currentId)}`} onClick={this.goto.bind(null, this.getAccountUrl(currentRole, currentId))}>حسابي</NavItem>
             <NavDropdown title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentRole)}>
               <MenuItem className='text-right' href='#/charities/login'>كجمعية</MenuItem>
               <MenuItem className='text-right' onClick={auth.login}>كفرد</MenuItem>
             </NavDropdown>
-            <NavItem className={this.getLogoutClass(currentRole)} onClick={auth.logout}>سجل خروج</NavItem>
           </Nav>
           <Nav pullRight className='text-right'>
             <NavDropdown title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'>
@@ -50,6 +51,10 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         </Navbar.Collapse>
       </Navbar>
     </header>);
+  }
+
+  private getAccountUrl(role: UserRole, id: string) {
+    return (role === 'charity') ? `/charities/${id}` : `/users/${id}`;
   }
 
   private getCharityClass(currentRole: UserRole) {
