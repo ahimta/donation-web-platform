@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 
 import { fetchAllDonations, removeDonation } from '../actions/index';
 import FoodDonationsPanel from '../components/FoodDonationsPanel';
+import Progressbar from '../components/Progressbar';
 import NonfoodDonationsPanel from '../components/NonfoodDonationsPanel';
 
 import IFoodDonation from '../types/IFoodDonation';
@@ -44,8 +45,13 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
           <Breadcrumb.Item active>التبرعات</Breadcrumb.Item>
         </Breadcrumb>
 
-        <FoodDonationsPanel currentId={currentId} donations={foodDonations} removeDonation={actions.removeDonation} />
-        <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} removeDonation={actions.removeDonation} />
+        <Progressbar data={foodDonations} emptyPhrase='لا يوجد تبرعات طعام حاليا'>
+          <FoodDonationsPanel currentId={currentId} donations={foodDonations} removeDonation={actions.removeDonation} />
+        </Progressbar>
+
+        <Progressbar data={nonfoodDonations} emptyPhrase='لا يوجد تبرعات غير طعام حاليا'>
+          <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} removeDonation={actions.removeDonation} />
+        </Progressbar>
       </Grid>
 
       <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>

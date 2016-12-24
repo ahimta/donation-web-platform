@@ -6,8 +6,7 @@ import INonfoodDonation from '../types/INonfoodDonation';
 import IReservation from '../types/IReservation';
 
 interface IAction {
-  readonly type: 'FETCH_ALL_DONATIONS' | 'FETCH_ALL_DONATIONS_FULFILLED' | 'FETCH_DONATION_FULFILLED' |
-  'FETCH_DONATION_REJECTED' | 'REMOVE_DONATION_FULFILLED';
+  readonly type: string;
   readonly payload: any;
 }
 
@@ -21,9 +20,9 @@ interface IState {
 }
 
 const initialState = {
-  donation: {donorId: ''} as IDonation,
-  foodDonations: [],
-  nonfoodDonations: [],
+  donation: null as IDonation,
+  foodDonations: null,
+  nonfoodDonations: null,
   reservation: {} as IReservation
 };
 
@@ -32,7 +31,13 @@ export default function donations(state: IState = initialState, {payload, type}:
     case 'FETCH_ALL_DONATIONS_FULFILLED':
     case 'REMOVE_DONATION_FULFILLED':
     case 'FETCH_DONATION_FULFILLED':
-      return Immutable.Map(state).merge(payload).toJS();
+      return Immutable.Map(state).merge(payload).merge({ errorCode: null }).toJS();
+
+    case 'FETCH_ALL_DONATIONS_PENDING':
+      return Immutable.Map(state).merge(payload).merge({ foodDonations: null, nonfoodDonations: null }).toJS();
+
+    case 'FETCH_DONATION_PENDING':
+      return Immutable.Map(state).merge(payload).merge({ donation: null, errorCode: null }).toJS();
 
     case 'FETCH_DONATION_REJECTED':
       if (payload.code === 404) {

@@ -6,6 +6,7 @@ import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, I
 import LocationSelectField from '../components/LocationSelectField';
 import NewDonationPage from '../components/NewDonationPage';
 import PhotoInputGroup from '../components/PhotoInputGroup';
+import Progressbar from '../components/Progressbar';
 
 import DonationType from '../types/DonationType';
 import INewDonationPage from '../types/INewDonationPage';
@@ -76,45 +77,47 @@ class NewNonfoodDonation extends React.Component<INewNonfoodDonationProps, INewN
       </Grid>
 
       <Grid>
-        <Form onSubmit={handleSubmit}>
-          <FormGroup controlId='type' dir='rtl'>
-            <ControlLabel>نوع التبرع</ControlLabel>
-            <FormControl componentClass='select' value={type} onChange={this.handleOnChange('type').bind(this)}>
-              <option value='appliances'>أجهزة كهربائية</option>
-              <option value='clothes'>ملابس</option>
-              <option value='toys'>ألعاب</option>
-              <option value='other'>آخر</option>
-            </FormControl>
-          </FormGroup>
+        <Progressbar data={!uploading}>
+          <Form onSubmit={handleSubmit}>
+            <FormGroup controlId='type' dir='rtl'>
+              <ControlLabel>نوع التبرع</ControlLabel>
+              <FormControl componentClass='select' value={type} onChange={this.handleOnChange('type').bind(this)}>
+                <option value='appliances'>أجهزة كهربائية</option>
+                <option value='clothes'>ملابس</option>
+                <option value='toys'>ألعاب</option>
+                <option value='other'>آخر</option>
+              </FormControl>
+            </FormGroup>
 
-          <LocationSelectField onChange={handleChange('location')} value={location} />
+            <LocationSelectField onChange={handleChange('location')} value={location} />
 
-          <FormGroup controlId='state' dir='rtl'>
-            <ControlLabel>حالة التبرع</ControlLabel>
-            <FormControl componentClass='select' value={state} onChange={this.handleOnChange('state').bind(this)}>
-              <option value='excellent'>ممتازة</option>
-              <option value='good'>جيدة</option>
-              <option value='fair'>لا بأس بها</option>
-              <option value='bad'>سيئة</option>
-            </FormControl>
-          </FormGroup>
+            <FormGroup controlId='state' dir='rtl'>
+              <ControlLabel>حالة التبرع</ControlLabel>
+              <FormControl componentClass='select' value={state} onChange={this.handleOnChange('state').bind(this)}>
+                <option value='excellent'>ممتازة</option>
+                <option value='good'>جيدة</option>
+                <option value='fair'>لا بأس بها</option>
+                <option value='bad'>سيئة</option>
+              </FormControl>
+            </FormGroup>
 
-          <FormGroup validationState={validateRequired(phone)}>
-            <InputGroup>
-              <FormControl type='tel' dir='ltr' value={phone} onChange={handleChange('phone')} required />
-              <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
-            </InputGroup>
-          </FormGroup>
+            <FormGroup validationState={validateRequired(phone)}>
+              <InputGroup>
+                <FormControl type='tel' dir='ltr' value={phone} onChange={handleChange('phone')} required />
+                <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
+              </InputGroup>
+            </FormGroup>
 
-          <PhotoInputGroup handlePhotoChange={handlePhotoChange} label='صورة للتبرع' />
+            <PhotoInputGroup handlePhotoChange={handlePhotoChange} label='صورة للتبرع' />
 
-          <FormGroup controlId='foodDonationNotes' dir='rtl'>
-            <ControlLabel>ملاحظات</ControlLabel>
-            <FormControl componentClass='textarea' placeholder='ملاحظات' value={notes} onChange={handleChange('notes')} />
-          </FormGroup>
+            <FormGroup controlId='foodDonationNotes' dir='rtl'>
+              <ControlLabel>ملاحظات</ControlLabel>
+              <FormControl componentClass='textarea' placeholder='ملاحظات' value={notes} onChange={handleChange('notes')} />
+            </FormGroup>
 
-          <Button bsSize='lg' bsStyle='success' disabled={uploading} type='submit' block>{donatePhrase}</Button>
-        </Form>
+            <Button bsSize='lg' bsStyle='success' disabled={uploading} type='submit' block>{donatePhrase}</Button>
+          </Form>
+        </Progressbar>
       </Grid>
     </section>);
   }

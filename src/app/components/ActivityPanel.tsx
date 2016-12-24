@@ -9,6 +9,7 @@ import IActivity from '../types/IActivity';
 import ICharity from '../types/ICharity';
 import IDonation from '../types/IDonation';
 import IUser from '../types/IUser';
+import Progressbar from '../components/Progressbar';
 import UserRole from '../types/UserRole';
 
 interface IActivityPanelProps {
@@ -19,7 +20,7 @@ interface IActivityPanelState { }
 
 export default class ActivityPanel extends React.Component<IActivityPanelProps, IActivityPanelState> {
   static defaultProps = { activity: [] };
-  static propTypes = { activity: React.PropTypes.array.isRequired };
+  static propTypes = { activity: React.PropTypes.array };
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -28,13 +29,15 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
 
   render() {
     const {activity} = this.props;
-    const Activity = activity.map(this.mapActivity.bind(this));
+    const Activity = activity ? activity.map(this.mapActivity.bind(this)) : [];
 
-    return (<Panel bsStyle='primary' className='text-center' header='النشاطات' collapsible defaultExpanded>
-      <ListGroup fill>
-        {Activity}
-      </ListGroup>
-    </Panel>);
+    return (<Progressbar data={activity} emptyPhrase='لا يوجد نشاطات حاليا'>
+      <Panel bsStyle='primary' className='text-center' header='النشاطات' collapsible defaultExpanded>
+        <ListGroup fill>
+          {Activity}
+        </ListGroup>
+      </Panel>
+    </Progressbar>);
   }
 
   private getUrlForDonation(donationType: DonationType, donationId: string, donation: IDonation, text: string) {

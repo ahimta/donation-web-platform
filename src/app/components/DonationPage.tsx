@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import { fetchDonation, removeDonation } from '../actions/index';
 import DonationManagementToolbar from './DonationManagementToolbar';
 import PhotoPanel from './PhotoPanel';
+import Progressbar from './Progressbar';
 
 import DonationType from '../types/DonationType';
 import IDonation from '../types/IDonation';
@@ -45,13 +46,16 @@ export default function donationPage(donationType: DonationType, title: string, 
       const {currentId, currentRole, currentUserId} = this.context;
       const {actions, donation, errorCode, params, reservation} = this.props;
 
+      const donorId = donation && donation.donorId;
+      const photoUrl = donation && donation.photoUrl;
+
       // hack
       if (errorCode === 404) {
         hashHistory.push('/404');
       }
 
       const ManagementToolbar = <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
-        deleteDonation={this.deleteDonation.bind(this)} donationId={params.id} donationType={donationType} donorId={donation.donorId}
+        deleteDonation={this.deleteDonation.bind(this)} donationId={params.id} donationType={donationType} donorId={donorId}
         onUpdate={actions.fetchDonation.bind(null, donationType, params.id)} reservation={reservation} />;
 
       return (<section>
@@ -63,8 +67,10 @@ export default function donationPage(donationType: DonationType, title: string, 
             <Breadcrumb.Item active>{title}</Breadcrumb.Item>
           </Breadcrumb>
 
-          <DonationInfoPanel donation={donation} footer={ManagementToolbar} />
-          <PhotoPanel header='صورة للتبرع' photoUrl={donation.photoUrl} />
+          <Progressbar data={donation}>
+            <DonationInfoPanel donation={donation} footer={ManagementToolbar} />
+            <PhotoPanel header='صورة للتبرع' photoUrl={photoUrl} />
+          </Progressbar>
         </Grid>
       </section>);
     }

@@ -9,6 +9,7 @@ import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, I
 import LocationSelectField from '../components/LocationSelectField';
 import NewDonationPage from '../components/NewDonationPage';
 import PhotoInputGroup from '../components/PhotoInputGroup';
+import Progressbar from '../components/Progressbar';
 import rcCalendarLocale from '../rc-calendar-locale';
 
 import DonationType from '../types/DonationType';
@@ -80,60 +81,62 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
           <Breadcrumb.Item active>تبرع بطعام</Breadcrumb.Item>
         </Breadcrumb>
 
-        <Form onSubmit={handleSubmit}>
-          <FormGroup controlId='foodDonationFoodType' dir='rtl'>
-            <ControlLabel>نوع الطعام</ControlLabel>
-            <FormControl componentClass='select' value={type} onChange={this.handleOnChange('type').bind(this)}>
-              <option value='fruits'>فواكه</option>
-              <option value='vegetables'>خضار</option>
-              <option value='misc'>منوع</option>
-            </FormControl>
-          </FormGroup>
+        <Progressbar data={!uploading}>
+          <Form onSubmit={handleSubmit}>
+            <FormGroup controlId='foodDonationFoodType' dir='rtl'>
+              <ControlLabel>نوع الطعام</ControlLabel>
+              <FormControl componentClass='select' value={type} onChange={this.handleOnChange('type').bind(this)}>
+                <option value='fruits'>فواكه</option>
+                <option value='vegetables'>خضار</option>
+                <option value='misc'>منوع</option>
+              </FormControl>
+            </FormGroup>
 
-          <FormGroup controlId='foodDonationOccasion' dir='rtl'>
-            <ControlLabel>المناسبة</ControlLabel>
-            <FormControl componentClass='select' value={occasion} onChange={this.handleOnChange('occasion').bind(this)}>
-              <option value='party'>حفلة</option>
-              <option value='wedding'>زواج</option>
-              <option value='buffet'>بوفيه مفتوح</option>
-              <option value='other'>آخر</option>
-            </FormControl>
-          </FormGroup>
+            <FormGroup controlId='foodDonationOccasion' dir='rtl'>
+              <ControlLabel>المناسبة</ControlLabel>
+              <FormControl componentClass='select' value={occasion} onChange={this.handleOnChange('occasion').bind(this)}>
+                <option value='party'>حفلة</option>
+                <option value='wedding'>زواج</option>
+                <option value='buffet'>بوفيه مفتوح</option>
+                <option value='other'>آخر</option>
+              </FormControl>
+            </FormGroup>
 
-          <LocationSelectField onChange={handleChange('location')} value={location} />
+            <LocationSelectField onChange={handleChange('location')} value={location} />
 
-          <FormGroup validationState={validateRequired(phone)}>
-            <InputGroup>
-              <FormControl type='tel' dir='ltr' value={phone} onChange={handleChange('phone')} required />
-              <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
-            </InputGroup>
-          </FormGroup>
+            <FormGroup validationState={validateRequired(phone)}>
+              <InputGroup>
+                <FormControl type='tel' dir='ltr' value={phone} onChange={handleChange('phone')} required />
+                <InputGroup.Addon>الجوال/الواتساب</InputGroup.Addon>
+              </InputGroup>
+            </FormGroup>
 
-          <FormGroup>
-            <InputGroup>
-              <FormControl type='text' dir='rtl' value={dishes} onChange={this.handleOnChange('dishes').bind(this)} />
-              <InputGroup.Addon>الأطباق</InputGroup.Addon>
-            </InputGroup>
-          </FormGroup>
+            <FormGroup>
+              <InputGroup>
+                <FormControl type='text' dir='rtl' value={dishes} onChange={this.handleOnChange('dishes').bind(this)} />
+                <InputGroup.Addon>الأطباق</InputGroup.Addon>
+              </InputGroup>
+            </FormGroup>
 
-          <FormGroup controlId='pickupTime' dir='rtl'>
-            <ControlLabel>وقت الاستلام</ControlLabel>
-            <div dir='ltr'>
-              <Calendar locale={rcCalendarLocale} onChange={this.handleDatetimeChange}
-                showDateInput={true} style={{ width: '100%' }} value={pickupDatetime}
-                timePicker={<TimePickerPanel showHour={true} showMinute={true} showSecond={true} />} />
-            </div>
-          </FormGroup>
+            <FormGroup controlId='pickupTime' dir='rtl'>
+              <ControlLabel>وقت الاستلام</ControlLabel>
+              <div dir='ltr'>
+                <Calendar locale={rcCalendarLocale} onChange={this.handleDatetimeChange}
+                  showDateInput={true} style={{ width: '100%' }} value={pickupDatetime}
+                  timePicker={<TimePickerPanel showHour={true} showMinute={true} showSecond={true} />} />
+              </div>
+            </FormGroup>
 
-          <PhotoInputGroup handlePhotoChange={handlePhotoChange} label='صورة للتبرع' />
+            <PhotoInputGroup handlePhotoChange={handlePhotoChange} label='صورة للتبرع' />
 
-          <FormGroup controlId='foodDonationNotes' dir='rtl'>
-            <ControlLabel>ملاحظات</ControlLabel>
-            <FormControl componentClass='textarea' placeholder='ملاحظات' value={notes} onChange={handleChange('notes')} />
-          </FormGroup>
+            <FormGroup controlId='foodDonationNotes' dir='rtl'>
+              <ControlLabel>ملاحظات</ControlLabel>
+              <FormControl componentClass='textarea' placeholder='ملاحظات' value={notes} onChange={handleChange('notes')} />
+            </FormGroup>
 
-          <Button bsSize='lg' bsStyle='success' disabled={uploading} type='submit' block>{donatePhrase}</Button>
-        </Form>
+            <Button bsSize='lg' bsStyle='success' disabled={uploading} type='submit' block>{donatePhrase}</Button>
+          </Form>
+        </Progressbar>
       </Grid>
     </section>);
   }
