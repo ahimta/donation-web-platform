@@ -2,33 +2,29 @@
 
 import * as React from 'react';
 import { Breadcrumb, Grid, PageHeader } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { IDispatch } from '~react-redux~redux';
+import { bindActionCreators } from 'redux';
 
 import ActivityPanel from '../components/ActivityPanel';
-import * as database from '../database';
+import { fetchActivity } from '../actions/index';
 
 import IActivity from '../types/IActivity';
 
-interface IActivityProps { }
-
-interface IActivityState {
+interface IActivityProps {
+  readonly actions: any;
   readonly activity: IActivity[];
 }
 
-export default class Activity extends React.Component<IActivityProps, IActivityState> {
-  constructor(props: any, context: any) {
-    super(props, context);
+interface IActivityState { }
 
-    this.state = { activity: [] };
-  }
-
-  componentDidMount() {
-    database.getActivity().then((activity) => {
-      this.setState({ activity });
-    });
+class Activity extends React.Component<IActivityProps, IActivityState> {
+  componentWillMount() {
+    this.props.actions.fetchActivity();
   }
 
   render() {
-    const {activity} = this.state;
+    const {activity} = this.props;
 
     return (<section>
       <PageHeader className='text-center'>النشاطات</PageHeader>
@@ -44,3 +40,13 @@ export default class Activity extends React.Component<IActivityProps, IActivityS
     </section>);
   }
 }
+
+function mapStateToProps({activity}: any) {
+  return activity;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Activity);
