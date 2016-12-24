@@ -1,10 +1,13 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
-import { Breadcrumb, Grid, Image, PageHeader, Panel } from 'react-bootstrap';
+import { Breadcrumb, Grid, PageHeader } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { IDispatch } from '~react-redux~redux';
 import { hashHistory } from 'react-router';
+import { bindActionCreators } from 'redux';
 
-import * as database from '../database';
+import { fetchDonation, removeDonation } from '../actions/index';
 import DonationManagementToolbar from './DonationManagementToolbar';
 import PhotoPanel from './PhotoPanel';
 
@@ -14,15 +17,16 @@ import IReservation from '../types/IReservation';
 import UserRole from '../types/UserRole';
 
 interface IDonationPageProps {
-  params: { id: string };
+  readonly actions: any;
+  readonly donation: IDonation;
+  readonly errorCode?: number;
+  readonly params: { id: string };
+  readonly reservation: IReservation;
 }
 
-interface IDonationPageState {
-  donation: IDonation;
-  reservation: IReservation;
-}
+interface IDonationPageState { }
 
-export default (donationType: DonationType, title: string, DonationInfoPanel: any) =>
+export default function donationPage(donationType: DonationType, title: string, DonationInfoPanel: any) {
   class DonationPage extends React.Component<IDonationPageProps, IDonationPageState> {
     static contextTypes = {
       currentId: React.PropTypes.string,
@@ -32,27 +36,23 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
 
     context: { currentId: string, currentRole: UserRole, currentUserId: string };
 
-    constructor(props: any, context: any) {
-      super(props, context);
-
-      this.state = {
-        donation: { donorId: '' } as IDonation,
-        reservation: {} as IReservation
-      };
-    }
-
-    componentDidMount() {
-      this.getDonation();
+    componentWillMount() {
+      const {actions, params} = this.props;
+      actions.fetchDonation(donationType, params.id);
     }
 
     render() {
       const {currentId, currentRole, currentUserId} = this.context;
-      const {params} = this.props;
-      const {donation, reservation} = this.state;
+      const {actions, donation, errorCode, params, reservation} = this.props;
+
+      // hack
+      if (errorCode === 404) {
+        hashHistory.push('/404');
+      }
 
       const ManagementToolbar = <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
-        deleteDonation={this.deleteDonation} donationId={params.id} donationType={donationType} donorId={donation.donorId}
-        onUpdate={this.getDonation.bind(this)} reservation={reservation} />;
+        deleteDonation={this.deleteDonation.bind(this)} donationId={params.id} donationType={donationType} donorId={donation.donorId}
+        onUpdate={actions.fetchDonation.bind(null, donationType, params.id)} reservation={reservation} />;
 
       return (<section>
         <PageHeader className='text-center'>{title}</PageHeader>
@@ -69,21 +69,23 @@ export default (donationType: DonationType, title: string, DonationInfoPanel: an
       </section>);
     }
 
-    private getDonation() {
-      const {params} = this.props;
-
-      database.getDonation(donationType, params.id).then(({donation, reservation}) => {
-        this.setState({ donation, reservation });
-      }).catch(({code}) => {
-        if (code === 404) {
-          hashHistory.push('/404');
-        }
-      });
-    }
-
     private deleteDonation(id: string) {
-      database.removeDonation(donationType, id).then(() => {
-        hashHistory.push('/donations');
-      });
+      const {actions, params} = this.props;
+
+      actions.removeDonation(donationType, params.id);
+      hashHistory.push('/donations');
     }
-  };
+  }
+
+  function mapStateToProps(state: any) {
+    const {donations} = state;
+    const {donation, errorCode, reservation} = donations;
+    return { donation, errorCode, reservation };
+  }
+
+  function mapDispatchToProps(dispatch: IDispatch) {
+    return { actions: bindActionCreators({ fetchDonation, removeDonation }, dispatch) };
+  }
+
+  return connect(mapStateToProps, mapDispatchToProps)(DonationPage);
+}

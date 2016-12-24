@@ -3,15 +3,16 @@
 import * as React from 'react';
 import { Button, ButtonGroup, Panel, Table } from 'react-bootstrap';
 
-import * as database from '../database';
 import * as helpers from '../helpers';
-import IFoodDonation from '../types/IFoodDonation';
 import t from '../translate';
+
+import DonationType from '../types/DonationType';
+import IFoodDonation from '../types/IFoodDonation';
 
 interface IFoodDonationsPanelProps {
   currentId: string;
   donations: IFoodDonation[];
-  onUpdate: () => any;
+  removeDonation: (donationType: DonationType, donationId: string) => any;
 }
 
 interface IFoodDonationsPanelState { }
@@ -22,7 +23,7 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
   static propTypes = {
     currentId: React.PropTypes.string.isRequired,
     donations: React.PropTypes.array.isRequired,
-    onUpdate: React.PropTypes.func.isRequired
+    removeDonation: React.PropTypes.func.isRequired
   };
 
   render() {
@@ -46,13 +47,8 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
     </Panel>);
   }
 
-  private deleteDonation(donationId: string) {
-    const {onUpdate} = this.props;
-    database.removeDonation('food', donationId).then(onUpdate);
-  }
-
   private mapDonation(donation: IFoodDonation) {
-    const {currentId} = this.props;
+    const {currentId, removeDonation} = this.props;
 
     return (<tr className={helpers.getDonationRowClass(currentId, donation.deliveredOrReceived, donation.reserverId)}
       key={donation['.key']}>
@@ -61,7 +57,7 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
       <td className='text-center'>{t(donation.location)}</td>
       <td className='text-center'>
         <ButtonGroup bsSize='xs'>
-          <Button bsStyle='danger' onClick={this.deleteDonation.bind(this, donation['.key'])} disabled={currentId !== donation.donorId}>حذف</Button>
+          <Button bsStyle='danger' onClick={removeDonation.bind(null, 'food', donation['.key'])} disabled={currentId !== donation.donorId}>حذف</Button>
           <Button bsStyle='success' href={`#/donations/food/${donation['.key']}`}>تفاصيل أكثر</Button>
         </ButtonGroup>
       </td>

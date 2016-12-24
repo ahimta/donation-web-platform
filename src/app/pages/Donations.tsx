@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { IDispatch } from '~react-redux~redux';
 import { bindActionCreators } from 'redux';
 
-import { fetchAllDonations } from '../actions/index';
+import { fetchAllDonations, removeDonation } from '../actions/index';
 import FoodDonationsPanel from '../components/FoodDonationsPanel';
 import NonfoodDonationsPanel from '../components/NonfoodDonationsPanel';
 
@@ -44,8 +44,8 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
           <Breadcrumb.Item active>التبرعات</Breadcrumb.Item>
         </Breadcrumb>
 
-        <FoodDonationsPanel currentId={currentId} donations={foodDonations} onUpdate={actions.fetchAllDonations} />
-        <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} onUpdate={actions.fetchAllDonations} />
+        <FoodDonationsPanel currentId={currentId} donations={foodDonations} removeDonation={actions.removeDonation} />
+        <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} removeDonation={actions.removeDonation} />
       </Grid>
 
       <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
@@ -63,7 +63,7 @@ function mapStateToProps({donations}: any) {
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchAllDonations }, dispatch) };
+  return { actions: bindActionCreators({ fetchAllDonations, removeDonation }, dispatch) };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Donations);

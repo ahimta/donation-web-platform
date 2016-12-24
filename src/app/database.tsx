@@ -38,6 +38,12 @@ export function getDonation(donationType: DonationType, donationId: string): Pro
   });
 }
 
+export function getAllDonations() {
+  return Promise.all([getDonations('food'), getDonations('nonfood')]).then(([foodDonations, nonfoodDonations]) => {
+    return {foodDonations, nonfoodDonations};
+  });
+}
+
 export function cancelReservation(donationType: DonationType, donationId: string, userRole: UserRole, userId: string): Promise<[any, any]> {
   const activity: IActivity = {
     actionName: 'cancel-reservation',
