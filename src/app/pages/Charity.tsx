@@ -4,11 +4,14 @@ import firebase from 'firebase';
 import * as React from 'react';
 import { Breadcrumb, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
 import reactMixin from 'react-mixin';
+import { connect } from 'react-redux';
+import { IDispatch } from '~react-redux~redux';
 import { hashHistory } from 'react-router';
 import ReactFireMixin from 'reactfire';
+import { bindActionCreators } from 'redux';
 
+import { fetchActivity } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
-import * as database from '../database';
 import EmailLink from '../components/EmailLink';
 import IActivity from '../types/IActivity';
 import ICharity from '../types/ICharity';
@@ -17,20 +20,21 @@ import PhotoPanel from '../components/PhotoPanel';
 import t from '../translate';
 
 interface ICharityProps {
+  readonly actions: any;
+  readonly activity: IActivity[];
   readonly params: { id: string };
 }
 
 interface ICharityState {
-  readonly activity: IActivity[];
   readonly charity: ICharity;
 }
 
-export default class Charity extends React.Component<ICharityProps, ICharityState> {
+class Charity extends React.Component<ICharityProps, ICharityState> {
   private bindAsObject: Function;
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = { activity: [], charity: {} as ICharity };
+    this.state = { charity: {} as ICharity };
   }
 
   componentDidMount() {
@@ -38,15 +42,16 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
     this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity', (error: Error) => {
       console.log(error);
     });
+  }
 
-    database.getActivity().then((activity) => {
-      const filteredActivity = activity.filter((a) => (a.userRole === 'charity' && a.userId === id));
-      this.setState({ activity: filteredActivity, charity: this.state.charity } as ICharityState);
-    });
+  componentWillMount() {
+    const {actions, params} = this.props;
+    actions.fetchActivity('charity', params.id);
   }
 
   render() {
-    const {activity, charity} = this.state;
+    const {activity} = this.props;
+    const {charity} = this.state;
 
     // hack
     if (charity['.value'] === null) {
@@ -100,3 +105,13 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 }
 
 reactMixin(Charity.prototype, ReactFireMixin);
+
+function mapStateToProps({activity}: any) {
+  return activity;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Charity);
