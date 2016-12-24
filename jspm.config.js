@@ -140,6 +140,10 @@ SystemJS.config({
     'reactfire': 'npm:reactfire@1.0.0',
     'readline': 'npm:jspm-nodelibs-readline@0.2.0',
     'redux': 'npm:redux@3.6.0',
+    'redux-logger': 'npm:redux-logger@2.7.4',
+    'redux-promise': 'npm:redux-promise@0.5.3',
+    'redux-promise-middleware': 'npm:redux-promise-middleware@4.2.0',
+    'redux-thunk': 'npm:redux-thunk@2.1.0',
     'stream': 'npm:jspm-nodelibs-stream@0.2.0',
     'string_decoder': 'npm:jspm-nodelibs-string_decoder@0.2.0',
     'tls': 'npm:jspm-nodelibs-tls@0.2.0',
@@ -1713,6 +1717,34 @@ SystemJS.config({
         'moment': 'npm:moment@2.17.1',
         'babel-runtime': 'npm:babel-runtime@6.20.0',
         'classnames': 'npm:classnames@2.2.5'
+      }
+    },
+    'npm:redux-logger@2.7.4': {
+      'map': {
+        'deep-diff': 'npm:deep-diff@0.3.4'
+      }
+    },
+    'npm:redux-promise@0.5.3': {
+      'map': {
+        'flux-standard-action': 'npm:flux-standard-action@0.6.1'
+      }
+    },
+    'npm:flux-standard-action@0.6.1': {
+      'map': {
+        'lodash.isplainobject': 'npm:lodash.isplainobject@3.2.0'
+      }
+    },
+    'npm:lodash.isplainobject@3.2.0': {
+      'map': {
+        'lodash.isarguments': 'npm:lodash.isarguments@3.1.0',
+        'lodash.keysin': 'npm:lodash.keysin@3.0.8',
+        'lodash._basefor': 'npm:lodash._basefor@3.0.3'
+      }
+    },
+    'npm:lodash.keysin@3.0.8': {
+      'map': {
+        'lodash.isarguments': 'npm:lodash.isarguments@3.1.0',
+        'lodash.isarray': 'npm:lodash.isarray@3.0.4'
       }
     }
   }

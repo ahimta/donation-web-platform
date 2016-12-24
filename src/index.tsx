@@ -27,7 +27,7 @@ import User from './app/pages/User';
 
 import 'moment/locale/ar-sa';
 
-const store: IStore<any> = configureStore({});
+const store: IStore<any> = configureStore();
 
 moment.locale('ar-sa');
 

@@ -1,9 +1,14 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
+import logger from 'redux-logger';
+import promiseMiddleware from 'redux-promise-middleware';
+import thunk from 'redux-thunk';
+
 import rootReducer from '../reducers/index';
 
-export default function configureStore(initialState: any) {
-  const store = createStore(rootReducer, initialState);
-  return store;
+const middleware = applyMiddleware(thunk, promiseMiddleware(), logger());
+
+export default function configureStore() {
+  return createStore(rootReducer, middleware);
 }

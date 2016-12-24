@@ -2,8 +2,11 @@
 
 import * as React from 'react';
 import { Breadcrumb, Button, ButtonGroup, Grid, PageHeader } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { IDispatch } from '~react-redux~redux';
+import { bindActionCreators } from 'redux';
 
-import * as database from '../database';
+import { fetchAllDonations } from '../actions/index';
 import FoodDonationsPanel from '../components/FoodDonationsPanel';
 import NonfoodDonationsPanel from '../components/NonfoodDonationsPanel';
 
@@ -11,30 +14,26 @@ import IFoodDonation from '../types/IFoodDonation';
 import INonfoodDonation from '../types/INonfoodDonation';
 import UserRole from '../types/UserRole';
 
-interface IDonationsProps { }
-
-interface IDonationsState {
+interface IDonationsProps {
+  actions: any;
   foodDonations: IFoodDonation[];
   nonfoodDonations: INonfoodDonation[];
 }
 
-export default class Donations extends React.Component<IDonationsProps, IDonationsState> {
+interface IDonationsState { }
+
+class Donations extends React.Component<IDonationsProps, IDonationsState> {
   static contextTypes = { currentId: React.PropTypes.string, currentRole: React.PropTypes.string };
 
   context: { currentId: string, currentRole: UserRole };
 
-  constructor(props: any, context: any) {
-    super(props, context);
-    this.state = { foodDonations: [], nonfoodDonations: [] };
-  }
-
-  componentDidMount() {
-    this.update();
+  componentWillMount() {
+    this.props.actions.fetchAllDonations();
   }
 
   render() {
     const {currentId, currentRole} = this.context;
-    const {foodDonations, nonfoodDonations} = this.state;
+    const {actions, foodDonations, nonfoodDonations} = this.props;
 
     return (<section>
       <PageHeader className='text-center'>التبرعات</PageHeader>
@@ -45,8 +44,8 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
           <Breadcrumb.Item active>التبرعات</Breadcrumb.Item>
         </Breadcrumb>
 
-        <FoodDonationsPanel currentId={currentId} donations={foodDonations} onUpdate={this.update.bind(this)} />
-        <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} onUpdate={this.update.bind(this)} />
+        <FoodDonationsPanel currentId={currentId} donations={foodDonations} onUpdate={actions.fetchAllDonations} />
+        <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} onUpdate={actions.fetchAllDonations} />
       </Grid>
 
       <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
@@ -57,14 +56,14 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
       </Grid>
     </section>);
   }
-
-  private update() {
-    database.getDonations('food').then((foodDonations) => {
-      this.setState({ foodDonations } as IDonationsState);
-    });
-
-    database.getDonations('nonfood').then((nonfoodDonations) => {
-      this.setState({ nonfoodDonations } as IDonationsState);
-    });
-  }
 }
+
+function mapStateToProps({donations}: any) {
+  return donations;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchAllDonations }, dispatch) };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Donations);
