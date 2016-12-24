@@ -5,10 +5,13 @@ import * as React from 'react';
 import ReactFireMixin from 'reactfire';
 import reactMixin from 'react-mixin';
 import { Breadcrumb, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { IDispatch } from '~react-redux~redux';
 import { hashHistory } from 'react-router';
+import { bindActionCreators } from 'redux';
 
+import { fetchActivity } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
-import * as database from '../database';
 import EmailLink from '../components/EmailLink';
 import IActivity from '../types/IActivity';
 import IRegularUser from '../types/IRegularUser';
@@ -16,20 +19,21 @@ import PhoneLink from '../components/PhoneLink';
 import PhotoPanel from '../components/PhotoPanel';
 
 interface IUserProps {
+  actions: any;
+  activity: IActivity[];
   params: { id: string };
 }
 
 interface IUserState {
-  activity: IActivity[];
   user: IRegularUser;
 }
 
-export default class User extends React.Component<IUserProps, IUserState> {
+class User extends React.Component<IUserProps, IUserState> {
   private bindAsObject: Function;
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = { activity: [], user: {} as IRegularUser };
+    this.state = { user: {} as IRegularUser };
   }
 
   componentDidMount() {
@@ -38,15 +42,14 @@ export default class User extends React.Component<IUserProps, IUserState> {
       console.log(error);
       hashHistory.push('/404');
     });
-
-    database.getActivity().then((activity) => {
-      const filteredActivity = activity.filter((a) => (a.userRole === 'user' && a.userId === params.id));
-      this.setState({ activity: filteredActivity, user: this.state.user });
-    });
+  }
+  componentWillMount() {
+    this.props.actions.fetchActivity();
   }
 
   render() {
-    const {activity, user} = this.state;
+    const {activity} = this.props;
+    const {user} = this.state;
 
     // hack
     if (user['.value'] === null) {
@@ -90,3 +93,13 @@ export default class User extends React.Component<IUserProps, IUserState> {
 }
 
 reactMixin(User.prototype, ReactFireMixin);
+
+function mapStateToProps({activity}: any) {
+  return activity;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);
