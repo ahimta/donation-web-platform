@@ -17,6 +17,7 @@ import IActivity from '../types/IActivity';
 import IRegularUser from '../types/IRegularUser';
 import PhoneLink from '../components/PhoneLink';
 import PhotoPanel from '../components/PhotoPanel';
+import Progressbar from '../components/Progressbar';
 
 interface IUserProps {
   actions: any;
@@ -33,7 +34,7 @@ class User extends React.Component<IUserProps, IUserState> {
 
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = { user: {} as IRegularUser };
+    this.state = { user: null as IRegularUser };
   }
 
   componentDidMount() {
@@ -52,7 +53,7 @@ class User extends React.Component<IUserProps, IUserState> {
     const {user} = this.state;
 
     // hack
-    if (user['.value'] === null) {
+    if (user && user['.value'] === null) {
       hashHistory.push('/404');
       return null;
     }
@@ -66,26 +67,29 @@ class User extends React.Component<IUserProps, IUserState> {
           <Breadcrumb.Item active>صفحة مستخدم</Breadcrumb.Item>
         </Breadcrumb>
 
-        <Panel header='بيانات المستخدم' bsStyle='primary' className='text-center' collapsible defaultExpanded>
-          <Table fill>
-            <tbody dir='rtl'>
-              <tr>
-                <th className='text-center'>الاسم</th>
-                <td className='text-center'>{user.displayName}</td>
-              </tr>
-              <tr>
-                <th className='text-center'>الجوال/الواتساب</th>
-                <td className='text-center'><PhoneLink phone={user.phone} /></td>
-              </tr>
-              <tr>
-                <th className='text-center'>الإيميل</th>
-                <td className='text-center'><EmailLink email={user.email} /></td>
-              </tr>
-            </tbody>
-          </Table>
-        </Panel>
+        <Progressbar data={user}>
+          <Panel header='بيانات المستخدم' bsStyle='primary' className='text-center' collapsible defaultExpanded>
+            <Table fill>
+              <tbody dir='rtl'>
+                <tr>
+                  <th className='text-center'>الاسم</th>
+                  <td className='text-center'>{user && user.displayName}</td>
+                </tr>
+                <tr>
+                  <th className='text-center'>الجوال/الواتساب</th>
+                  <td className='text-center'><PhoneLink phone={user && user.phone} /></td>
+                </tr>
+                <tr>
+                  <th className='text-center'>الإيميل</th>
+                  <td className='text-center'><EmailLink email={user && user.email} /></td>
+                </tr>
+              </tbody>
+            </Table>
+          </Panel>
 
-        <PhotoPanel header='صورة المستخدم' photoUrl={user.photoURL} />
+          <PhotoPanel header='صورة المستخدم' photoUrl={user && user.photoURL} />
+        </Progressbar>
+
         <ActivityPanel activity={activity} />
       </Grid>
     </section>);

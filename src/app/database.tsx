@@ -3,11 +3,39 @@ import * as Immutable from 'immutable';
 import moment from 'moment';
 
 import IActivity from './types/IActivity';
+import ICharity from './types/ICharity';
 import IDonation from './types/IDonation';
 import IReservation from './types/IReservation';
 import DonationType from './types/DonationType';
 import ReservationType from './types/ReservationType';
 import UserRole from './types/UserRole';
+
+export function getCharity(id: string): Promise<ICharity> {
+  return firebase.database().ref('charities').child(id).once('value').then((snapshot) => {
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return Promise.reject({code: 404});
+    }
+  });
+}
+
+export function getCharities(): Promise<ReadonlyArray<ICharity>> {
+  return firebase.database().ref('charities').once('value').then((snapshot) => {
+    if (snapshot.exists()) {
+      const charities = [];
+
+      snapshot.forEach((childSnapshot) => {
+        const value = Immutable.Map(childSnapshot.val()).merge({'.key': childSnapshot.key}).toJS();
+        charities.push(value);
+      });
+
+      return charities;
+    } else {
+      return [];
+    }
+  });
+}
 
 function getRefName(donationType: DonationType) {
   return (donationType === 'food') ? 'foodDonations' : 'nonfoodDonations';
@@ -40,7 +68,7 @@ export function getDonation(donationType: DonationType, donationId: string): Pro
 
 export function getAllDonations() {
   return Promise.all([getDonations('food'), getDonations('nonfood')]).then(([foodDonations, nonfoodDonations]) => {
-    return {foodDonations, nonfoodDonations};
+    return { foodDonations, nonfoodDonations };
   });
 }
 

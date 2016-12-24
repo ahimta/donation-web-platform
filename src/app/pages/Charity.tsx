@@ -1,60 +1,44 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
 import { Breadcrumb, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
-import reactMixin from 'react-mixin';
 import { connect } from 'react-redux';
 import { IDispatch } from '~react-redux~redux';
 import { hashHistory } from 'react-router';
-import ReactFireMixin from 'reactfire';
 import { bindActionCreators } from 'redux';
 
-import { fetchActivity } from '../actions/index';
+import { fetchActivity, fetchCharity } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
 import EmailLink from '../components/EmailLink';
 import IActivity from '../types/IActivity';
 import ICharity from '../types/ICharity';
 import PhoneLink from '../components/PhoneLink';
 import PhotoPanel from '../components/PhotoPanel';
+import Progressbar from '../components/Progressbar';
 import t from '../translate';
 
 interface ICharityProps {
   readonly actions: any;
   readonly activity: IActivity[];
+  readonly charity: ICharity;
+  readonly errorCode: number;
   readonly params: { id: string };
 }
 
-interface ICharityState {
-  readonly charity: ICharity;
-}
+interface ICharityState { }
 
 class Charity extends React.Component<ICharityProps, ICharityState> {
-  private bindAsObject: Function;
-
-  constructor(props: any, context: any) {
-    super(props, context);
-    this.state = { charity: {} as ICharity };
-  }
-
-  componentDidMount() {
-    const {id} = this.props.params;
-    this.bindAsObject(firebase.database().ref(`charities/${id}`), 'charity', (error: Error) => {
-      console.log(error);
-    });
-  }
-
   componentWillMount() {
     const {actions, params} = this.props;
     actions.fetchActivity('charity', params.id);
+    actions.fetchCharity(params.id);
   }
 
   render() {
-    const {activity} = this.props;
-    const {charity} = this.state;
+    const {activity, charity, errorCode} = this.props;
 
     // hack
-    if (charity['.value'] === null) {
+    if (errorCode) {
       hashHistory.push('/404');
       return null;
     }
@@ -69,49 +53,50 @@ class Charity extends React.Component<ICharityProps, ICharityState> {
           <Breadcrumb.Item active>صفحة جمعية</Breadcrumb.Item>
         </Breadcrumb>
 
-        <Panel header='بيانات الجمعية' footer={charity.description}
-          bsStyle='primary' className='text-center' collapsible defaultExpanded>
-          <Table fill>
-            <tbody dir='rtl'>
-              <tr>
-                <th className='text-center'>الاسم</th>
-                <td className='text-center'>{charity.name}</td>
-              </tr>
-              <tr>
-                <th className='text-center'>الموقع</th>
-                <td className='text-center'>{t(charity.location)}</td>
-              </tr>
-              <tr>
-                <th className='text-center'>الجوال/الواتساب</th>
-                <td className='text-center'><PhoneLink phone={charity.phone} /></td>
-              </tr>
-              <tr>
-                <th className='text-center'>الإيميل</th>
-                <td className='text-center'><EmailLink email={charity.email} /></td>
-              </tr>
-              <tr className={charity.website ? '' : 'hidden'}>
-                <th className='text-center'>الموقع الرسمي</th>
-                <td className='text-center'><a dir='ltr' href={charity.website} target='_blank'>{charity.website}</a></td>
-              </tr>
-            </tbody>
-          </Table>
-        </Panel>
+        <Progressbar data={charity}>
+          <Panel header='بيانات الجمعية' footer={charity && charity.description}
+            bsStyle='primary' className='text-center' collapsible defaultExpanded>
+            <Table fill>
+              <tbody dir='rtl'>
+                <tr>
+                  <th className='text-center'>الاسم</th>
+                  <td className='text-center'>{charity && charity.name}</td>
+                </tr>
+                <tr>
+                  <th className='text-center'>الموقع</th>
+                  <td className='text-center'>{t(charity && charity.location)}</td>
+                </tr>
+                <tr>
+                  <th className='text-center'>الجوال/الواتساب</th>
+                  <td className='text-center'><PhoneLink phone={charity && charity.phone} /></td>
+                </tr>
+                <tr>
+                  <th className='text-center'>الإيميل</th>
+                  <td className='text-center'><EmailLink email={charity && charity.email} /></td>
+                </tr>
+                <tr className={charity && charity.website ? '' : 'hidden'}>
+                  <th className='text-center'>الموقع الرسمي</th>
+                  <td className='text-center'><a dir='ltr' href={charity && charity.website} target='_blank'>{charity && charity.website}</a></td>
+                </tr>
+              </tbody>
+            </Table>
+          </Panel>
 
-        <PhotoPanel header='شعار الجمعية' photoUrl={charity.photoUrl} />
+          <PhotoPanel header='شعار الجمعية' photoUrl={charity && charity.photoUrl} />
+        </Progressbar>
+
         <ActivityPanel activity={activity} />
       </Grid>
     </section>);
   }
 }
 
-reactMixin(Charity.prototype, ReactFireMixin);
-
-function mapStateToProps({activity}: any) {
-  return activity;
+function mapStateToProps({activity, charities}: any) {
+  return { activity: activity.activity, charity: charities.charity, errorCode: charities.errorCode };
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
+  return { actions: bindActionCreators({ fetchActivity, fetchCharity }, dispatch) };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Charity);

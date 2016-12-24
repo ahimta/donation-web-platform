@@ -20,6 +20,16 @@ export function fetchActivity(role?: UserRole, userId?: string) {
   return {type: 'FETCH_ACTIVITY', payload: activityPromise};
 }
 
+export function fetchCharities() {
+  const charitiesPromise = database.getCharities();
+  return {type: 'FETCH_CHARITIES', payload: charitiesPromise};
+}
+
+export function fetchCharity(id: string) {
+  const charityPromise = database.getCharity(id);
+  return {type: 'FETCH_CHARITY', payload: charityPromise};
+}
+
 export function fetchDonation(donationType: DonationType, donationId: string) {
   const donationPromise = database.getDonation(donationType, donationId);
   return {type: 'FETCH_DONATION', payload: donationPromise};

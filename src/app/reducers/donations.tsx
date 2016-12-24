@@ -40,11 +40,7 @@ export default function donations(state: IState = initialState, {payload, type}:
       return Immutable.Map(state).merge(payload).merge({ donation: null, errorCode: null }).toJS();
 
     case 'FETCH_DONATION_REJECTED':
-      if (payload.code === 404) {
-        return Immutable.Map(state).merge({ errorCode: 404 }).toJS();
-      } else {
-        return state;
-      }
+      return Immutable.Map(state).merge({ errorCode: payload.code }).toJS();
 
     default:
       return state;
