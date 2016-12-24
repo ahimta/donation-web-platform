@@ -84,8 +84,8 @@ export default function donationPage(donationType: DonationType, title: string, 
   }
 
   function mapStateToProps(state: any) {
-    const {donations} = state;
-    const {donation, errorCode, reservation} = donations;
+    const {donation: donationStore} = state;
+    const {donation, errorCode, reservation} = donationStore;
     return { donation, errorCode, reservation };
   }
 

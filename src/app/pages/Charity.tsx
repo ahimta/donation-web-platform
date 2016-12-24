@@ -91,8 +91,8 @@ class Charity extends React.Component<ICharityProps, ICharityState> {
   }
 }
 
-function mapStateToProps({activity, charities}: any) {
-  return { activity: activity.activity, charity: charities.charity, errorCode: charities.errorCode };
+function mapStateToProps({activity, charity}: any) {
+  return { activity: activity.activity, charity: charity.charity, errorCode: charity.errorCode };
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
