@@ -2,38 +2,35 @@
 
 import * as React from 'react';
 import { Button, ButtonGroup, Col, Glyphicon, Grid, Panel, Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { IDispatch } from '~react-redux~redux';
+import { bindActionCreators } from 'redux';
 
+import { fetchActivity } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
-import * as database from '../database';
 
 import IActivity from '../types/IActivity';
 import UserRole from '../types/UserRole';
 
-interface IHomepageProps { }
-
-interface IHomepageState {
+interface IHomepageProps {
+  actions: any;
   activity: IActivity[];
 }
 
-export default class Homepage extends React.Component<IHomepageProps, IHomepageState> {
+interface IHomepageState { }
+
+class Homepage extends React.Component<IHomepageProps, IHomepageState> {
   static contextTypes = { currentRole: React.PropTypes.string };
 
   context: { currentRole: UserRole };
 
-  constructor(props: any, context: any) {
-    super(props, context);
-    this.state = { activity: [] };
-  }
-
-  componentDidMount() {
-    database.getActivity().then((activity) => {
-      this.setState({ activity });
-    });
+  componentWillMount() {
+    this.props.actions.fetchActivity();
   }
 
   render() {
     const {currentRole} = this.context;
-    const {activity} = this.state;
+    const {activity} = this.props;
 
     return (<section>
       <Grid>
@@ -73,3 +70,13 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
     return (currentRole === 'charity') ? 'hidden' : '';
   }
 }
+
+function mapStateToProps({activity}: any) {
+  return activity;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Homepage);
