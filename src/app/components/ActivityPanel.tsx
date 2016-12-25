@@ -74,8 +74,9 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
       </ListGroupItem>);
     } else if (actionName === 'donation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
-        {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
+        <span>تبرع</span>&nbsp;
         {this.getUrlForUser(userRole, userId, user)}
+        {this.getUrlForDonation(donationType, donationId, donation, (donationType === 'food' ? 'بطعام' : 'بغير طعام'))}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
     } else if (actionName === 'reservation') {
