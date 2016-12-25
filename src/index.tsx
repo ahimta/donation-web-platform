@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { IStore } from '~react-redux~redux';
-import { applyRouterMiddleware, hashHistory, IndexRoute, Redirect, Route, Router } from 'react-router';
+import { applyRouterMiddleware, hashHistory, IndexRedirect, IndexRoute, Redirect, Route, Router } from 'react-router';
 import { useScroll } from 'react-router-scroll';
 
 import App from './app/containers/App';
@@ -56,8 +56,6 @@ ReactDOM.render(
 
       <Route path='/charities' component={App}>
         <IndexRoute component={Charities} />
-        <Route path='login' component={CharityLogin} />
-        <Route path='register' component={CharityRegister} />
         <Route path=':id' component={Charity} />
       </Route>
 
@@ -74,6 +72,16 @@ ReactDOM.render(
 
         <Route path='receive' component={Donations} />
         <Route path='deliver' component={Donations} />
+      </Route>
+
+      <Route path='/login' component={App}>
+        <IndexRedirect to='/' />
+        <Route path='charity' component={CharityLogin} />
+      </Route>
+
+      <Route path='/register' component={App}>
+        <IndexRedirect to='/' />
+        <Route path='charity' component={CharityRegister} />
       </Route>
 
       <Route path='/users' component={App}>

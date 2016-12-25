@@ -29,10 +29,10 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         <Navbar.Collapse>
           <Nav className='text-right'>
             <NavItem className={this.getLogoutClass(currentRole)} onClick={auth.logout}>سجل خروج</NavItem>
-            <NavItem active={router.isActive('/charities/register')} className={classNames({hidden: (currentRole === 'charity')})} href='#/charities/register' onClick={this.goto.bind(null, '/charities/register')}>سجل كجمعية</NavItem>
+            <NavItem active={router.isActive('/register/charity')} className={classNames({hidden: (currentRole === 'charity')})} href='#/register/charity' onClick={this.goto.bind(null, '/register/charity')}>سجل كجمعية</NavItem>
             <NavItem className={this.getLogoutClass(currentRole)} href={`#${this.getAccountUrl(currentRole, currentId)}`} onClick={this.goto.bind(null, this.getAccountUrl(currentRole, currentId))}>حسابي</NavItem>
-            <NavDropdown active={router.isActive('/charities/login')} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentRole)}>
-              <MenuItem active={router.isActive('/charities/login')} className='text-right' href='#/charities/login'>كجمعية</MenuItem>
+            <NavDropdown active={router.isActive('/login')} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentRole)}>
+              <MenuItem active={router.isActive('/login/charity')} className='text-right' href='#/login/charity'>كجمعية</MenuItem>
               <MenuItem className='text-right' onClick={auth.login}>كفرد</MenuItem>
             </NavDropdown>
           </Nav>
