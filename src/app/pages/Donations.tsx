@@ -46,11 +46,11 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
         </Breadcrumb>
 
         <Progressbar data={foodDonations} emptyPhrase='لا يوجد تبرعات طعام حاليا'>
-          <FoodDonationsPanel currentId={currentId} donations={foodDonations} removeDonation={actions.removeDonation} />
+          <FoodDonationsPanel currentId={currentId} donations={foodDonations} removeDonation={this.handleRemove.bind(this)} />
         </Progressbar>
 
         <Progressbar data={nonfoodDonations} emptyPhrase='لا يوجد تبرعات غير طعام حاليا'>
-          <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} removeDonation={actions.removeDonation} />
+          <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} removeDonation={this.handleRemove.bind(this)} />
         </Progressbar>
       </Grid>
 
@@ -61,6 +61,12 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
         </ButtonGroup>
       </Grid>
     </section>);
+  }
+
+  private handleRemove(...args: any[]) {
+    if (confirm('حذف التبرع؟')) {
+      this.props.actions.removeDonation.apply(null, args);
+    }
   }
 }
 

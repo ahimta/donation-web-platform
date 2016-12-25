@@ -76,10 +76,12 @@ export default function donationPage(donationType: DonationType, title: string, 
     }
 
     private deleteDonation(id: string) {
-      const {actions, params} = this.props;
+      if (confirm('حذف التبرع؟')) {
+        const {actions, params} = this.props;
 
-      actions.removeDonation(donationType, params.id);
-      hashHistory.push('/donations');
+        actions.removeDonation(donationType, params.id);
+        hashHistory.push('/donations');
+      }
     }
   }
 
