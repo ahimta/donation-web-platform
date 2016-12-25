@@ -29,11 +29,15 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         <Navbar.Collapse>
           <Nav className='text-right'>
             <NavItem className={this.getLogoutClass(currentRole)} onClick={auth.logout}>سجل خروج</NavItem>
-            <NavItem active={router.isActive('/register/charity')} className={classNames({hidden: (currentRole === 'charity')})} href='#/register/charity' onClick={this.goto.bind(null, '/register/charity')}>سجل كجمعية</NavItem>
-            <NavItem className={this.getLogoutClass(currentRole)} href={`#${this.getAccountUrl(currentRole, currentId)}`} onClick={this.goto.bind(null, this.getAccountUrl(currentRole, currentId))}>حسابي</NavItem>
+            <NavItem active={router.isActive('/register/charity')} className={classNames({ hidden: (currentRole === 'charity') })} href='#/register/charity' onClick={this.goto.bind(null, '/register/charity')}>سجل كجمعية</NavItem>
+            <NavItem active={router.isActive(this.getAccountUrl(currentRole, currentId))} className={this.getLogoutClass(currentRole)}
+              href={`#${this.getAccountUrl(currentRole, currentId)}`}
+              onClick={this.goto.bind(null, this.getAccountUrl(currentRole, currentId))}>
+              حسابي
+            </NavItem>
             <NavDropdown active={router.isActive('/login')} title='سجل دخول' id='basic-nav-dropdown-login' dir='rtl' className={this.getLoginClass(currentRole)}>
               <MenuItem active={router.isActive('/login/charity')} className='text-right' href='#/login/charity'>كجمعية</MenuItem>
-              <MenuItem className='text-right' onClick={auth.login}>كفرد</MenuItem>
+              <MenuItem className='text-right' onClick={auth.login}>كمستخدم</MenuItem>
             </NavDropdown>
           </Nav>
           <Nav pullRight className='text-right'>
@@ -42,9 +46,9 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
               <MenuItem active={router.isActive('/charities')} className='text-right' href='#/charities'>الجمعيات</MenuItem>
               <MenuItem active={router.isActive('/activity')} className='text-right' href='#/activity'>النشاطات</MenuItem>
             </NavDropdown>
-            <NavItem active={router.isActive('/donations')} className={classNames({hidden: (currentRole === 'charity')})} href='#/donations/receive' onClick={this.goto.bind(null, '/donations/receive')}>استقبل تبرع</NavItem>
-            <NavItem active={router.isActive('/donations')} className={classNames({hidden: (currentRole === 'charity')})} href='#/donations/deliver' onClick={this.goto.bind(null, '/donations/deliver')}>وصل تبرع</NavItem>
-            <NavDropdown active={router.isActive('/donate')} className={classNames({hidden: (currentRole === 'charity')})} dir='rtl' id='basic-nav-dropdown-donate' title='تبرع'>
+            <NavItem active={router.isActive('/donations')} className={classNames({ hidden: (currentRole === 'charity') })} href='#/donations/receive' onClick={this.goto.bind(null, '/donations/receive')}>استقبل تبرع</NavItem>
+            <NavItem active={router.isActive('/donations')} className={classNames({ hidden: (currentRole === 'charity') })} href='#/donations/deliver' onClick={this.goto.bind(null, '/donations/deliver')}>وصل تبرع</NavItem>
+            <NavDropdown active={router.isActive('/donate')} className={classNames({ hidden: (currentRole === 'charity') })} dir='rtl' id='basic-nav-dropdown-donate' title='تبرع'>
               <MenuItem active={router.isActive('/donate/food')} className='text-right' href='#/donate/food'>بطعام</MenuItem>
               <MenuItem active={router.isActive('/donate/nonfood')} className='text-right' href='#/donate/nonfood'>بشيء آخر</MenuItem>
             </NavDropdown>
