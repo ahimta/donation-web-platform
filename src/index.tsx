@@ -61,11 +61,13 @@ ReactDOM.render(
         <Route path=':id' component={Charity} />
       </Route>
 
+      <Route path='/donate' component={App}>
+        <Route path='food' component={NewFoodDonation} />
+        <Route path='nonfood' component={NewNonfoodDonation} />
+      </Route>
+
       <Route path='/donations' component={App}>
         <IndexRoute component={Donations} />
-
-        <Route path='donate/food' component={NewFoodDonation} />
-        <Route path='donate/nonfood' component={NewNonfoodDonation} />
 
         <Route path='food/:id' component={FoodDonation} />
         <Route path='nonfood/:id' component={NonfoodDonation} />

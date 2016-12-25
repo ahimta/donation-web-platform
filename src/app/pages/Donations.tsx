@@ -56,8 +56,8 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
 
       <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
         <ButtonGroup bsSize='lg' justified>
-          <Button bsStyle='success' href='#/donations/donate/nonfood'>تبرع بشيء آخر</Button>
-          <Button bsStyle='success' href='#/donations/donate/food'>تبرع بطعام</Button>
+          <Button bsStyle='success' href='#/donate/nonfood'>تبرع بشيء آخر</Button>
+          <Button bsStyle='success' href='#/donate/food'>تبرع بطعام</Button>
         </ButtonGroup>
       </Grid>
     </section>);
