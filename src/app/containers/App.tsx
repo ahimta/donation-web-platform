@@ -49,7 +49,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
           const {displayName, email, photoURL, uid} = user;
 
           this.setState({ currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid });
-          firebase.database().ref('users').child(uid).set({ displayName, email, phone, photoURL, uid });
+
+          if (phone) {
+            firebase.database().ref('users').child(uid).set({ displayName, email, phone, photoURL, uid });
+          } else {
+            firebase.database().ref('users').child(uid).set({ displayName, email, photoURL, uid });
+          }
         } else if (providerId === 'password') {
           this.setState({ currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: '' });
         }
