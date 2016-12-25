@@ -76,12 +76,12 @@ class User extends React.Component<IUserProps, IUserState> {
                   <td className='text-center'>{user && user.displayName}</td>
                 </tr>
                 <tr>
-                  <th className='text-center'>الجوال/الواتساب</th>
-                  <td className='text-center'><PhoneLink phone={user && user.phone} /></td>
-                </tr>
-                <tr>
                   <th className='text-center'>الإيميل</th>
                   <td className='text-center'><EmailLink email={user && user.email} /></td>
+                </tr>
+                <tr className={(user && user.phone) ? '' : 'hidden'}>
+                  <th className='text-center'>الجوال/الواتساب</th>
+                  <td className='text-center'><PhoneLink phone={user && user.phone} /></td>
                 </tr>
               </tbody>
             </Table>
