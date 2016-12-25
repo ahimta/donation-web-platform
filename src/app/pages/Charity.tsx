@@ -85,7 +85,7 @@ class Charity extends React.Component<ICharityProps, ICharityState> {
           <PhotoPanel header='شعار الجمعية' photoUrl={charity && charity.photoUrl} />
         </Progressbar>
 
-        <ActivityPanel activity={activity} />
+        <ActivityPanel activity={activity} hideUser />
       </Grid>
     </section>);
   }

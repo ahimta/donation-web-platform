@@ -13,19 +13,15 @@ import Progressbar from '../components/Progressbar';
 import UserRole from '../types/UserRole';
 
 interface IActivityPanelProps {
-  activity: IActivity[];
+  readonly activity?: IActivity[];
+  readonly hideUser?: boolean;
 }
 
 interface IActivityPanelState { }
 
 export default class ActivityPanel extends React.Component<IActivityPanelProps, IActivityPanelState> {
-  static defaultProps = { activity: [] };
-  static propTypes = { activity: React.PropTypes.array };
-
-  constructor(props: any, context: any) {
-    super(props, context);
-    this.state = { activity: [] };
-  }
+  static defaultProps = { activity: [], hideUser: false };
+  static propTypes = { activity: React.PropTypes.array, hideUser: React.PropTypes.bool };
 
   render() {
     const {activity} = this.props;
@@ -47,12 +43,16 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
   }
 
   private getUrlForUser(userRole: UserRole, userId: string, user: IUser) {
-    if (userRole === 'charity') {
+    const {hideUser} = this.props;
+
+    if (hideUser) {
+      return null;
+    } else if (userRole === 'charity') {
       const charity: ICharity = user as ICharity;
       const style = user ? {} : { cursor: 'not-allowed', pointerEvents: 'none' };
-      return <a href={`#/charities/${userId}`} style={style}>{charity.name}</a>;
+      return <span><a href={`#/charities/${userId}`} style={style}>{charity.name}</a>&nbsp;</span>;
     } else {
-      return <span>مستخدم</span>;
+      return <span><span>مستخدم</span>&nbsp;</span>;
     }
   }
 
@@ -60,7 +60,7 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
     if (actionName === 'cancel-reservation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
         <span>ألغى/ألغت</span>&nbsp;
-        {this.getUrlForUser(userRole, userId, user)}&nbsp;
+        {this.getUrlForUser(userRole, userId, user)}
         <span>حجز</span>&nbsp;
         {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
@@ -68,20 +68,20 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
     } else if (actionName === 'delivery') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
         <span>وصل(ت)</span>&nbsp;
-        {this.getUrlForUser(userRole, userId, user)}&nbsp;
+        {this.getUrlForUser(userRole, userId, user)}
         {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
     } else if (actionName === 'donation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
         {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
-        {this.getUrlForUser(userRole, userId, user)}&nbsp;
+        {this.getUrlForUser(userRole, userId, user)}
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);
     } else if (actionName === 'reservation') {
       return (<ListGroupItem className='text-right' dir='rtl' key={id}>
         <span>حجز(ت)</span>&nbsp;
-        {this.getUrlForUser(userRole, userId, user)}&nbsp;
+        {this.getUrlForUser(userRole, userId, user)}
         {this.getUrlForDonation(donationType, donationId, donation, 'تبرع')}&nbsp;
         <span>{moment(datetime).fromNow()}</span>
       </ListGroupItem>);

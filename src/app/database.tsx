@@ -15,7 +15,7 @@ export function getCharity(id: string): Promise<ICharity> {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      return Promise.reject({code: 404});
+      return Promise.reject({ code: 404 });
     }
   });
 }
@@ -26,7 +26,7 @@ export function getCharities(): Promise<ReadonlyArray<ICharity>> {
       const charities = [];
 
       snapshot.forEach((childSnapshot) => {
-        const value = Immutable.Map(childSnapshot.val()).merge({'.key': childSnapshot.key}).toJS();
+        const value = Immutable.Map(childSnapshot.val()).merge({ '.key': childSnapshot.key }).toJS();
         charities.push(value);
       });
 

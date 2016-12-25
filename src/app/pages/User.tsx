@@ -90,7 +90,7 @@ class User extends React.Component<IUserProps, IUserState> {
           <PhotoPanel header='صورة المستخدم' photoUrl={user && user.photoURL} />
         </Progressbar>
 
-        <ActivityPanel activity={activity} />
+        <ActivityPanel activity={activity} hideUser />
       </Grid>
     </section>);
   }
