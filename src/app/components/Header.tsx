@@ -31,7 +31,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
             <Navbar.Form className={this.getLogoutClass(currentRole)} onClick={auth.logout} pullLeft>
               <Button bsStyle='danger'>سجل خروج</Button>
             </Navbar.Form>
-            <NavItem active={router.isActive('/register/charity')} className={classNames({ hidden: (currentRole === 'charity') })} href='#/register/charity' onClick={this.goto.bind(null, '/register/charity')}>سجل كجمعية</NavItem>
+            <NavItem active={router.isActive('/register/charity')} className={classNames({ hidden: currentRole })} href='#/register/charity' onClick={this.goto.bind(null, '/register/charity')}>سجل كجمعية</NavItem>
             <NavItem active={router.isActive(this.getAccountUrl(currentRole, currentId))} className={this.getLogoutClass(currentRole)}
               href={`#${this.getAccountUrl(currentRole, currentId)}`}
               onClick={this.goto.bind(null, this.getAccountUrl(currentRole, currentId))}>
