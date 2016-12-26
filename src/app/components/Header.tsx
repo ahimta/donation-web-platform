@@ -43,6 +43,11 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
             </NavDropdown>
           </Nav>
           <Nav pullRight className='text-right'>
+            <MenuItem className='text-right'
+              href='https://twitter.com/intent/tweet?via=ahymta&url=https%3A%2F%2Fdonation-web-pla-1479993243743.firebaseapp.com'
+              target='_blank'>
+              اتصل بنا
+            </MenuItem>
             <NavDropdown title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'>
               <MenuItem active={router.isActive('/donations')} className='text-right' href='#/donations'>التبرعات</MenuItem>
               <MenuItem active={router.isActive('/charities')} className='text-right' href='#/charities'>الجمعيات</MenuItem>
