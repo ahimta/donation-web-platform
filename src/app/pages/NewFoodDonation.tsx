@@ -7,7 +7,7 @@ import * as React from 'react';
 import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader } from 'react-bootstrap';
 
 import LocationSelectField from '../components/LocationSelectField';
-import NewDonationPage from '../components/NewDonationPage';
+import newDonationPage from '../components/newDonationPage';
 import PhotoInputGroup from '../components/PhotoInputGroup';
 import Progressbar from '../components/Progressbar';
 import rcCalendarLocale from '../rc-calendar-locale';
@@ -152,4 +152,4 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
   }
 }
 
-export default NewDonationPage(NewFoodDonation);
+export default newDonationPage(NewFoodDonation);
