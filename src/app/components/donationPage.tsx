@@ -8,6 +8,8 @@ import { hashHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 
 import { fetchDonation, removeDonation } from '../actions/index';
+import * as auth from '../auth';
+import * as database from '../database';
 import DonationManagementToolbar from './DonationManagementToolbar';
 import PhotoPanel from './PhotoPanel';
 import Progressbar from './Progressbar';
@@ -15,6 +17,7 @@ import Progressbar from './Progressbar';
 import DonationType from '../types/DonationType';
 import IDonation from '../types/IDonation';
 import IReservation from '../types/IReservation';
+import ReservationType from '../types/ReservationType';
 import UserRole from '../types/UserRole';
 
 interface IDonationPageProps {
@@ -44,7 +47,7 @@ export default function donationPage(donationType: DonationType, title: string, 
 
     render() {
       const {currentId, currentRole, currentUserId} = this.context;
-      const {actions, donation, errorCode, params, reservation} = this.props;
+      const {donation, errorCode, params, reservation} = this.props;
 
       const donorId = donation && donation.donorId;
       const photoUrl = donation && donation.photoUrl;
@@ -54,9 +57,10 @@ export default function donationPage(donationType: DonationType, title: string, 
         hashHistory.push('/404');
       }
 
-      const ManagementToolbar = <DonationManagementToolbar currentId={currentId} currentRole={currentRole} currentUserId={currentUserId}
-        deleteDonation={this.deleteDonation.bind(this)} donationId={params.id} donationType={donationType} donorId={donorId}
-        onUpdate={actions.fetchDonation.bind(null, donationType, params.id)} reservation={reservation} />;
+      const ManagementToolbar = <DonationManagementToolbar currentId={currentId} currentRole={currentRole}
+        currentUserId={currentUserId} deleteDonation={this.deleteDonation.bind(this)} donationId={params.id}
+        donorId={donorId} reservation={reservation} cancelReservation={this.cancelReservation.bind(this)}
+        reportDonation={this.reportDonation.bind(this)} reserveDonation={this.reserveDonation.bind(this)} />;
 
       return (<section>
         <PageHeader className='text-center'>{title}</PageHeader>
@@ -82,6 +86,36 @@ export default function donationPage(donationType: DonationType, title: string, 
         actions.removeDonation(donationType, params.id);
         hashHistory.push('/donations');
       }
+    }
+
+    private cancelReservation() {
+      const {currentId, currentRole} = this.context;
+      const {params} = this.props;
+
+      database.cancelReservation(donationType, params.id, currentRole, currentId).then(this.onUpdate.bind(this));
+    }
+
+    private onUpdate() {
+      const {currentId, currentRole} = this.context;
+      const {actions, params} = this.props;
+
+      actions.fetchDonation(donationType, params.id);
+    }
+
+    private reportDonation(reservationType: ReservationType) {
+      const {currentId, currentRole} = this.context;
+      const {params} = this.props;
+
+      database.reportDonation(donationType, params.id, reservationType, currentRole, currentId).then(this.onUpdate.bind(this));
+    }
+
+    private reserveDonation(reservationType: ReservationType) {
+      const {currentId, currentRole} = this.context;
+      const {params} = this.props;
+
+      auth.ensureLoggedIn(currentId).then((userId) => {
+        database.reserveDonation(donationType, params.id, reservationType, currentRole, userId).then(this.onUpdate.bind(this));
+      });
     }
   }
 
