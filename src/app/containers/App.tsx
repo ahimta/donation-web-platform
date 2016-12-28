@@ -1,8 +1,9 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
 
+import * as auth from '../auth';
+import * as database from '../database';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import * as storage from '../storage';
@@ -40,7 +41,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   }
 
   componentDidMount() {
-    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    this.unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         const [{providerId}] = user.providerData;
 
@@ -49,12 +50,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
           const {displayName, email, photoURL, uid} = user;
 
           this.setState({ currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid });
-
-          if (phone) {
-            firebase.database().ref('users').child(uid).set({ displayName, email, phone, photoURL, uid });
-          } else {
-            firebase.database().ref('users').child(uid).set({ displayName, email, photoURL, uid });
-          }
+          database.setUser({ displayName, email, phone, photoURL, uid });
         } else if (providerId === 'password') {
           this.setState({ currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: '' });
         }
