@@ -20,6 +20,16 @@ import IReservation from '../types/IReservation';
 import ReservationType from '../types/ReservationType';
 import UserRole from '../types/UserRole';
 
+function mapStateToProps(state: any) {
+  const {donation: donationStore} = state;
+  const {donation, errorCode, reservation} = donationStore;
+  return { donation, errorCode, reservation };
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchDonation, removeDonation }, dispatch) };
+}
+
 interface IDonationPageProps {
   readonly actions: any;
   readonly donation: IDonation;
@@ -31,6 +41,7 @@ interface IDonationPageProps {
 interface IDonationPageState { }
 
 export default function donationPage(donationType: DonationType, title: string, DonationInfoPanel: any) {
+  @connect(mapStateToProps, mapDispatchToProps)
   class DonationPage extends React.Component<IDonationPageProps, IDonationPageState> {
     static contextTypes = {
       currentId: React.PropTypes.string,
@@ -119,15 +130,5 @@ export default function donationPage(donationType: DonationType, title: string, 
     }
   }
 
-  function mapStateToProps(state: any) {
-    const {donation: donationStore} = state;
-    const {donation, errorCode, reservation} = donationStore;
-    return { donation, errorCode, reservation };
-  }
-
-  function mapDispatchToProps(dispatch: IDispatch) {
-    return { actions: bindActionCreators({ fetchDonation, removeDonation }, dispatch) };
-  }
-
-  return connect(mapStateToProps, mapDispatchToProps)(DonationPage);
+  return DonationPage;
 }

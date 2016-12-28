@@ -11,6 +11,14 @@ import { fetchActivity } from '../actions/index';
 
 import IActivity from '../types/IActivity';
 
+function mapStateToProps({activity}: any) {
+  return activity;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
+}
+
 interface IActivityProps {
   readonly actions: any;
   readonly activity: IActivity[];
@@ -18,7 +26,8 @@ interface IActivityProps {
 
 interface IActivityState { }
 
-class Activity extends React.Component<IActivityProps, IActivityState> {
+@connect(mapStateToProps, mapDispatchToProps)
+export default class Activity extends React.Component<IActivityProps, IActivityState> {
   componentWillMount() {
     this.props.actions.fetchActivity();
   }
@@ -40,13 +49,3 @@ class Activity extends React.Component<IActivityProps, IActivityState> {
     </section>);
   }
 }
-
-function mapStateToProps({activity}: any) {
-  return activity;
-}
-
-function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Activity);

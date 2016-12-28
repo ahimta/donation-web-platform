@@ -17,6 +17,14 @@ import PhotoPanel from '../components/PhotoPanel';
 import Progressbar from '../components/Progressbar';
 import t from '../translate';
 
+function mapStateToProps({activity, charity}: any) {
+  return { activity: activity.activity, charity: charity.charity, errorCode: charity.errorCode };
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchActivity, fetchCharity }, dispatch) };
+}
+
 interface ICharityProps {
   readonly actions: any;
   readonly activity: IActivity[];
@@ -27,7 +35,8 @@ interface ICharityProps {
 
 interface ICharityState { }
 
-class Charity extends React.Component<ICharityProps, ICharityState> {
+@connect(mapStateToProps, mapDispatchToProps)
+export default class Charity extends React.Component<ICharityProps, ICharityState> {
   componentWillMount() {
     const {actions, params} = this.props;
     actions.fetchActivity('charity', params.id);
@@ -90,13 +99,3 @@ class Charity extends React.Component<ICharityProps, ICharityState> {
     </section>);
   }
 }
-
-function mapStateToProps({activity, charity}: any) {
-  return { activity: activity.activity, charity: charity.charity, errorCode: charity.errorCode };
-}
-
-function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchActivity, fetchCharity }, dispatch) };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Charity);

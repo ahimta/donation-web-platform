@@ -16,6 +16,14 @@ import PhoneLink from '../components/PhoneLink';
 import PhotoPanel from '../components/PhotoPanel';
 import Progressbar from '../components/Progressbar';
 
+function mapStateToProps({activity, user}: any) {
+  return { activity: activity.activity, errorCode: user.errorCode, user: user.user };
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchActivity, fetchUser }, dispatch) };
+}
+
 interface IUserProps {
   actions: any;
   activity: IActivity[];
@@ -26,7 +34,8 @@ interface IUserProps {
 
 interface IUserState { }
 
-class User extends React.Component<IUserProps, IUserState> {
+@connect(mapStateToProps, mapDispatchToProps)
+export default class User extends React.Component<IUserProps, IUserState> {
   componentWillMount() {
     const {actions, params} = this.props;
 
@@ -80,13 +89,3 @@ class User extends React.Component<IUserProps, IUserState> {
     </section>);
   }
 }
-
-function mapStateToProps({activity, user}: any) {
-  return { activity: activity.activity, errorCode: user.errorCode, user: user.user };
-}
-
-function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchActivity, fetchUser }, dispatch) };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(User);

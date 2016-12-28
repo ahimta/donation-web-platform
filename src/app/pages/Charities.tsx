@@ -12,6 +12,14 @@ import PhoneLink from '../components/PhoneLink';
 import Progressbar from '../components/Progressbar';
 import t from '../translate';
 
+function mapStateToProps({charities}: any) {
+  return charities;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchCharities }, dispatch) };
+}
+
 interface ICharitiesProps {
   readonly actions: any;
   readonly charities?: ReadonlyArray<ICharity>;
@@ -19,7 +27,8 @@ interface ICharitiesProps {
 
 interface ICharitiesState { }
 
-class Charities extends React.Component<ICharitiesProps, ICharitiesState> {
+@connect(mapStateToProps, mapDispatchToProps)
+export default class Charities extends React.Component<ICharitiesProps, ICharitiesState> {
   componentWillMount() {
     this.props.actions.fetchCharities();
   }
@@ -63,13 +72,3 @@ class Charities extends React.Component<ICharitiesProps, ICharitiesState> {
     </tr>);
   }
 }
-
-function mapStateToProps({charities}: any) {
-  return charities;
-}
-
-function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchCharities }, dispatch) };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Charities);

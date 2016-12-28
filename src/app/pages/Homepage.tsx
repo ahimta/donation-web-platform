@@ -12,6 +12,14 @@ import ActivityPanel from '../components/ActivityPanel';
 import IActivity from '../types/IActivity';
 import UserRole from '../types/UserRole';
 
+function mapStateToProps({activity}: any) {
+  return activity;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
+}
+
 interface IHomepageProps {
   actions: any;
   activity: IActivity[];
@@ -19,7 +27,8 @@ interface IHomepageProps {
 
 interface IHomepageState { }
 
-class Homepage extends React.Component<IHomepageProps, IHomepageState> {
+@connect(mapStateToProps, mapDispatchToProps)
+export default class Homepage extends React.Component<IHomepageProps, IHomepageState> {
   static contextTypes = { currentRole: React.PropTypes.string };
 
   context: { currentRole: UserRole };
@@ -70,13 +79,3 @@ class Homepage extends React.Component<IHomepageProps, IHomepageState> {
     return (currentRole === 'charity') ? 'hidden' : '';
   }
 }
-
-function mapStateToProps({activity}: any) {
-  return activity;
-}
-
-function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Homepage);

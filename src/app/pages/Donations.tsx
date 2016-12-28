@@ -15,6 +15,14 @@ import IFoodDonation from '../types/IFoodDonation';
 import INonfoodDonation from '../types/INonfoodDonation';
 import UserRole from '../types/UserRole';
 
+function mapStateToProps({donations}: any) {
+  return donations;
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ fetchAllDonations, removeDonation }, dispatch) };
+}
+
 interface IDonationsProps {
   actions: any;
   foodDonations: IFoodDonation[];
@@ -23,7 +31,8 @@ interface IDonationsProps {
 
 interface IDonationsState { }
 
-class Donations extends React.Component<IDonationsProps, IDonationsState> {
+@connect(mapStateToProps, mapDispatchToProps)
+export default class Donations extends React.Component<IDonationsProps, IDonationsState> {
   static contextTypes = { currentId: React.PropTypes.string, currentRole: React.PropTypes.string };
 
   context: { currentId: string, currentRole: UserRole };
@@ -69,13 +78,3 @@ class Donations extends React.Component<IDonationsProps, IDonationsState> {
     }
   }
 }
-
-function mapStateToProps({donations}: any) {
-  return donations;
-}
-
-function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchAllDonations, removeDonation }, dispatch) };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Donations);
