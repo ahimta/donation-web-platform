@@ -5,10 +5,21 @@ import moment from 'moment';
 import IActivity from './types/IActivity';
 import ICharity from './types/ICharity';
 import IDonation from './types/IDonation';
+import IRegularUser from './types/IRegularUser';
 import IReservation from './types/IReservation';
 import DonationType from './types/DonationType';
 import ReservationType from './types/ReservationType';
 import UserRole from './types/UserRole';
+
+export function getUser(id: string): Promise<IRegularUser> {
+  return firebase.database().ref('users').child(id).once('value').then((snapshot) => {
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return Promise.reject({code: 404});
+    }
+  });
+}
 
 export function getCharity(id: string): Promise<ICharity> {
   return firebase.database().ref('charities').child(id).once('value').then((snapshot) => {

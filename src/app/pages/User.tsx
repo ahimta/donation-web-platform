@@ -1,16 +1,13 @@
 /// <reference path="../../../typings/index.d.ts" />
 
-import firebase from 'firebase';
 import * as React from 'react';
-import ReactFireMixin from 'reactfire';
-import reactMixin from 'react-mixin';
 import { Breadcrumb, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { IDispatch } from '~react-redux~redux';
 import { hashHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 
-import { fetchActivity } from '../actions/index';
+import { fetchActivity, fetchUser } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
 import EmailLink from '../components/EmailLink';
 import IActivity from '../types/IActivity';
@@ -22,38 +19,26 @@ import Progressbar from '../components/Progressbar';
 interface IUserProps {
   actions: any;
   activity: IActivity[];
+  errorCode?: number;
   params: { id: string };
+  user?: IRegularUser;
 }
 
-interface IUserState {
-  user: IRegularUser;
-}
+interface IUserState { }
 
 class User extends React.Component<IUserProps, IUserState> {
-  private bindAsObject: Function;
-
-  constructor(props: any, context: any) {
-    super(props, context);
-    this.state = { user: null as IRegularUser };
-  }
-
-  componentDidMount() {
-    const {params} = this.props;
-    this.bindAsObject(firebase.database().ref(`users/${params.id}`), 'user', (error: Error) => {
-      console.log(error);
-      hashHistory.push('/404');
-    });
-  }
   componentWillMount() {
-    this.props.actions.fetchActivity();
+    const {actions, params} = this.props;
+
+    actions.fetchActivity();
+    actions.fetchUser(params.id);
   }
 
   render() {
-    const {activity} = this.props;
-    const {user} = this.state;
+    const {activity, errorCode, user} = this.props;
 
     // hack
-    if (user && user['.value'] === null) {
+    if (errorCode) {
       hashHistory.push('/404');
       return null;
     }
@@ -96,14 +81,12 @@ class User extends React.Component<IUserProps, IUserState> {
   }
 }
 
-reactMixin(User.prototype, ReactFireMixin);
-
-function mapStateToProps({activity}: any) {
-  return activity;
+function mapStateToProps({activity, user}: any) {
+  return { activity: activity.activity, errorCode: user.errorCode, user: user.user };
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ fetchActivity }, dispatch) };
+  return { actions: bindActionCreators({ fetchActivity, fetchUser }, dispatch) };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

@@ -35,6 +35,11 @@ export function fetchDonation(donationType: DonationType, donationId: string) {
   return {type: 'FETCH_DONATION', payload: donationPromise};
 }
 
+export function fetchUser(userId: string) {
+  const userPromise = database.getUser(userId);
+  return {type: 'FETCH_USER', payload: userPromise};
+}
+
 export function removeDonation(donationType: DonationType, donationId: string) {
   const donationsPromise = database.removeDonation(donationType, donationId).then(() => {
     return database.getAllDonations();
