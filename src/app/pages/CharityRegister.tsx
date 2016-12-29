@@ -1,8 +1,9 @@
 /// <reference path="../../../typings/index.d.ts" />
 
+import classNames from 'classnames';
 import * as Immutable from 'immutable';
 import * as React from 'react';
-import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader } from 'react-bootstrap';
+import { Breadcrumb, Button, ControlLabel, Form, FormControl, FormGroup, Grid, HelpBlock, InputGroup, PageHeader } from 'react-bootstrap';
 import { hashHistory } from 'react-router';
 
 import * as auth from '../auth';
@@ -13,6 +14,7 @@ import PhotoInputGroup from '../components/PhotoInputGroup';
 
 interface ICharityRegisterProps { }
 type ICharityRegisterState = ICharity & {
+  readonly authError?: string;
   readonly photo: File;
   readonly uploading: boolean;
 };
@@ -21,6 +23,7 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
   constructor(props: any, context: any) {
     super(props, context);
     this.state = {
+      authError: '',
       description: '',
       email: '',
       photo: null,
@@ -34,6 +37,8 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
   }
 
   render() {
+    const {authError} = this.state;
+
     return (<section>
       <PageHeader className='text-center'>تسجيل كجمعية</PageHeader>
 
@@ -60,18 +65,25 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
             </InputGroup>
           </FormGroup>
 
-          <FormGroup validationState={this.validateRequired(this.state.email)}>
+          <FormGroup validationState={this.validateEmail(this.state.email, authError)}>
             <InputGroup>
               <FormControl type='email' dir='ltr' value={this.state.email} onChange={this.handleOnChange('email').bind(this)} required />
               <InputGroup.Addon>الإيميل</InputGroup.Addon>
             </InputGroup>
+            <HelpBlock className={classNames('text-right', {hidden: (authError !== 'auth/email-already-in-use' && authError !== 'auth/invalid-email')})}
+              dir='rtl'>
+              الإيميل غير صحيح أو مسجل بالفعل.
+            </HelpBlock>
           </FormGroup>
 
-          <FormGroup validationState={this.validateRequired(this.state.password)}>
+          <FormGroup validationState={this.validatePassword(this.state.password, authError)}>
             <InputGroup>
               <FormControl type='password' dir='rtl' value={this.state.password} onChange={this.handleOnChange('password').bind(this)} required />
               <InputGroup.Addon>كلمة المرور</InputGroup.Addon>
             </InputGroup>
+            <HelpBlock className={classNames('text-right', {hidden: (authError !== 'auth/weak-password')})} dir='rtl'>
+              كلمة المرور ضعيفة.
+            </HelpBlock>
           </FormGroup>
 
           <FormGroup>
@@ -117,10 +129,39 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
 
     image.upload(photo).then(({url}) => {
       const charity: ICharity = Immutable.Map(this.state).merge({ photoUrl: url } as any).toJS();
-      return auth.registerCharity(charity).then((_) => {
+      this.setState({ uploading: false } as ICharityRegisterState);
+
+      auth.registerCharity(charity).then((_) => {
         hashHistory.push('/donations');
+      }).catch(({code}) => {
+        switch (code) {
+          case 'auth/email-already-in-use':
+          case 'auth/invalid-email':
+          case 'auth/weak-password':
+            this.setState({authError: code} as ICharityRegisterState);
+            break;
+
+          default:
+            console.log(code);
+        }
       });
     });
+  }
+
+  private validateEmail(value: string, authError: string) {
+    if (!value || authError === 'auth/email-already-in-use' || authError === 'auth/invalid-email') {
+      return 'error';
+    } else {
+      return null;
+    }
+  }
+
+  private validatePassword(value: string, authError: string) {
+    if (!value || authError === 'auth/weak-password') {
+      return 'error';
+    } else {
+      return null;
+    }
   }
 
   private validateRequired(value: string) {

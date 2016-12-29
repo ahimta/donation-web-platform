@@ -47,7 +47,5 @@ export function registerCharity({description, email, location, name, password, p
     const {email, uid} = loggedInCharity;
     const charity: ICharity = { description, email, location, name, phone, photoUrl, website };
     return firebase.database().ref('charities').child(uid).set(charity);
-  }).catch((error) => {
-    console.log(error);
   });
 }
