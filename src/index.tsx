@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import moment from 'moment';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
 import { IStore } from '~react-redux~redux';
 import { applyRouterMiddleware, hashHistory, IndexRedirect, IndexRoute, Redirect, Route, Router } from 'react-router';
@@ -29,8 +30,6 @@ import 'moment/locale/ar-sa';
 
 const store: IStore<any> = configureStore();
 
-moment.locale('ar-sa');
-
 firebase.initializeApp({
   apiKey: 'AIzaSyCBf9V-x1HK0dtwoY1HE8ebjyDblgeixD0',
   authDomain: 'donation-web-pla-1479993243743.firebaseapp.com',
@@ -39,9 +38,18 @@ firebase.initializeApp({
   messagingSenderId: '349166973233'
 });
 
+moment.locale('ar-sa');
+
+ReactGA.initialize('UA-49010546-7', { debug: true });
+
+function logPageView() {
+  ReactGA.set({ page: window.location.hash });
+  ReactGA.pageview(window.location.hash);
+}
+
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hashHistory} render={applyRouterMiddleware(useScroll((_0, _1) => ([0, 0])))}>
+    <Router history={hashHistory} onUpdate={logPageView} render={applyRouterMiddleware(useScroll(() => ([0, 0])))}>
       <Route path='/' component={App}>
         <IndexRoute component={Homepage} />
       </Route>

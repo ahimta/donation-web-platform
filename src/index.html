@@ -1,37 +1,43 @@
 <!doctype html>
 <html lang="ar">
-  <head>
-    <meta charset="utf-8">
-    <title>منصة التبرعات</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="icon" type="image/png" href="https://i.imgur.com/hZvwKFv.png" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<head>
+  <meta charset="utf-8">
+  <title>منصة التبرعات</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="icon" type="image/png" href="https://i.imgur.com/hZvwKFv.png" />
 
-    <!-- build:css(.tmp) index.css -->
-    <link rel="stylesheet" href="index.css"></link>
-    <link rel="stylesheet" href="../jspm_packages/npm/rc-calendar@7.5.1/assets/index.css"></link>
-    <link rel="stylesheet" href="../jspm_packages/npm/rc-time-picker@2.2.1/assets/index.css"></link>
-    <!-- endbuild -->
-  </head>
+  <link rel="stylesheet" crossorigin="anonymous"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u">
 
-  <body>
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-
-    <div id="root"></div>
-  </body>
-
-  <!-- build:js(.tmp) index.js -->
-  <script src="jspm_packages/system.js"></script>
-  <script src="jspm.browser.js"></script>
-  <script src="jspm.config.js"></script>
-
-  <script>
-    System.import('src/index.tsx');
-  </script>
+  <!-- build:css(.tmp) index.css -->
+  <link rel="stylesheet" href="index.css"></link>
+  <link rel="stylesheet" href="../jspm_packages/npm/rc-calendar@7.5.1/assets/index.css"></link>
+  <link rel="stylesheet" href="../jspm_packages/npm/rc-time-picker@2.2.1/assets/index.css"></link>
   <!-- endbuild -->
-</html>
+</head>
 
+<body>
+  <!--[if lt IE 10]>
+    <p class="browsehappy">
+      You are using an <strong>outdated</strong> browser.
+      Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+    </p>
+  <![endif]-->
+
+  <div id="root"></div>
+</body>
+
+<!-- build:js(.tmp) index.js -->
+<script src="jspm_packages/system.js"></script>
+<script src="jspm.browser.js"></script>
+<script src="jspm.config.js"></script>
+
+<script>
+  System.import('src/index.tsx');
+</script>
+<!-- endbuild -->
+
+</html>

@@ -132,6 +132,7 @@ SystemJS.config({
     'react': 'npm:react@15.4.0',
     'react-bootstrap': 'npm:react-bootstrap@0.30.7',
     'react-dom': 'npm:react-dom@15.4.0',
+    'react-ga': 'npm:react-ga@2.1.2',
     'react-google-maps': 'npm:react-google-maps@4.11.0',
     'react-mixin': 'npm:react-mixin@3.0.5',
     'react-redux': 'npm:react-redux@4.4.6',
@@ -160,7 +161,7 @@ SystemJS.config({
       'map': {
         'loose-envify': 'npm:loose-envify@1.3.0',
         'object-assign': 'npm:object-assign@4.1.0',
-        'fbjs': 'npm:fbjs@0.8.6'
+        'fbjs': 'npm:fbjs@0.8.8'
       }
     },
     'npm:react-redux@4.4.6': {
@@ -361,7 +362,7 @@ SystemJS.config({
         'pbkdf2': 'npm:pbkdf2@3.0.9',
         'evp_bytestokey': 'npm:evp_bytestokey@1.0.0',
         'browserify-aes': 'npm:browserify-aes@1.0.6',
-        'asn1.js': 'npm:asn1.js@4.9.0'
+        'asn1.js': 'npm:asn1.js@4.9.1'
       }
     },
     'npm:browserify-cipher@1.0.0': {
@@ -419,13 +420,6 @@ SystemJS.config({
     'npm:hash.js@1.0.3': {
       'map': {
         'inherits': 'npm:inherits@2.0.3'
-      }
-    },
-    'npm:asn1.js@4.9.0': {
-      'map': {
-        'inherits': 'npm:inherits@2.0.3',
-        'bn.js': 'npm:bn.js@4.11.6',
-        'minimalistic-assert': 'npm:minimalistic-assert@1.0.0'
       }
     },
     'npm:diffie-hellman@5.0.2': {
@@ -1745,6 +1739,29 @@ SystemJS.config({
       'map': {
         'lodash.isarguments': 'npm:lodash.isarguments@3.1.0',
         'lodash.isarray': 'npm:lodash.isarray@3.0.4'
+      }
+    },
+    'npm:react-ga@2.1.2': {
+      'map': {
+        'object-assign': 'npm:object-assign@4.1.0'
+      }
+    },
+    'npm:fbjs@0.8.8': {
+      'map': {
+        'loose-envify': 'npm:loose-envify@1.3.0',
+        'object-assign': 'npm:object-assign@4.1.0',
+        'promise': 'npm:promise@7.1.1',
+        'core-js': 'npm:core-js@1.2.7',
+        'isomorphic-fetch': 'npm:isomorphic-fetch@2.2.1',
+        'setimmediate': 'npm:setimmediate@1.0.5',
+        'ua-parser-js': 'npm:ua-parser-js@0.7.12'
+      }
+    },
+    'npm:asn1.js@4.9.1': {
+      'map': {
+        'bn.js': 'npm:bn.js@4.11.6',
+        'inherits': 'npm:inherits@2.0.3',
+        'minimalistic-assert': 'npm:minimalistic-assert@1.0.0'
       }
     }
   }
