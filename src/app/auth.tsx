@@ -26,9 +26,7 @@ export function login(): Promise<IRegularUser> {
 }
 
 export function loginAsCharity(email: string, password: string): Promise<any> {
-  return firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
-    console.log(error);
-  });
+  return firebase.auth().signInWithEmailAndPassword(email, password);
 }
 
 export function logout(): Promise<void> {

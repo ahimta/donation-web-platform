@@ -1,7 +1,8 @@
 /// <reference path="../../../typings/index.d.ts" />
 
+import classNames from 'classnames';
 import * as React from 'react';
-import { Breadcrumb, Button, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader } from 'react-bootstrap';
+import { Alert, Breadcrumb, Button, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader } from 'react-bootstrap';
 import { hashHistory } from 'react-router';
 
 import * as auth from '../auth';
@@ -9,6 +10,7 @@ import * as auth from '../auth';
 interface ICharityLoginProps { }
 
 interface ICharityLoginState {
+  readonly authError: string;
   readonly email: string;
   readonly password: string;
 }
@@ -16,10 +18,12 @@ interface ICharityLoginState {
 export default class CharityLogin extends React.Component<ICharityLoginProps, ICharityLoginState> {
   constructor(props: any, context: any) {
     super(props, context);
-    this.state = { email: '', password: '' };
+    this.state = { authError: '', email: '', password: '' };
   }
 
   render() {
+    const {authError, email, password} = this.state;
+
     return (<section>
       <PageHeader className='text-center'>تسجيل دخول كجمعية</PageHeader>
 
@@ -30,18 +34,22 @@ export default class CharityLogin extends React.Component<ICharityLoginProps, IC
           <Breadcrumb.Item active>تسجيل دخول كجمعية</Breadcrumb.Item>
         </Breadcrumb>
 
+        <Alert bsStyle='danger' className={classNames({hidden: !authError}, 'text-right')} dir='rtl'>
+          الإيميل أو كلمة المرور غير صحيحة.
+        </Alert>
+
         <Form onSubmit={this.handleSubmit.bind(this)}>
 
-          <FormGroup validationState={this.validateRequired(this.state.email)}>
+          <FormGroup validationState={this.validateRequired(email)}>
             <InputGroup>
-              <FormControl type='email' dir='ltr' value={this.state.email} onChange={this.handleOnChange('email').bind(this)} required />
+              <FormControl type='email' dir='ltr' value={email} onChange={this.handleOnChange('email').bind(this)} required />
               <InputGroup.Addon>الإيميل</InputGroup.Addon>
             </InputGroup>
           </FormGroup>
 
-          <FormGroup validationState={this.validateRequired(this.state.password)}>
+          <FormGroup validationState={this.validateRequired(password)}>
             <InputGroup>
-              <FormControl type='password' dir='rtl' value={this.state.password} onChange={this.handleOnChange('password').bind(this)} required />
+              <FormControl type='password' dir='rtl' value={password} onChange={this.handleOnChange('password').bind(this)} required />
               <InputGroup.Addon>كلمة المرور</InputGroup.Addon>
             </InputGroup>
           </FormGroup>
@@ -64,6 +72,18 @@ export default class CharityLogin extends React.Component<ICharityLoginProps, IC
     event.preventDefault();
     auth.loginAsCharity(email, password).then((_) => {
       hashHistory.push('/donations');
+    }).catch(({code}) => {
+      switch (code) {
+        case 'auth/invalid-email':
+        case 'auth/user-disabled':
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+          this.setState({ authError: code } as ICharityLoginState);
+          break;
+
+        default:
+          console.log(code);
+      }
     });
   }
 
