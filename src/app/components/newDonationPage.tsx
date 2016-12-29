@@ -58,6 +58,7 @@ export default (DonationPageComponent: any) => class NewDonationPage extends Rea
 
       image.upload(photo).then(({url}) => {
         const donation = Immutable.Map(wrappedDonation).merge({ donorId, photoUrl: url }).toJS();
+        this.setState({ uploading: false } as INewDonationPageState);
 
         return database.createDonation(donationType, donation).then((newDonationKey) => {
           const donationUrl = (donationType === 'food') ? `/donations/food/${newDonationKey}` : `/donations/nonfood/${newDonationKey}`;
