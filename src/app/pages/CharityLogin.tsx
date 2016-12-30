@@ -56,7 +56,7 @@ export default class CharityLogin extends React.Component<ICharityLoginProps, IC
 
           <div className='text-center'>
             <ButtonGroup bsSize='lg'>
-              <Button bsStyle='success' href={`#/register/charity?email=${email}`}>سجل كجمعية</Button>
+              <Button bsStyle='success' href={`#/register/charity?email=${encodeURIComponent(email)}`}>سجل كجمعية</Button>
               <Button bsStyle='success' type='submit'>سجل دخول</Button>
             </ButtonGroup>
           </div>

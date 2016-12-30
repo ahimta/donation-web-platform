@@ -26,7 +26,7 @@ export default class CharityRegister extends React.Component<ICharityRegisterPro
   constructor(props: ICharityRegisterProps, context: any) {
     super(props, context);
 
-    const email = (props.location.query.email || '');
+    const email = (props.location.query.email ? decodeURIComponent(props.location.query.email) : '');
 
     this.state = {
       authError: '',
