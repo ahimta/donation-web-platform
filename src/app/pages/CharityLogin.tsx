@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import * as React from 'react';
-import { Alert, Breadcrumb, Button, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader } from 'react-bootstrap';
+import { Alert, Breadcrumb, Button, ButtonGroup, Form, FormControl, FormGroup, Grid, InputGroup, PageHeader } from 'react-bootstrap';
 import { hashHistory } from 'react-router';
 
 import * as auth from '../auth';
@@ -34,7 +34,7 @@ export default class CharityLogin extends React.Component<ICharityLoginProps, IC
           <Breadcrumb.Item active>تسجيل دخول كجمعية</Breadcrumb.Item>
         </Breadcrumb>
 
-        <Alert bsStyle='danger' className={classNames({hidden: !authError}, 'text-right')} dir='rtl'>
+        <Alert bsStyle='danger' className={classNames({ hidden: !authError }, 'text-right')} dir='rtl'>
           الإيميل أو كلمة المرور غير صحيحة.
         </Alert>
 
@@ -54,7 +54,12 @@ export default class CharityLogin extends React.Component<ICharityLoginProps, IC
             </InputGroup>
           </FormGroup>
 
-          <Button type='submit' bsStyle='success' bsSize='lg' block>سجل دخول كجمعية</Button>
+          <div className='text-center'>
+            <ButtonGroup bsSize='lg'>
+              <Button bsStyle='success' href={`#/register/charity?email=${email}`}>سجل كجمعية</Button>
+              <Button bsStyle='success' type='submit'>سجل دخول</Button>
+            </ButtonGroup>
+          </div>
         </Form>
       </Grid>
     </section>);

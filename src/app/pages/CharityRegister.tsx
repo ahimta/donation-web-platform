@@ -12,7 +12,10 @@ import * as image from '../image';
 import LocationSelectField from '../components/LocationSelectField';
 import PhotoInputGroup from '../components/PhotoInputGroup';
 
-interface ICharityRegisterProps { }
+interface ICharityRegisterProps {
+  readonly location: {query: {email?: string}};
+}
+
 type ICharityRegisterState = ICharity & {
   readonly authError?: string;
   readonly photo: File;
@@ -20,12 +23,15 @@ type ICharityRegisterState = ICharity & {
 };
 
 export default class CharityRegister extends React.Component<ICharityRegisterProps, ICharityRegisterState> {
-  constructor(props: any, context: any) {
+  constructor(props: ICharityRegisterProps, context: any) {
     super(props, context);
+
+    const email = (props.location.query.email || '');
+
     this.state = {
       authError: '',
       description: '',
-      email: '',
+      email,
       photo: null,
       location: 'riyadh',
       name: '',
