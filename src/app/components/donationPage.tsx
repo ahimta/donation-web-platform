@@ -11,6 +11,7 @@ import { fetchDonation, removeDonation } from '../actions/index';
 import * as auth from '../auth';
 import * as database from '../database';
 import DonationManagementToolbar from './DonationManagementToolbar';
+import { redirectToErrorPage } from '../errorHandling';
 import PhotoPanel from './PhotoPanel';
 import Progressbar from './Progressbar';
 
@@ -58,7 +59,7 @@ export default function donationPage(donationType: DonationType, title: string, 
 
       // hack
       if (errorCode === 404) {
-        hashHistory.push('/404');
+        redirectToErrorPage();
       }
 
       const ManagementToolbar = <DonationManagementToolbar currentId={currentId} currentRole={currentRole}

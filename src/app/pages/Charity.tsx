@@ -4,12 +4,12 @@ import * as React from 'react';
 import { Breadcrumb, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { IDispatch } from '~react-redux~redux';
-import { hashHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 
 import { fetchActivity, fetchCharity } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
 import EmailLink from '../components/EmailLink';
+import { redirectToErrorPage } from '../errorHandling';
 import IActivity from '../types/IActivity';
 import ICharity from '../types/ICharity';
 import PhoneLink from '../components/PhoneLink';
@@ -56,7 +56,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 
     // hack
     if (errorCode) {
-      hashHistory.push('/404');
+      redirectToErrorPage();
       return null;
     }
 
