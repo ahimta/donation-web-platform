@@ -10,6 +10,7 @@ import { fetchActivity, fetchCharity } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
 import EmailLink from '../components/EmailLink';
 import { redirectToErrorPage } from '../errorHandling';
+import HttpLink from '../components/HttpLink';
 import IActivity from '../types/IActivity';
 import ICharity from '../types/ICharity';
 import PhoneLink from '../components/PhoneLink';
@@ -96,7 +97,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
                 <tr className={renderedCharity.website ? '' : 'hidden'}>
                   <th className='text-center'>الموقع الرسمي</th>
                   <td className='text-center'>
-                    <a dir='ltr' href={renderedCharity.website} target='_blank'>{renderedCharity.website}</a>
+                    <HttpLink url={renderedCharity.website} />
                   </td>
                 </tr>
               </tbody>
