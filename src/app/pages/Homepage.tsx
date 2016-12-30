@@ -14,8 +14,8 @@ import ActivityPanel from '../components/ActivityPanel';
 import IActivity from '../types/IActivity';
 import UserRole from '../types/UserRole';
 
-function mapStateToProps({activity}: any) {
-  return activity;
+function mapStateToProps({activity, currentUser}: any) {
+  return {activity: activity.activity, currentRole: currentUser.role};
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
@@ -23,25 +23,21 @@ function mapDispatchToProps(dispatch: IDispatch) {
 }
 
 interface IHomepageProps {
-  actions: any;
-  activity: IActivity[];
+  readonly actions: any;
+  readonly activity: IActivity[];
+  readonly currentRole: UserRole;
 }
 
 interface IHomepageState { }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Homepage extends React.Component<IHomepageProps, IHomepageState> {
-  static contextTypes = { currentRole: React.PropTypes.string };
-
-  context: { currentRole: UserRole };
-
   componentWillMount() {
     this.props.actions.fetchActivity();
   }
 
   render() {
-    const {currentRole} = this.context;
-    const {activity} = this.props;
+    const {activity, currentRole} = this.props;
 
     return (<section>
       <Grid>

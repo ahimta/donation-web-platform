@@ -12,20 +12,28 @@ import UserRole from '../types/UserRole';
 const CONTACT_US_LINK = ('https://twitter.com/intent/tweet?via=ahymta&url=' +
   'https%3A%2F%2Fdonation-web-pla-1479993243743.firebaseapp.com');
 
-interface IHeaderProps { }
+interface IHeaderProps {
+  readonly currentId: string;
+  readonly currentRole: UserRole;
+}
+
 interface IHeaderState { }
 
 export default class Header extends React.Component<IHeaderProps, IHeaderState> {
   static contextTypes = {
-    currentId: React.PropTypes.string,
-    currentRole: React.PropTypes.string,
     router: React.PropTypes.any
   };
 
-  context: { currentId: string, currentRole: UserRole, router: any };
+  static propTypes = {
+    currentId: React.PropTypes.string.isRequired,
+    currentRole: React.PropTypes.string.isRequired
+  };
+
+  context: { router: any };
 
   render() {
-    const {currentId, currentRole, router} = this.context;
+    const {router} = this.context;
+    const {currentId, currentRole} = this.props;
     const isCharity = (currentRole === 'charity');
 
     return (<header style={{ marginBottom: '5em' }}>

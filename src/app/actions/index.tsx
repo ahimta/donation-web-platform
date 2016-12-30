@@ -47,3 +47,7 @@ export function removeDonation(donationType: DonationType, donationId: string) {
 
   return {type: 'REMOVE_DONATION', payload: donationsPromise};
 }
+
+export function setCurrentUser(currentUser: { charityId: string, id: string, role: string, userId: string }) {
+  return {type: 'SET_CURRENT_USER', payload: currentUser};
+}

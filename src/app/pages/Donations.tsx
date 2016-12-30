@@ -15,8 +15,11 @@ import IFoodDonation from '../types/IFoodDonation';
 import INonfoodDonation from '../types/INonfoodDonation';
 import UserRole from '../types/UserRole';
 
-function mapStateToProps({donations}: any) {
-  return donations;
+function mapStateToProps({currentUser, donations}: any) {
+  return {
+    currentId: currentUser.id, currentRole: currentUser.role,
+    foodDonations: donations.foodDonations, nonfoodDonations: donations.nonfoodDonations
+  };
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
@@ -24,26 +27,23 @@ function mapDispatchToProps(dispatch: IDispatch) {
 }
 
 interface IDonationsProps {
-  actions: any;
-  foodDonations: IFoodDonation[];
-  nonfoodDonations: INonfoodDonation[];
+  readonly actions: any;
+  readonly currentId: string;
+  readonly currentRole: UserRole;
+  readonly foodDonations: IFoodDonation[];
+  readonly nonfoodDonations: INonfoodDonation[];
 }
 
 interface IDonationsState { }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Donations extends React.Component<IDonationsProps, IDonationsState> {
-  static contextTypes = { currentId: React.PropTypes.string, currentRole: React.PropTypes.string };
-
-  context: { currentId: string, currentRole: UserRole };
-
   componentWillMount() {
     this.props.actions.fetchAllDonations();
   }
 
   render() {
-    const {currentId, currentRole} = this.context;
-    const {actions, foodDonations, nonfoodDonations} = this.props;
+    const {currentId, currentRole, foodDonations, nonfoodDonations} = this.props;
 
     return (<section>
       <PageHeader className='text-center'>التبرعات</PageHeader>

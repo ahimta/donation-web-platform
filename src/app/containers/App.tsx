@@ -1,15 +1,31 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { IDispatch } from '~react-redux~redux';
+import { bindActionCreators } from 'redux';
 
+import { setCurrentUser } from '../actions/index';
 import * as auth from '../auth';
 import * as database from '../database';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import * as storage from '../storage';
+import UserRole from '../types/UserRole';
+
+function mapStateToProps({currentUser}: any) {
+  return {currentId: currentUser.id, currentRole: currentUser.role};
+}
+
+function mapDispatchToProps(dispatch: IDispatch) {
+  return { actions: bindActionCreators({ setCurrentUser }, dispatch) };
+}
 
 interface IAppProps {
+  readonly actions: any;
   readonly children: Object;
+  readonly currentId: string;
+  readonly currentRole: UserRole;
 }
 
 interface IAppState {
@@ -19,6 +35,7 @@ interface IAppState {
   readonly currentUserId: string;
 }
 
+@connect(mapStateToProps, mapDispatchToProps)
 export default class App extends React.Component<IAppProps, IAppState> {
   static childContextTypes = {
     currentCharityId: React.PropTypes.string,
@@ -41,6 +58,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
   }
 
   componentDidMount() {
+    const {actions} = this.props;
+
     this.unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         const [{providerId}] = user.providerData;
@@ -49,13 +68,16 @@ export default class App extends React.Component<IAppProps, IAppState> {
           const phone = storage.getItem('phone');
           const {displayName, email, photoURL, uid} = user;
 
-          this.setState({ currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid });
           database.setUser({ displayName, email, phone, photoURL, uid });
+          this.setState({ currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid });
+          actions.setCurrentUser({ charityId: '', id: uid, role: 'user', userId: user.uid });
         } else if (providerId === 'password') {
           this.setState({ currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: '' });
+          actions.setCurrentUser({ charityId: user.uid, id: user.uid, role: 'charity', userId: '' });
         }
       } else {
         this.setState({ currentCharityId: '', currentId: '', currentRole: '', currentUserId: '' });
+        actions.setCurrentUser({ charityId: '', id: '', role: '', userId: '' });
       }
     });
   }
@@ -65,9 +87,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
   }
 
   render() {
+    const {currentId, currentRole} = this.props;
+
     return (
       <div>
-        <Header />
+        <Header currentId={currentId} currentRole={currentRole} />
 
         {this.props.children}
 

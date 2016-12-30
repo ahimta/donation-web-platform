@@ -18,12 +18,11 @@ import DonationType from '../types/DonationType';
 import IDonation from '../types/IDonation';
 import IReservation from '../types/IReservation';
 import ReservationType from '../types/ReservationType';
-import UserRole from '../types/UserRole';
 
 function mapStateToProps(state: any) {
-  const {donation: donationStore} = state;
+  const {currentUser, donation: donationStore} = state;
   const {donation, errorCode, reservation} = donationStore;
-  return { donation, errorCode, reservation };
+  return { currentUser, donation, errorCode, reservation };
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
@@ -32,6 +31,7 @@ function mapDispatchToProps(dispatch: IDispatch) {
 
 interface IDonationPageProps {
   readonly actions: any;
+  readonly currentUser: any;
   readonly donation: IDonation;
   readonly errorCode?: number;
   readonly params: { id: string };
@@ -43,13 +43,6 @@ interface IDonationPageState { }
 export default function donationPage(donationType: DonationType, title: string, DonationInfoPanel: any) {
   @connect(mapStateToProps, mapDispatchToProps)
   class DonationPage extends React.Component<IDonationPageProps, IDonationPageState> {
-    static contextTypes = {
-      currentId: React.PropTypes.string,
-      currentRole: React.PropTypes.string,
-      currentUserId: React.PropTypes.string
-    };
-
-    context: { currentId: string, currentRole: UserRole, currentUserId: string };
 
     componentWillMount() {
       const {actions, params} = this.props;
@@ -57,8 +50,8 @@ export default function donationPage(donationType: DonationType, title: string, 
     }
 
     render() {
-      const {currentId, currentRole, currentUserId} = this.context;
-      const {donation, errorCode, params, reservation} = this.props;
+      const {currentUser, donation, errorCode, params, reservation} = this.props;
+      const {id: currentId, role: currentRole, userId: currentUserId} = currentUser;
 
       const donorId = donation && donation.donorId;
       const photoUrl = donation && donation.photoUrl;
@@ -100,29 +93,28 @@ export default function donationPage(donationType: DonationType, title: string, 
     }
 
     private cancelReservation() {
-      const {currentId, currentRole} = this.context;
-      const {params} = this.props;
+      const {currentUser, params} = this.props;
+      const {id: currentId, role: currentRole} = currentUser;
 
       database.cancelReservation(donationType, params.id, currentRole, currentId).then(this.onUpdate.bind(this));
     }
 
     private onUpdate() {
-      const {currentId, currentRole} = this.context;
       const {actions, params} = this.props;
 
       actions.fetchDonation(donationType, params.id);
     }
 
     private reportDonation(reservationType: ReservationType) {
-      const {currentId, currentRole} = this.context;
-      const {params} = this.props;
+      const {currentUser, params} = this.props;
+      const {id: currentId, role: currentRole} = currentUser;
 
       database.reportDonation(donationType, params.id, reservationType, currentRole, currentId).then(this.onUpdate.bind(this));
     }
 
     private reserveDonation(reservationType: ReservationType) {
-      const {currentId, currentRole} = this.context;
-      const {params} = this.props;
+      const {currentUser, params} = this.props;
+      const {id: currentId, role: currentRole} = currentUser;
 
       auth.ensureLoggedIn(currentId).then((userId) => {
         database.reserveDonation(donationType, params.id, reservationType, currentRole, userId).then(this.onUpdate.bind(this));
