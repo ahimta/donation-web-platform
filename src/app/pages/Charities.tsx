@@ -10,10 +10,12 @@ import { fetchCharities } from '../actions/index';
 import ICharity from '../types/ICharity';
 import PhoneLink from '../components/PhoneLink';
 import Progressbar from '../components/Progressbar';
+import RegisterAsCharityButton from '../components/RegisterAsCharityButton';
 import t from '../translate';
+import UserRole from '../types/UserRole';
 
-function mapStateToProps({charities}: any) {
-  return charities;
+function mapStateToProps({charities, currentUser}: any) {
+  return {charities: charities.charities, currentRole: currentUser.role, errorCode: charities.errorCode};
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
@@ -23,6 +25,8 @@ function mapDispatchToProps(dispatch: IDispatch) {
 interface ICharitiesProps {
   readonly actions: any;
   readonly charities?: ReadonlyArray<ICharity>;
+  readonly currentRole: UserRole;
+  readonly errorCode?: number;
 }
 
 interface ICharitiesState { }
@@ -34,7 +38,7 @@ export default class Charities extends React.Component<ICharitiesProps, IChariti
   }
 
   render() {
-    const {charities} = this.props;
+    const {charities, currentRole} = this.props;
     const Charities = charities ? charities.map(this.mapCharity) : [];
 
     return (<section>
@@ -60,6 +64,8 @@ export default class Charities extends React.Component<ICharitiesProps, IChariti
             </tbody>
           </Table>
         </Progressbar>
+
+        <RegisterAsCharityButton userRole={currentRole} />
       </Grid>
     </section>);
   }

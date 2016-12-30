@@ -15,10 +15,17 @@ import ICharity from '../types/ICharity';
 import PhoneLink from '../components/PhoneLink';
 import PhotoPanel from '../components/PhotoPanel';
 import Progressbar from '../components/Progressbar';
+import RegisterAsCharityButton from '../components/RegisterAsCharityButton';
 import t from '../translate';
+import UserRole from '../types/UserRole';
 
-function mapStateToProps({activity, charity}: any) {
-  return { activity: activity.activity, charity: charity.charity, errorCode: charity.errorCode };
+function mapStateToProps({activity, charity, currentUser}: any) {
+  return {
+    activity: activity.activity,
+    charity: charity.charity,
+    currentRole: currentUser.role,
+    errorCode: charity.errorCode
+  };
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
@@ -29,6 +36,7 @@ interface ICharityProps {
   readonly actions: any;
   readonly activity: IActivity[];
   readonly charity: ICharity;
+  readonly currentRole: UserRole;
   readonly errorCode: number;
   readonly params: { id: string };
 }
@@ -44,7 +52,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
   }
 
   render() {
-    const {activity, charity, errorCode} = this.props;
+    const {activity, charity, currentRole, errorCode} = this.props;
 
     // hack
     if (errorCode) {
@@ -94,6 +102,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
           <PhotoPanel header='شعار الجمعية' photoUrl={charity && charity.photoUrl} />
         </Progressbar>
 
+        <RegisterAsCharityButton userRole={currentRole} margin />
         <ActivityPanel activity={activity} hideUser />
       </Grid>
     </section>);

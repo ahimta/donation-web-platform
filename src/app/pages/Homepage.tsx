@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 
 import { fetchActivity } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
+import RegisterAsCharityButton from '../components/RegisterAsCharityButton';
 
 import IActivity from '../types/IActivity';
 import UserRole from '../types/UserRole';
@@ -87,6 +88,7 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
       </Grid>
 
       <Grid>
+        <RegisterAsCharityButton userRole={currentRole} margin />
         <ActivityPanel activity={activity} />
       </Grid>
     </section>);
