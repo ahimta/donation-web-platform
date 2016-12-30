@@ -28,34 +28,13 @@ interface IAppProps {
   readonly currentRole: UserRole;
 }
 
-interface IAppState {
-  readonly currentCharityId: string;
-  readonly currentId: string;
-  readonly currentRole: string;
-  readonly currentUserId: string;
-}
+interface IAppState { }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class App extends React.Component<IAppProps, IAppState> {
-  static childContextTypes = {
-    currentCharityId: React.PropTypes.string,
-    currentId: React.PropTypes.string,
-    currentRole: React.PropTypes.string,
-    currentUserId: React.PropTypes.string
-  };
-
   static propTypes = { children: React.PropTypes.object.isRequired };
 
   private unsubscribe: () => void;
-
-  constructor(props: any, context: any) {
-    super(props, context);
-    this.state = { currentCharityId: '', currentId: '', currentUserId: '', currentRole: '' };
-  }
-
-  getChildContext() {
-    return this.state;
-  }
 
   componentDidMount() {
     const {actions} = this.props;
@@ -69,14 +48,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
           const {displayName, email, photoURL, uid} = user;
 
           database.setUser({ displayName, email, phone, photoURL, uid });
-          this.setState({ currentCharityId: '', currentId: uid, currentRole: 'user', currentUserId: user.uid });
           actions.setCurrentUser({ charityId: '', id: uid, role: 'user', userId: user.uid });
         } else if (providerId === 'password') {
-          this.setState({ currentCharityId: user.uid, currentId: user.uid, currentRole: 'charity', currentUserId: '' });
           actions.setCurrentUser({ charityId: user.uid, id: user.uid, role: 'charity', userId: '' });
         }
       } else {
-        this.setState({ currentCharityId: '', currentId: '', currentRole: '', currentUserId: '' });
         actions.setCurrentUser({ charityId: '', id: '', role: '', userId: '' });
       }
     });
