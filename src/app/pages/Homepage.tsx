@@ -11,12 +11,13 @@ import { bindActionCreators } from 'redux';
 import { fetchActivity } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
 import RegisterAsCharityButton from '../components/RegisterAsCharityButton';
+import ShareButtons from '../components/ShareButtons';
 
 import IActivity from '../types/IActivity';
 import UserRole from '../types/UserRole';
 
 function mapStateToProps({activity, currentUser}: any) {
-  return {activity: activity.activity, currentRole: currentUser.role};
+  return { activity: activity.activity, currentRole: currentUser.role };
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
@@ -42,7 +43,7 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
 
     return (<section>
       <Grid>
-        <Panel bsStyle='primary' className={classNames('text-center', {hidden: (currentRole !== 'charity')})}
+        <Panel bsStyle='primary' className={classNames('text-center', { hidden: (currentRole !== 'charity') })}
           header={<span><Glyphicon glyph='road' />&nbsp;<span>وصل تبرع</span></span>}>
           <Button bsStyle='success' href='#/donations/deliver' block
             onClick={this.trackFactory('Homepage', 'Clicking', 'Choose donation-to-deliver button')}>
@@ -87,10 +88,18 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
         </Row>
       </Grid>
 
-      <Grid>
-        <RegisterAsCharityButton userRole={currentRole} margin />
-        <ActivityPanel activity={activity} />
+      <Grid><RegisterAsCharityButton userRole={currentRole} /></Grid>
+
+      <hr />
+
+      <Grid className='text-center'>
+        <ShareButtons text='.منصة التبرعات للأفراد و المتطوعين و الجمعيات و المستفيدين'
+          url='https://donation-web-pla-1479993243743.firebaseapp.com' />
       </Grid>
+
+      <hr />
+
+      <Grid><ActivityPanel activity={activity} /></Grid>
     </section>);
   }
 
@@ -100,7 +109,7 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
 
   private trackFactory(category: string, action: string, label: string, fn?: Function) {
     return () => {
-      ReactGA.event({category, action, label});
+      ReactGA.event({ category, action, label });
       if (fn) {
         fn();
       }
