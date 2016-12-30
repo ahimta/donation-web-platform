@@ -10,6 +10,7 @@ import { fetchAllDonations, removeDonation } from '../actions/index';
 import FoodDonationsPanel from '../components/FoodDonationsPanel';
 import Progressbar from '../components/Progressbar';
 import NonfoodDonationsPanel from '../components/NonfoodDonationsPanel';
+import ShareButtons from '../components/ShareButtons';
 
 import IFoodDonation from '../types/IFoodDonation';
 import INonfoodDonation from '../types/INonfoodDonation';
@@ -64,11 +65,15 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
       </Grid>
 
       <Grid className={currentRole === 'charity' ? 'hidden' : 'text-center'}>
-        <ButtonGroup bsSize='lg' justified>
+        <ButtonGroup justified>
           <Button bsStyle='success' href='#/donate/nonfood'>تبرع بشيء آخر</Button>
           <Button bsStyle='success' href='#/donate/food'>تبرع بطعام</Button>
         </ButtonGroup>
       </Grid>
+
+      <hr />
+
+      <Grid className='text-center'><ShareButtons text='تبرعات' url='#/donations' /></Grid>
     </section>);
   }
 

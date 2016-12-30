@@ -11,6 +11,7 @@ import ICharity from '../types/ICharity';
 import PhoneLink from '../components/PhoneLink';
 import Progressbar from '../components/Progressbar';
 import RegisterAsCharityButton from '../components/RegisterAsCharityButton';
+import ShareButtons from '../components/ShareButtons';
 import t from '../translate';
 import UserRole from '../types/UserRole';
 
@@ -67,6 +68,10 @@ export default class Charities extends React.Component<ICharitiesProps, IChariti
 
         <RegisterAsCharityButton userRole={currentRole} />
       </Grid>
+
+      <hr />
+
+      <Grid className='text-center'><ShareButtons text='جمعيات خيرية' url='#/charities' /></Grid>
     </section>);
   }
 

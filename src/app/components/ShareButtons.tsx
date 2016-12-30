@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export default function ShareButtons({text, url}: { text: string, url: string }) {
   const encodedText = encodeURIComponent(text);
-  const encodedUrl = encodeURIComponent(url);
+  const encodedUrl = encodeURIComponent(`https://donation-web-pla-1479993243743.firebaseapp.com/${url}`);
   const fb = `https://facebook.com/sharer/sharer.php?u=${encodedUrl}`;
   const tw = `https://twitter.com/intent/tweet/?text=${encodedText}&url=${encodedUrl}`;
   const ml = `mailto:?subject=${encodedText}&body=${encodedUrl}`;

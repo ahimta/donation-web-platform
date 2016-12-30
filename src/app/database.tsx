@@ -101,7 +101,7 @@ export function getAllDonations() {
 export function getCharity(id: string): Promise<ICharity> {
   return firebase.database().ref('charities').child(id).once('value').then((snapshot) => {
     if (snapshot.exists()) {
-      return snapshot.val();
+      return Immutable.Map(snapshot.val()).merge({ '.key': snapshot.key }).toJS();
     } else {
       return Promise.reject({ code: 404 });
     }
@@ -130,7 +130,7 @@ export function getDonation(donationType: DonationType, donationId: string): Pro
 
   return firebase.database().ref(refName).child(donationId).once('value').then((snapshot) => {
     if (snapshot.exists()) {
-      const donation: IDonation = snapshot.val();
+      const donation: IDonation = Immutable.Map(snapshot.val()).merge({ '.key': snapshot.key }).toJS() as IDonation;
       const reservationPromise = firebase.database().ref('reservations').child(donationId).once('value');
 
       return Promise.all([Promise.resolve(donation), reservationPromise]);
@@ -172,7 +172,7 @@ export function getUser(id: string): Promise<IRegularUser> {
     if (snapshot.exists()) {
       return snapshot.val();
     } else {
-      return Promise.reject({code: 404});
+      return Promise.reject({ code: 404 });
     }
   });
 }

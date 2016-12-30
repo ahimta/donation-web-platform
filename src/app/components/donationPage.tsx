@@ -14,6 +14,7 @@ import DonationManagementToolbar from './DonationManagementToolbar';
 import { redirectToErrorPage } from '../errorHandling';
 import PhotoPanel from './PhotoPanel';
 import Progressbar from './Progressbar';
+import ShareButtons from './ShareButtons';
 
 import DonationType from '../types/DonationType';
 import IDonation from '../types/IDonation';
@@ -56,6 +57,10 @@ export default function donationPage(donationType: DonationType, title: string, 
 
       const donorId = donation && donation.donorId;
       const photoUrl = donation && donation.photoUrl;
+      const renderedDonation = donation || {} as IDonation;
+
+      const text = (donationType === 'food') ? 'تبرع طعام' : 'تبرع بغير طعام';
+      const url = `#/donations/${donationType}/${renderedDonation['.key']}`;
 
       // hack
       if (errorCode === 404) {
@@ -80,6 +85,12 @@ export default function donationPage(donationType: DonationType, title: string, 
             <DonationInfoPanel donation={donation} footer={ManagementToolbar} />
             <PhotoPanel header='صورة للتبرع' photoUrl={photoUrl} />
           </Progressbar>
+        </Grid>
+
+        <hr />
+
+        <Grid className='text-center'>
+          <Progressbar data={donation}><ShareButtons text={text} url={url} /></Progressbar>
         </Grid>
       </section>);
     }

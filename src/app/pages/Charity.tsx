@@ -16,6 +16,7 @@ import PhoneLink from '../components/PhoneLink';
 import PhotoPanel from '../components/PhotoPanel';
 import Progressbar from '../components/Progressbar';
 import RegisterAsCharityButton from '../components/RegisterAsCharityButton';
+import ShareButtons from '../components/ShareButtons';
 import t from '../translate';
 import UserRole from '../types/UserRole';
 
@@ -53,6 +54,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 
   render() {
     const {activity, charity, currentRole, errorCode} = this.props;
+    const renderedCharity = charity || {} as ICharity;
 
     // hack
     if (errorCode) {
@@ -71,40 +73,53 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
         </Breadcrumb>
 
         <Progressbar data={charity}>
-          <Panel header='بيانات الجمعية' footer={charity && charity.description}
+          <Panel header='بيانات الجمعية' footer={renderedCharity.description}
             bsStyle='primary' className='text-center' collapsible defaultExpanded>
             <Table fill>
               <tbody dir='rtl'>
                 <tr>
                   <th className='text-center'>الاسم</th>
-                  <td className='text-center'>{charity && charity.name}</td>
+                  <td className='text-center'>{renderedCharity.name}</td>
                 </tr>
                 <tr>
                   <th className='text-center'>الموقع</th>
-                  <td className='text-center'>{t(charity && charity.location)}</td>
+                  <td className='text-center'>{t(renderedCharity.location)}</td>
                 </tr>
                 <tr>
                   <th className='text-center'>الجوال/الواتساب</th>
-                  <td className='text-center'><PhoneLink phone={charity && charity.phone} /></td>
+                  <td className='text-center'><PhoneLink phone={renderedCharity.phone} /></td>
                 </tr>
                 <tr>
                   <th className='text-center'>الإيميل</th>
-                  <td className='text-center'><EmailLink email={charity && charity.email} /></td>
+                  <td className='text-center'><EmailLink email={renderedCharity.email} /></td>
                 </tr>
-                <tr className={charity && charity.website ? '' : 'hidden'}>
+                <tr className={renderedCharity.website ? '' : 'hidden'}>
                   <th className='text-center'>الموقع الرسمي</th>
-                  <td className='text-center'><a dir='ltr' href={charity && charity.website} target='_blank'>{charity && charity.website}</a></td>
+                  <td className='text-center'>
+                    <a dir='ltr' href={renderedCharity.website} target='_blank'>{renderedCharity.website}</a>
+                  </td>
                 </tr>
               </tbody>
             </Table>
           </Panel>
 
-          <PhotoPanel header='شعار الجمعية' photoUrl={charity && charity.photoUrl} />
+          <PhotoPanel header='شعار الجمعية' photoUrl={renderedCharity.photoUrl} />
         </Progressbar>
 
-        <RegisterAsCharityButton userRole={currentRole} margin />
-        <ActivityPanel activity={activity} hideUser />
+        <RegisterAsCharityButton userRole={currentRole} />
       </Grid>
+
+      <hr />
+
+      <Grid className='text-center'>
+        <Progressbar data={charity}>
+          <ShareButtons text='جمعية خيرية' url={`#/charities/${renderedCharity['.key']}`} />
+        </Progressbar>
+      </Grid>
+
+      <hr />
+
+      <Grid><ActivityPanel activity={activity} hideUser /></Grid>
     </section>);
   }
 }

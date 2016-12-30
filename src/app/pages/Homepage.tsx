@@ -93,8 +93,7 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
       <hr />
 
       <Grid className='text-center'>
-        <ShareButtons text='.منصة التبرعات للأفراد و المتطوعين و الجمعيات و المستفيدين'
-          url='https://donation-web-pla-1479993243743.firebaseapp.com' />
+        <ShareButtons text='.منصة التبرعات للأفراد و المتطوعين و الجمعيات و المستفيدين' url='/' />
       </Grid>
 
       <hr />

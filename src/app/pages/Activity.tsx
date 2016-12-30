@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 
 import ActivityPanel from '../components/ActivityPanel';
 import { fetchActivity } from '../actions/index';
+import ShareButtons from '../components/ShareButtons';
 
 import IActivity from '../types/IActivity';
 
@@ -43,9 +44,13 @@ export default class Activity extends React.Component<IActivityProps, IActivityS
           <Breadcrumb.Item href='#/'>الصفحة الرئيسية</Breadcrumb.Item>
           <Breadcrumb.Item active>النشاطات</Breadcrumb.Item>
         </Breadcrumb>
-
-        <ActivityPanel activity={activity} />
       </Grid>
+
+      <Grid className='text-center'><ShareButtons text='النشاطات' url='#/activity' /></Grid>
+
+      <hr />
+
+      <Grid><ActivityPanel activity={activity} /></Grid>
     </section>);
   }
 }
