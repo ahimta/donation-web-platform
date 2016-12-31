@@ -27,7 +27,6 @@
     "reservations": {
       ".read": true,
       "$donationId": {
-        ".validate": "root.child('foodDonations').hasChild($donationId) || root.child('nonfoodDonations').hasChild($donationId)",
         ".write": "auth !== null && (!data.exists() || data.child('deliveredOrReceived').val() === false)",
         "deliveredOrReceived": {
           ".write": "(!data.exists() && newData.val() === false) || (data.exists() && data.parent().child('reserverId').val() === auth.uid && newData.val() === true)"

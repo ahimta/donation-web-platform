@@ -55,10 +55,14 @@ export function createDonation(donationType: DonationType, donation: IDonation):
     reserverId: null
   };
 
-  return donationsRef.child(newDonationKey).set(donation).then(() => {
+  const updates = {
+    [`/${donationType}Donations/${newDonationKey}`]: donation,
+    [`/reservations/${newDonationKey}`]: reservation
+  };
+
+  return firebase.database().ref().update(updates).then(() => {
     const activityPromise = firebase.database().ref('activity').push(activity);
-    const reservationPromise = firebase.database().ref('reservations').child(newDonationKey).set(reservation);
-    return Promise.all([activityPromise, reservationPromise]);
+    return activityPromise;
   }).then(() => {
     return newDonationKey;
   });
