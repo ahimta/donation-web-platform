@@ -1,4 +1,6 @@
 {
+  "name": "donation-web-platform",
+  "version": "1.0.0-beta0",
   "devDependencies": {
     "autoprefixer": "^6.2.3",
     "babel-eslint": "^6.0.2",
@@ -40,6 +42,7 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-phantomjs-shim": "^1.1.2",
     "phantomjs-prebuilt": "^2.1.6",
+    "sw-precache": "^4.2.3",
     "systemjs-builder": "0.15.23",
     "tslint": "^3.2.1",
     "typescript": "^2.0.2",
@@ -47,8 +50,8 @@
     "uglify-save-license": "^0.4.1"
   },
   "scripts": {
-    "build": "gulp",
-    "deploy": "gulp clean && gulp build && firebase deploy",
+    "build": "gulp clean && gulp build && gulp sw-precache",
+    "deploy": "gulp clean && gulp build && gulp sw-precache && firebase deploy",
     "firebase": "firebase",
     "jspm": "jspm",
     "serve": "gulp serve",
@@ -86,7 +89,8 @@
     },
     "devDependencies": {
       "react-addons-test-utils": "npm:react-addons-test-utils@^15.0.1",
-      "babel-preset-react": "npm:babel-preset-react@^6.5.0"
+      "babel-preset-react": "npm:babel-preset-react@^6.5.0",
+      "sw-precache": "npm:sw-precache@^4.2.3"
     },
     "peerDependencies": {
       "assert": "npm:jspm-nodelibs-assert@^0.2.0",
@@ -112,7 +116,7 @@
       "net": "npm:jspm-nodelibs-net@^0.2.0",
       "os": "npm:jspm-nodelibs-os@^0.2.0",
       "path": "npm:jspm-nodelibs-path@^0.2.0",
-      "process": "npm:jspm-nodelibs-process@^0.2.0",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
       "querystring": "npm:jspm-nodelibs-querystring@^0.2.0",
       "react": "npm:react@^15.4.0",
       "react-dom": "npm:react-dom@^15.0.1",

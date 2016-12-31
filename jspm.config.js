@@ -2,7 +2,8 @@ SystemJS.config({
   devConfig: {
     'map': {
       'react-addons-test-utils': 'npm:react-addons-test-utils@15.4.0',
-      'babel-preset-react': 'npm:babel-preset-react@6.16.0'
+      'babel-preset-react': 'npm:babel-preset-react@6.16.0',
+      'sw-precache': 'npm:sw-precache@4.2.3'
     },
     'packages': {
       'npm:babel-preset-react@6.16.0': {
@@ -60,6 +61,162 @@ SystemJS.config({
           'esutils': 'npm:esutils@2.0.2',
           'lodash': 'npm:lodash@4.17.2',
           'to-fast-properties': 'npm:to-fast-properties@1.0.2'
+        }
+      },
+      'npm:sw-precache@4.2.3': {
+        'map': {
+          'pretty-bytes': 'npm:pretty-bytes@3.0.1',
+          'dom-urls': 'npm:dom-urls@1.1.0',
+          'lodash.template': 'npm:lodash.template@4.4.0',
+          'es6-promise': 'npm:es6-promise@4.0.5',
+          'lodash.defaults': 'npm:lodash.defaults@4.2.0',
+          'sw-toolbox': 'npm:sw-toolbox@3.4.0',
+          'meow': 'npm:meow@3.7.0',
+          'mkdirp': 'npm:mkdirp@0.5.1',
+          'glob': 'npm:glob@7.1.1'
+        }
+      },
+      'npm:pretty-bytes@3.0.1': {
+        'map': {
+          'number-is-nan': 'npm:number-is-nan@1.0.1'
+        }
+      },
+      'npm:lodash.template@4.4.0': {
+        'map': {
+          'lodash.templatesettings': 'npm:lodash.templatesettings@4.1.0',
+          'lodash._reinterpolate': 'npm:lodash._reinterpolate@3.0.0'
+        }
+      },
+      'npm:meow@3.7.0': {
+        'map': {
+          'camelcase-keys': 'npm:camelcase-keys@2.1.0',
+          'loud-rejection': 'npm:loud-rejection@1.6.0',
+          'read-pkg-up': 'npm:read-pkg-up@1.0.1',
+          'normalize-package-data': 'npm:normalize-package-data@2.3.5',
+          'map-obj': 'npm:map-obj@1.0.1',
+          'decamelize': 'npm:decamelize@1.2.0',
+          'redent': 'npm:redent@1.0.0',
+          'trim-newlines': 'npm:trim-newlines@1.0.0',
+          'object-assign': 'npm:object-assign@4.1.0',
+          'minimist': 'npm:minimist@1.2.0'
+        }
+      },
+      'npm:lodash.templatesettings@4.1.0': {
+        'map': {
+          'lodash._reinterpolate': 'npm:lodash._reinterpolate@3.0.0'
+        }
+      },
+      'npm:sw-toolbox@3.4.0': {
+        'map': {
+          'serviceworker-cache-polyfill': 'npm:serviceworker-cache-polyfill@4.0.0',
+          'path-to-regexp': 'npm:path-to-regexp@1.7.0'
+        }
+      },
+      'npm:dom-urls@1.1.0': {
+        'map': {
+          'urijs': 'npm:urijs@1.18.4'
+        }
+      },
+      'npm:camelcase-keys@2.1.0': {
+        'map': {
+          'map-obj': 'npm:map-obj@1.0.1',
+          'camelcase': 'npm:camelcase@2.1.1'
+        }
+      },
+      'npm:loud-rejection@1.6.0': {
+        'map': {
+          'currently-unhandled': 'npm:currently-unhandled@0.4.1',
+          'signal-exit': 'npm:signal-exit@3.0.2'
+        }
+      },
+      'npm:normalize-package-data@2.3.5': {
+        'map': {
+          'hosted-git-info': 'npm:hosted-git-info@2.1.5',
+          'is-builtin-module': 'npm:is-builtin-module@1.0.0',
+          'validate-npm-package-license': 'npm:validate-npm-package-license@3.0.1',
+          'semver': 'npm:semver@5.3.0'
+        }
+      },
+      'npm:read-pkg-up@1.0.1': {
+        'map': {
+          'read-pkg': 'npm:read-pkg@1.1.0',
+          'find-up': 'npm:find-up@1.1.2'
+        }
+      },
+      'npm:redent@1.0.0': {
+        'map': {
+          'strip-indent': 'npm:strip-indent@1.0.1',
+          'indent-string': 'npm:indent-string@2.1.0'
+        }
+      },
+      'npm:currently-unhandled@0.4.1': {
+        'map': {
+          'array-find-index': 'npm:array-find-index@1.0.2'
+        }
+      },
+      'npm:is-builtin-module@1.0.0': {
+        'map': {
+          'builtin-modules': 'npm:builtin-modules@1.1.1'
+        }
+      },
+      'npm:read-pkg@1.1.0': {
+        'map': {
+          'normalize-package-data': 'npm:normalize-package-data@2.3.5',
+          'load-json-file': 'npm:load-json-file@1.1.0',
+          'path-type': 'npm:path-type@1.1.0'
+        }
+      },
+      'npm:find-up@1.1.2': {
+        'map': {
+          'path-exists': 'npm:path-exists@2.1.0',
+          'pinkie-promise': 'npm:pinkie-promise@2.0.1'
+        }
+      },
+      'npm:validate-npm-package-license@3.0.1': {
+        'map': {
+          'spdx-correct': 'npm:spdx-correct@1.0.2',
+          'spdx-expression-parse': 'npm:spdx-expression-parse@1.0.4'
+        }
+      },
+      'npm:path-exists@2.1.0': {
+        'map': {
+          'pinkie-promise': 'npm:pinkie-promise@2.0.1'
+        }
+      },
+      'npm:load-json-file@1.1.0': {
+        'map': {
+          'pinkie-promise': 'npm:pinkie-promise@2.0.1',
+          'strip-bom': 'npm:strip-bom@2.0.0',
+          'pify': 'npm:pify@2.3.0',
+          'parse-json': 'npm:parse-json@2.2.0',
+          'graceful-fs': 'npm:graceful-fs@4.1.11'
+        }
+      },
+      'npm:indent-string@2.1.0': {
+        'map': {
+          'repeating': 'npm:repeating@2.0.1'
+        }
+      },
+      'npm:strip-indent@1.0.1': {
+        'map': {
+          'get-stdin': 'npm:get-stdin@4.0.1'
+        }
+      },
+      'npm:path-type@1.1.0': {
+        'map': {
+          'pinkie-promise': 'npm:pinkie-promise@2.0.1',
+          'pify': 'npm:pify@2.3.0',
+          'graceful-fs': 'npm:graceful-fs@4.1.11'
+        }
+      },
+      'npm:spdx-correct@1.0.2': {
+        'map': {
+          'spdx-license-ids': 'npm:spdx-license-ids@1.2.2'
+        }
+      },
+      'npm:strip-bom@2.0.0': {
+        'map': {
+          'is-utf8': 'npm:is-utf8@0.2.1'
         }
       }
     }
@@ -125,7 +282,7 @@ SystemJS.config({
     'net': 'npm:jspm-nodelibs-net@0.2.0',
     'os': 'npm:jspm-nodelibs-os@0.2.0',
     'path': 'npm:jspm-nodelibs-path@0.2.0',
-    'process': 'npm:jspm-nodelibs-process@0.2.0',
+    'process': 'github:jspm/nodelibs-process@0.2.0-alpha',
     'querystring': 'npm:jspm-nodelibs-querystring@0.2.0',
     'rc-calendar': 'npm:rc-calendar@7.5.1',
     'rc-time-picker': 'npm:rc-time-picker@2.2.1',
