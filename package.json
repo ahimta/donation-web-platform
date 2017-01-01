@@ -14,6 +14,7 @@
     "eslint-config-xo-space": "^0.12.0",
     "eslint-plugin-babel": "^3.1.0",
     "eslint-plugin-react": "^5.0.1",
+    "firebase-tools": "^3.2.1",
     "gulp": "gulpjs/gulp#4ed9a4a3275559c73a396eff7e1fde3824951ebb",
     "gulp-cssnano": "^2.1.0",
     "gulp-eslint": "^2.0.0",
