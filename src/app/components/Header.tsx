@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import * as React from 'react';
-import { Button, Glyphicon, MenuItem, Nav, Navbar, NavItem, NavDropdown } from 'react-bootstrap';
+import { Alert, Button, Glyphicon, Grid, MenuItem, Nav, Navbar, NavItem, NavDropdown } from 'react-bootstrap';
 import ReactGA from 'react-ga';
 import { hashHistory } from 'react-router';
 
@@ -17,7 +17,9 @@ interface IHeaderProps {
   readonly currentRole: UserRole;
 }
 
-interface IHeaderState { }
+interface IHeaderState {
+  readonly isOffline: boolean;
+}
 
 export default class Header extends React.Component<IHeaderProps, IHeaderState> {
   static contextTypes = {
@@ -31,92 +33,128 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
 
   context: { router: any };
 
+  private offlineEventListener: () => void;
+  private onlineEventListener: () => void;
+
+  constructor(props: IHeaderProps, context: any) {
+    super(props, context);
+    this.state = { isOffline: false };
+
+    this.offlineEventListener = () => {
+      this.setState({ isOffline: true });
+    };
+
+    this.onlineEventListener = () => {
+      this.setState({ isOffline: false });
+    };
+  }
+
+  componentWillMount() {
+    window.addEventListener('offline', this.offlineEventListener);
+    window.addEventListener('online', this.onlineEventListener);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('offline', this.offlineEventListener);
+    window.removeEventListener('online', this.onlineEventListener);
+  }
+
   render() {
     const {router} = this.context;
     const {currentId, currentRole} = this.props;
+    const {isOffline} = this.state;
     const isCharity = (currentRole === 'charity');
 
-    return (<header style={{ marginBottom: '5em' }}>
-      <Navbar collapseOnSelect fixedTop inverse>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href='#/' onClick={this.trackFactory('Navigation', 'Clicking', 'Home icon')}>
-              <Glyphicon glyph='home' />
-            </a>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav className='text-right' pullLeft>
-            <Navbar.Form className={this.getLogoutClass(currentRole)} onClick={auth.logout} pullLeft>
-              <Button bsStyle='danger' onClick={this.trackFactory('Navigation', 'Clicking', 'Logout button')}>
-                سجل خروج
+    return (<header>
+      <div style={{ marginBottom: '5em' }}>
+        <Navbar collapseOnSelect fixedTop inverse>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href='#/' onClick={this.trackFactory('Navigation', 'Clicking', 'Home icon')}>
+                <Glyphicon glyph='home' />
+              </a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav className='text-right' pullLeft>
+              <Navbar.Form className={this.getLogoutClass(currentRole)} onClick={auth.logout} pullLeft>
+                <Button bsStyle='danger' onClick={this.trackFactory('Navigation', 'Clicking', 'Logout button')}>
+                  سجل خروج
               </Button>
-            </Navbar.Form>
-            <NavItem active={router.isActive('/register/charity')} className={classNames({ hidden: currentRole })}
-              href='#/register/charity' onClick={this.gotoFactory('/register/charity', 'Charity register link')}>
-              سجل كجمعية
+              </Navbar.Form>
+              <NavItem active={router.isActive('/register/charity')} className={classNames({ hidden: currentRole })}
+                href='#/register/charity' onClick={this.gotoFactory('/register/charity', 'Charity register link')}>
+                سجل كجمعية
             </NavItem>
-            <NavItem active={router.isActive(this.getAccountUrl(currentRole, currentId))}
-              className={this.getLogoutClass(currentRole)} href={`#${this.getAccountUrl(currentRole, currentId)}`}
-              onClick={this.gotoFactory(this.getAccountUrl(currentRole, currentId), 'My account link')}>
-              حسابي
+              <NavItem active={router.isActive(this.getAccountUrl(currentRole, currentId))}
+                className={this.getLogoutClass(currentRole)} href={`#${this.getAccountUrl(currentRole, currentId)}`}
+                onClick={this.gotoFactory(this.getAccountUrl(currentRole, currentId), 'My account link')}>
+                حسابي
             </NavItem>
-            <NavDropdown className={this.getLoginClass(currentRole)} dir='rtl' id='basic-nav-dropdown-login'
-              title='سجل دخول' onClick={this.trackFactory('Navigation', 'Clicking', 'Login dropdown')}>
-              <MenuItem active={router.isActive('/login/charity')} className='text-right' href='#/login/charity'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Login as charity link')}>
-                كجمعية
+              <NavDropdown className={this.getLoginClass(currentRole)} dir='rtl' id='basic-nav-dropdown-login'
+                title='سجل دخول' onClick={this.trackFactory('Navigation', 'Clicking', 'Login dropdown')}>
+                <MenuItem active={router.isActive('/login/charity')} className='text-right' href='#/login/charity'
+                  onClick={this.trackFactory('Navigation', 'Clicking', 'Login as charity link')}>
+                  كجمعية
               </MenuItem>
-              <MenuItem className='text-right'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Login as user link', auth.login)}>
-                كمستخدم
+                <MenuItem className='text-right'
+                  onClick={this.trackFactory('Navigation', 'Clicking', 'Login as user link', auth.login)}>
+                  كمستخدم
               </MenuItem>
-            </NavDropdown>
-          </Nav>
-          <Nav pullRight className='text-right'>
-            <MenuItem className='text-right' href={CONTACT_US_LINK} target='_blank'
-              onClick={this.trackFactory('Navigation', 'Clicking', 'Contact us link')}>
-              اتصل بنا
+              </NavDropdown>
+            </Nav>
+            <Nav pullRight className='text-right'>
+              <MenuItem className='text-right' href={CONTACT_US_LINK} target='_blank'
+                onClick={this.trackFactory('Navigation', 'Clicking', 'Contact us link')}>
+                اتصل بنا
             </MenuItem>
-            <NavDropdown title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'
-              onClick={this.trackFactory('Navigation', 'Clicking', 'Browse dropdown')}>
-              <MenuItem active={router.isActive('/donations')} className='text-right' href='#/donations'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Browse donations link')}>
-                التبرعات
+              <NavDropdown title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'
+                onClick={this.trackFactory('Navigation', 'Clicking', 'Browse dropdown')}>
+                <MenuItem active={router.isActive('/donations')} className='text-right' href='#/donations'
+                  onClick={this.trackFactory('Navigation', 'Clicking', 'Browse donations link')}>
+                  التبرعات
               </MenuItem>
-              <MenuItem active={router.isActive('/charities')} className='text-right' href='#/charities'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Browse charities link')}>
-                الجمعيات
+                <MenuItem active={router.isActive('/charities')} className='text-right' href='#/charities'
+                  onClick={this.trackFactory('Navigation', 'Clicking', 'Browse charities link')}>
+                  الجمعيات
               </MenuItem>
-              <MenuItem active={router.isActive('/activity')} className='text-right' href='#/activity'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Browse activity link')}>
-                النشاطات
+                <MenuItem active={router.isActive('/activity')} className='text-right' href='#/activity'
+                  onClick={this.trackFactory('Navigation', 'Clicking', 'Browse activity link')}>
+                  النشاطات
               </MenuItem>
-            </NavDropdown>
-            <NavItem active={router.isActive('/donations')} className={classNames({ hidden: isCharity })}
-              href='#/donations/receive' onClick={this.gotoFactory('/donations/receive', 'Receive donation link')}>
-              استقبل تبرع
+              </NavDropdown>
+              <NavItem active={router.isActive('/donations')} className={classNames({ hidden: isCharity })}
+                href='#/donations/receive' onClick={this.gotoFactory('/donations/receive', 'Receive donation link')}>
+                استقبل تبرع
             </NavItem>
-            <NavItem active={router.isActive('/donations')} href='#/donations/deliver'
-              onClick={this.gotoFactory('/donations/deliver', 'Deliver donation link')}>
-              وصل تبرع
+              <NavItem active={router.isActive('/donations')} href='#/donations/deliver'
+                onClick={this.gotoFactory('/donations/deliver', 'Deliver donation link')}>
+                وصل تبرع
             </NavItem>
-            <NavDropdown className={classNames({ hidden: isCharity })} dir='rtl'
-              id='basic-nav-dropdown-donate' title='تبرع'
-              onClick={this.trackFactory('Navigation', 'Clicking', 'Donate dropdown')}>
-              <MenuItem active={router.isActive('/donate/food')} className='text-right' href='#/donate/food'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Donate food link')}>
-                بطعام
+              <NavDropdown className={classNames({ hidden: isCharity })} dir='rtl'
+                id='basic-nav-dropdown-donate' title='تبرع'
+                onClick={this.trackFactory('Navigation', 'Clicking', 'Donate dropdown')}>
+                <MenuItem active={router.isActive('/donate/food')} className='text-right' href='#/donate/food'
+                  onClick={this.trackFactory('Navigation', 'Clicking', 'Donate food link')}>
+                  بطعام
               </MenuItem>
-              <MenuItem active={router.isActive('/donate/nonfood')} className='text-right' href='#/donate/nonfood'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Donate nonfood link')}>
-                بشيء آخر
+                <MenuItem active={router.isActive('/donate/nonfood')} className='text-right' href='#/donate/nonfood'
+                  onClick={this.trackFactory('Navigation', 'Clicking', 'Donate nonfood link')}>
+                  بشيء آخر
               </MenuItem>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
+
+      <Grid>
+        <Alert bsStyle='warning' className={classNames('text-right', { hidden: !isOffline })} dir='rtl'>
+          <strong>لا يوجد اتصال انترنت!</strong>&nbsp;
+        بعض الوظائف قد لا تعمل.
+      </Alert>
+      </Grid>
     </header>);
   }
 
@@ -134,14 +172,14 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
 
   private gotoFactory(location: string, trackingLabel: string) {
     return () => {
-      ReactGA.event({category: 'Navigation', action: 'Clicking', label: trackingLabel});
+      ReactGA.event({ category: 'Navigation', action: 'Clicking', label: trackingLabel });
       hashHistory.push(location);
     };
   }
 
   private trackFactory(category: string, action: string, label: string, fn?: Function) {
     return () => {
-      ReactGA.event({category, action, label});
+      ReactGA.event({ category, action, label });
       if (fn) {
         fn();
       }
