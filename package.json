@@ -50,8 +50,8 @@
     "uglify-save-license": "^0.4.1"
   },
   "scripts": {
-    "build": "gulp clean && gulp build && gulp sw-precache",
-    "deploy": "gulp clean && gulp build && gulp sw-precache && firebase deploy",
+    "build": "gulp clean && gulp build && gulp copy-manifest && gulp copy-icons && gulp sw-precache",
+    "deploy": "npm run build && firebase deploy",
     "firebase": "firebase",
     "jspm": "jspm",
     "serve": "gulp serve",

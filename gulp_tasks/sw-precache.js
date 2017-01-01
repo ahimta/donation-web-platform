@@ -45,7 +45,8 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
     staticFileGlobs: [
       rootDir + '/*.css',
       rootDir + '/*.html',
-      rootDir + '/*.js'
+      rootDir + '/*.js',
+      rootDir + '/images/*.png'
     ],
     stripPrefix: rootDir + '/',
     // verbose defaults to false, but for the purposes of this demo, log more.
