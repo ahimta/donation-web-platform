@@ -71,11 +71,13 @@ export default (DonationPageComponent: any) => {
 
         image.upload(photo).then(({url}) => {
           const donation = Immutable.Map(wrappedDonation).merge({ donorId, photoUrl: url }).toJS();
-          this.setState({ uploading: false } as INewDonationPageState);
 
           return database.createDonation(donationType, donation).then((newDonationKey) => {
+            this.setState({ uploading: false } as INewDonationPageState);
             const donationUrl = (donationType === 'food') ? `/donations/food/${newDonationKey}` : `/donations/nonfood/${newDonationKey}`;
             hashHistory.push(donationUrl);
+          }).catch(() => {
+            this.setState({ uploading: false } as INewDonationPageState);
           });
         });
       });

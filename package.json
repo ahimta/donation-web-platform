@@ -51,7 +51,7 @@
   },
   "scripts": {
     "build": "gulp clean && gulp build && gulp copy-manifest && gulp copy-icons && gulp sw-precache",
-    "deploy": "npm run build && firebase deploy",
+    "deploy": "git push origin master && npm run build && firebase deploy",
     "firebase": "firebase",
     "jspm": "jspm",
     "serve": "gulp serve",
