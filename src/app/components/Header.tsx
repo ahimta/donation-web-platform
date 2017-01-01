@@ -38,7 +38,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
 
   constructor(props: IHeaderProps, context: any) {
     super(props, context);
-    this.state = { isOffline: false };
+    this.state = { isOffline: !navigator.onLine };
 
     this.offlineEventListener = () => {
       this.setState({ isOffline: true });
