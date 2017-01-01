@@ -5,7 +5,7 @@ const swPrecache = require('sw-precache');
 
 const conf = require('../conf/gulp.conf');
 
-const URL_PATTERN = /https:\/\/maxcdn.bootstrapcdn.com\/bootstrap\/3.3.7\/|https:\/\/i.imgur.com\/hZvwKFv.png/;
+const URL_PATTERN = /https:\/\/maxcdn.bootstrapcdn.com\/bootstrap\/3.3.7\/|https:\/\/i.imgur.com\/19K85t0.png/;
 
 gulp.task('sw-precache', function(callback) {
   writeServiceWorkerFile(conf.paths.dist, true, callback);
