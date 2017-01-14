@@ -1,4 +1,4 @@
-/// <reference path="../typings/index.d.ts" />
+import 'es6-promise';
 
 import firebase from 'firebase';
 import moment from 'moment';
