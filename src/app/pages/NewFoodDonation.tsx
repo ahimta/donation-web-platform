@@ -121,7 +121,7 @@ class NewFoodDonation extends React.Component<INewFoodDonationProps, INewFoodDon
             <FormGroup controlId='pickupTime' dir='rtl'>
               <ControlLabel>وقت الاستلام</ControlLabel>
               <div dir='ltr'>
-                <Calendar locale={rcCalendarLocale} onChange={this.handleDatetimeChange}
+                <Calendar locale={rcCalendarLocale} onChange={this.handleDatetimeChange.bind(this)}
                   showDateInput={true} style={{ width: '100%' }} value={pickupDatetime}
                   timePicker={<TimePickerPanel showHour={true} showMinute={true} showSecond={true} />} />
               </div>
