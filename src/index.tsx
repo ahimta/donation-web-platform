@@ -1,5 +1,3 @@
-import 'es6-promise';
-
 import firebase from 'firebase';
 import moment from 'moment';
 import * as React from 'react';

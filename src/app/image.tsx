@@ -1,3 +1,5 @@
+import Promise from 'es6-promise';
+
 const IMGUR_AUTH_HEADER = 'Client-ID c2377d212098943';
 const IMGUR_IMG_FORM_KEY = 'image';
 const IMGUR_UPLOAD_URL = '	https://api.imgur.com/3/image';

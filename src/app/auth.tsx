@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import Promise from 'es6-promise';
 
 import ICharity from './types/ICharity';
 import IRegularUser from './types/IRegularUser';

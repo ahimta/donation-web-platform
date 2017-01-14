@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import * as Immutable from 'immutable';
 import moment from 'moment';
+import Promise from 'es6-promise';
 
 import IActivity from './types/IActivity';
 import ICharity from './types/ICharity';
