@@ -68,8 +68,11 @@ export function createDonation(donationType: DonationType, donation: IDonation):
   });
 }
 
-export function getActivity(): Promise<IActivity[]> {
-  const activityPromise = firebase.database().ref('activity').once('value');
+export function getActivity(userId: string = ''): Promise<IActivity[]> {
+  const activityPromise = userId
+    ? firebase.database().ref('activity').orderByChild('userId').equalTo(userId).limitToLast(10).once('value')
+    : firebase.database().ref('activity').orderByKey().limitToLast(10).once('value');
+
   const charitiesPromise = firebase.database().ref('charities').once('value');
   const foodDonationsPromise = firebase.database().ref('foodDonations').once('value');
   const nonfoodDonationsPromise = firebase.database().ref('nonfoodDonations').once('value');

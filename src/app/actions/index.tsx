@@ -1,21 +1,14 @@
 import * as database from '../database';
 
 import DonationType from '../types/DonationType';
-import UserRole from '../types/UserRole';
 
 export function fetchAllDonations() {
   const donationsPromise = database.getAllDonations();
   return {type: 'FETCH_ALL_DONATIONS', payload: donationsPromise};
 }
 
-export function fetchActivity(role?: UserRole, userId?: string) {
-  const activityPromise = database.getActivity().then((activity) => {
-    if (role && userId) {
-      return activity.filter(({userId: id, userRole}) => userRole === role && id === userId);
-    } else {
-      return activity;
-    }
-  });
+export function fetchActivity(userId?: string) {
+  const activityPromise = database.getActivity(userId);
 
   return {type: 'FETCH_ACTIVITY', payload: activityPromise};
 }

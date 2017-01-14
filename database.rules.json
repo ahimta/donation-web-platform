@@ -2,6 +2,7 @@
   "rules": {
     "activity": {
       ".read": true,
+      ".indexOn": "userId",
       "$id": {
       	".write": "!data.exists() && auth !== null && newData.child('userId').val() === auth.uid"
       }

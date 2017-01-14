@@ -39,7 +39,7 @@ export default class User extends React.Component<IUserProps, IUserState> {
   componentWillMount() {
     const {actions, params} = this.props;
 
-    actions.fetchActivity();
+    actions.fetchActivity(params.id);
     actions.fetchUser(params.id);
   }
 

@@ -28,7 +28,7 @@ export default class ActivityPanel extends React.Component<IActivityPanelProps, 
     const Activity = activity ? activity.map(this.mapActivity.bind(this)) : [];
 
     return (<Progressbar data={activity} emptyPhrase='لا يوجد نشاطات حاليا'>
-      <Panel bsStyle='primary' className='text-center' header='النشاطات' collapsible defaultExpanded>
+      <Panel bsStyle='primary' className='text-center' header='آخر النشاطات' collapsible defaultExpanded>
         <ListGroup fill>
           {Activity}
         </ListGroup>

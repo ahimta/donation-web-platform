@@ -49,7 +49,7 @@ interface ICharityState { }
 export default class Charity extends React.Component<ICharityProps, ICharityState> {
   componentWillMount() {
     const {actions, params} = this.props;
-    actions.fetchActivity('charity', params.id);
+    actions.fetchActivity(params.id);
     actions.fetchCharity(params.id);
   }
 
