@@ -114,7 +114,7 @@ export default class Charity extends React.Component<ICharityProps, ICharityStat
 
       <Grid className='text-center'>
         <Progressbar data={charity}>
-          <ShareButtons text='جمعية خيرية' url={`#/charities/${renderedCharity['.key']}`} />
+          <ShareButtons text='جمعية خيرية' />
         </Progressbar>
       </Grid>
 

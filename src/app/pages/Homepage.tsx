@@ -104,7 +104,7 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
       <hr />
 
       <Grid className='text-center'>
-        <ShareButtons text='.منصة التبرعات للأفراد و المتطوعين و الجمعيات و المستفيدين' url='/' />
+        <ShareButtons text='.منصة التبرعات للأفراد و المتطوعين و الجمعيات و المستفيدين' />
       </Grid>
 
       <hr />

@@ -46,7 +46,7 @@ export default class Activity extends React.Component<IActivityProps, IActivityS
         </Breadcrumb>
       </Grid>
 
-      <Grid className='text-center'><ShareButtons text='النشاطات' url='#/activity' /></Grid>
+      <Grid className='text-center'><ShareButtons text='النشاطات' /></Grid>
 
       <hr />
 

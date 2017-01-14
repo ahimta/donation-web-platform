@@ -71,7 +71,7 @@ export default class Charities extends React.Component<ICharitiesProps, IChariti
 
       <hr />
 
-      <Grid className='text-center'><ShareButtons text='جمعيات خيرية' url='#/charities' /></Grid>
+      <Grid className='text-center'><ShareButtons text='جمعيات خيرية' /></Grid>
     </section>);
   }
 

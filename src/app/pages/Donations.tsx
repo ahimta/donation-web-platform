@@ -73,7 +73,7 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
 
       <hr />
 
-      <Grid className='text-center'><ShareButtons text='تبرعات' url='#/donations' /></Grid>
+      <Grid className='text-center'><ShareButtons text='تبرعات' /></Grid>
     </section>);
   }
 

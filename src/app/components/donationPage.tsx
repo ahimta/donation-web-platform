@@ -90,7 +90,7 @@ export default function donationPage(donationType: DonationType, title: string, 
         <hr />
 
         <Grid className='text-center'>
-          <Progressbar data={donation}><ShareButtons text={text} url={url} /></Progressbar>
+          <Progressbar data={donation}><ShareButtons text={text} /></Progressbar>
         </Grid>
       </section>);
     }
