@@ -8,7 +8,8 @@ import thunk from 'redux-thunk';
 import rootReducer from '../reducers/index';
 
 const middleware = applyMiddleware(thunk, promiseMiddleware(), logger());
+const store = createStore(rootReducer, middleware);
 
 export default function configureStore() {
-  return createStore(rootReducer, middleware);
+  return store;
 }

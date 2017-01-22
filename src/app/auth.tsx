@@ -1,8 +1,25 @@
 import firebase from 'firebase';
-import Promise from 'es6-promise';
+import { Promise } from 'es6-promise';
+import { IStore } from '~react-redux~redux';
 
+import { setNetworkStatus } from './actions/index';
+import configureStore from './store/configureStore';
 import ICharity from './types/ICharity';
 import IRegularUser from './types/IRegularUser';
+
+const store: IStore<any> = configureStore();
+
+function updateNetworkStatus<T>(networkAction: Promise<T>): Promise<T> {
+  return networkAction.then((value) => {
+    store.dispatch(setNetworkStatus('online'));
+    return value;
+  }).catch((error) => {
+    if (error.code === 'auth/network-request-failed' && window.navigator.onLine) {
+      store.dispatch(setNetworkStatus('flaky'));
+    }
+    return Promise.reject(error);
+  });
+}
 
 export function ensureLoggedIn(userId?: string): Promise<string> {
   if (userId) {
@@ -17,25 +34,21 @@ export function ensureLoggedIn(userId?: string): Promise<string> {
 export function login(): Promise<IRegularUser> {
   const provider = new firebase.auth.GoogleAuthProvider();
 
-  return firebase.auth().signInWithPopup(provider).then((result) => {
+  const loginPromise = firebase.auth().signInWithPopup(provider).then((result) => {
     const user: IRegularUser = result.user;
     console.log(result);
     return user;
-  }).catch((error) => {
-    console.log(error);
   });
+
+  return updateNetworkStatus(loginPromise);
 }
 
 export function loginAsCharity(email: string, password: string): Promise<any> {
-  return firebase.auth().signInWithEmailAndPassword(email, password);
+  return updateNetworkStatus(firebase.auth().signInWithEmailAndPassword(email, password));
 }
 
-export function logout(): Promise<void> {
-  return firebase.auth().signOut().then(() => {
-    console.log('logout');
-  }).catch((error) => {
-    console.log(error);
-  });
+export function logout(): Promise<{}> {
+  return updateNetworkStatus(firebase.auth().signOut());
 }
 
 export function onAuthStateChanged(cb: Function) {
@@ -44,9 +57,11 @@ export function onAuthStateChanged(cb: Function) {
 
 export function registerCharity({description, email, location, name, password, phone, photoUrl, website}: ICharity): Promise<any> {
 
-  return firebase.auth().createUserWithEmailAndPassword(email, password).then((loggedInCharity) => {
+  const registerPromise = firebase.auth().createUserWithEmailAndPassword(email, password).then((loggedInCharity) => {
     const {email, uid} = loggedInCharity;
     const charity: ICharity = { description, email, location, name, phone, photoUrl, website };
     return firebase.database().ref('charities').child(uid).set(charity);
   });
+
+  return updateNetworkStatus(registerPromise);
 }
