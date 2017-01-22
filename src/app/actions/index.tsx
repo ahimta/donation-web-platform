@@ -1,6 +1,6 @@
 import * as database from '../database';
-
 import DonationType from '../types/DonationType';
+import NetworkStatus from '../types/NetworkStatus';
 
 export function fetchAllDonations() {
   const donationsPromise = database.getAllDonations();
@@ -43,4 +43,8 @@ export function removeDonation(donationType: DonationType, donationId: string) {
 
 export function setCurrentUser(currentUser: { charityId: string, id: string, role: string, userId: string }) {
   return {type: 'SET_CURRENT_USER', payload: currentUser};
+}
+
+export function setNetworkStatus(status: NetworkStatus) {
+  return {type: 'SET_NETWORK_STATUS', payload: status};
 }

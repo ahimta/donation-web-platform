@@ -7,6 +7,7 @@ import ReactGA from 'react-ga';
 import { hashHistory } from 'react-router';
 
 import * as auth from '../auth';
+import NetworkStatus from '../types/NetworkStatus';
 import UserRole from '../types/UserRole';
 
 const CONTACT_US_LINK = ('https://twitter.com/intent/tweet?via=ahymta&url=' +
@@ -15,11 +16,10 @@ const CONTACT_US_LINK = ('https://twitter.com/intent/tweet?via=ahymta&url=' +
 interface IHeaderProps {
   readonly currentId: string;
   readonly currentRole: UserRole;
+  readonly networkStatus: NetworkStatus;
 }
 
-interface IHeaderState {
-  readonly isOffline: boolean;
-}
+interface IHeaderState { }
 
 export default class Header extends React.Component<IHeaderProps, IHeaderState> {
   static contextTypes = {
@@ -33,36 +33,14 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
 
   context: { router: any };
 
-  private offlineEventListener: () => void;
-  private onlineEventListener: () => void;
-
   constructor(props: IHeaderProps, context: any) {
     super(props, context);
     this.state = { isOffline: !navigator.onLine };
-
-    this.offlineEventListener = () => {
-      this.setState({ isOffline: true });
-    };
-
-    this.onlineEventListener = () => {
-      this.setState({ isOffline: false });
-    };
-  }
-
-  componentWillMount() {
-    window.addEventListener('offline', this.offlineEventListener);
-    window.addEventListener('online', this.onlineEventListener);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('offline', this.offlineEventListener);
-    window.removeEventListener('online', this.onlineEventListener);
   }
 
   render() {
     const {router} = this.context;
-    const {currentId, currentRole} = this.props;
-    const {isOffline} = this.state;
+    const {currentId, currentRole, networkStatus} = this.props;
     const isCharity = (currentRole === 'charity');
 
     return (<header>
@@ -150,10 +128,16 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
       </div>
 
       <Grid>
-        <Alert bsStyle='warning' className={classNames('text-right', { hidden: !isOffline })} dir='rtl'>
+        <Alert bsStyle='warning' className={classNames('text-right', { hidden: (networkStatus !== 'flaky') })}
+          dir='rtl'>
+          <strong>يوجد مشاكل في اتصال الانترنت!</strong>&nbsp;
+          بعض الوظائف قد لا تعمل.
+        </Alert>
+        <Alert bsStyle='warning' className={classNames('text-right', { hidden: (networkStatus !== 'offline') })}
+          dir='rtl'>
           <strong>لا يوجد اتصال انترنت!</strong>&nbsp;
-        بعض الوظائف قد لا تعمل.
-      </Alert>
+          بعض الوظائف قد لا تعمل.
+        </Alert>
       </Grid>
     </header>);
   }

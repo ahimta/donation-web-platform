@@ -5,20 +5,21 @@ import { connect } from 'react-redux';
 import { IDispatch } from '~react-redux~redux';
 import { bindActionCreators } from 'redux';
 
-import { setCurrentUser } from '../actions/index';
+import { setCurrentUser, setNetworkStatus } from '../actions/index';
 import * as auth from '../auth';
 import * as database from '../database';
 import Footer from '../components/Footer';
+import NetworkStatus from '../types/NetworkStatus';
 import Header from '../components/Header';
 import * as storage from '../storage';
 import UserRole from '../types/UserRole';
 
-function mapStateToProps({currentUser}: any) {
-  return {currentId: currentUser.id, currentRole: currentUser.role};
+function mapStateToProps({currentUser, network}: any) {
+  return {currentId: currentUser.id, currentRole: currentUser.role, networkStatus: network.status};
 }
 
 function mapDispatchToProps(dispatch: IDispatch) {
-  return { actions: bindActionCreators({ setCurrentUser }, dispatch) };
+  return { actions: bindActionCreators({ setCurrentUser, setNetworkStatus }, dispatch) };
 }
 
 interface IAppProps {
@@ -26,6 +27,7 @@ interface IAppProps {
   readonly children: Object;
   readonly currentId: string;
   readonly currentRole: UserRole;
+  readonly networkStatus: NetworkStatus;
 }
 
 interface IAppState { }
@@ -34,7 +36,27 @@ interface IAppState { }
 export default class App extends React.Component<IAppProps, IAppState> {
   static propTypes = { children: React.PropTypes.object.isRequired };
 
+  private offlineEventListener: () => void;
+  private onlineEventListener: () => void;
   private unsubscribe: () => void;
+
+  constructor(props: IAppProps, context: any) {
+    super(props, context);
+    props.actions.setNetworkStatus(window.navigator.onLine ? 'online' : 'offline');
+
+    this.offlineEventListener = () => {
+      props.actions.setNetworkStatus('offline');
+    };
+
+    this.onlineEventListener = () => {
+      props.actions.setNetworkStatus('online');
+    };
+  }
+
+  componentWillMount() {
+    window.addEventListener('offline', this.offlineEventListener);
+    window.addEventListener('online', this.onlineEventListener);
+  }
 
   componentDidMount() {
     const {actions} = this.props;
@@ -60,14 +82,16 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   componentWillUnmount() {
     this.unsubscribe();
+    window.removeEventListener('offline', this.offlineEventListener);
+    window.removeEventListener('online', this.onlineEventListener);
   }
 
   render() {
-    const {currentId, currentRole} = this.props;
+    const {currentId, currentRole, networkStatus} = this.props;
 
     return (
       <div>
-        <Header currentId={currentId} currentRole={currentRole} />
+        <Header currentId={currentId} currentRole={currentRole} networkStatus={networkStatus} />
 
         {this.props.children}
 
