@@ -1,5 +1,7 @@
 language: node_js
-node_js: '7.3'
+node_js:
+  - stable
+  - '7.3'
 
 install:
   - npm install
