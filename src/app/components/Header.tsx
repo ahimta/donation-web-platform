@@ -127,11 +127,11 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
                   النشاطات
               </MenuItem>
               </NavDropdown>
-              <NavItem active={router.isActive('/donations')} className={classNames({ hidden: isCharity })}
+              <NavItem active={router.isActive('/donations/receive')} className={classNames({ hidden: isCharity })}
                 href='#/donations/receive' onClick={this.gotoFactory('/donations/receive', 'Receive donation link')}>
                 استقبل تبرع
             </NavItem>
-              <NavItem active={router.isActive('/donations')} href='#/donations/deliver'
+              <NavItem active={router.isActive('/donations/deliver')} href='#/donations/deliver'
                 onClick={this.gotoFactory('/donations/deliver', 'Deliver donation link')}>
                 وصل تبرع
             </NavItem>
