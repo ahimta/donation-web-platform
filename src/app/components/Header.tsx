@@ -120,10 +120,6 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
                   onClick={this.trackFactory('Navigation', 'Clicking', 'Browse charities link')}>
                   الجمعيات
               </MenuItem>
-                <MenuItem active={router.isActive('/activity')} className='text-right' href='#/activity'
-                  onClick={this.trackFactory('Navigation', 'Clicking', 'Browse activity link')}>
-                  النشاطات
-              </MenuItem>
               </NavDropdown>
               <NavItem active={router.isActive('/donations/receive')} className={classNames({ hidden: isCharity })}
                 href='#/donations/receive' onClick={this.gotoFactory('/donations/receive', 'Receive donation link')}>
