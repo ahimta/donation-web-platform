@@ -89,26 +89,24 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
             </MenuItem>
               <NavDropdown title='مواقع أخرى' dir='rtl' id='other-websites'>
                 <MenuItem className='text-right' href='https://ahimta.github.io/fuel-consumption-calculator/'
-                  rel='noopener' target='_blank'>
+                  target='_blank'>
                   أسعار البنزين و المياه و الكهرباء
             </MenuItem>
-                <MenuItem className='text-right' href='http://ahimta.github.io/saudi-radios' rel='noopener'
-                  target='_blank'>
+                <MenuItem className='text-right' href='http://ahimta.github.io/saudi-radios' target='_blank'>
                   الإذاعات السعودية
             </MenuItem>
                 <MenuItem className='active text-right' href='https://donation-web-pla-1479993243743.firebaseapp.com/'
-                  rel='noopener' target='_blank'>
+                  target='_blank'>
                   منصة التبرعات
             </MenuItem>
-                <MenuItem className='text-right' href='https://ahimta.github.io/bagi/' rel='noopener' target='_blank'>
+                <MenuItem className='text-right' href='https://ahimta.github.io/bagi/' target='_blank'>
                   باقي
             </MenuItem>
                 <MenuItem divider />
-                <MenuItem className='text-left' href='http://ctw.getforge.io/' rel='noopener' target='_blank'>
+                <MenuItem className='text-left' href='http://ctw.getforge.io/' target='_blank'>
                   Clinton, Trump, what's up
             </MenuItem>
-                <MenuItem className='text-left' href='https://blood-donation-system0.herokuapp.com/' rel='noopener'
-                  target='_blank'>
+                <MenuItem className='text-left' href='https://blood-donation-system0.herokuapp.com/' target='_blank'>
                   Blood Donation System
             </MenuItem>
               </NavDropdown>
