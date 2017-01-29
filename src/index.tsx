@@ -5,14 +5,10 @@ import * as ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
 import { IStore } from '~react-redux~redux';
-import { applyRouterMiddleware, hashHistory, IndexRedirect, IndexRoute, Redirect, Route, Router } from 'react-router';
+import { applyRouterMiddleware, hashHistory, IndexRoute, Redirect, Route, Router } from 'react-router';
 import { useScroll } from 'react-router-scroll';
 
 import App from './app/containers/App';
-import Charities from './app/pages/Charities';
-import Charity from './app/pages/Charity';
-import CharityLogin from './app/pages/CharityLogin';
-import CharityRegister from './app/pages/CharityRegister';
 import configureStore from './app/store/configureStore';
 import Donations from './app/pages/Donations';
 import FoodDonation from './app/pages/FoodDonation';
@@ -55,11 +51,6 @@ ReactDOM.render(
         <IndexRoute component={NotFound} />
       </Route>
 
-      <Route path='/charities' component={App}>
-        <IndexRoute component={Charities} />
-        <Route path=':id' component={Charity} />
-      </Route>
-
       <Route path='/donate' component={App}>
         <Route path='food' component={NewFoodDonation} />
         <Route path='nonfood' component={NewNonfoodDonation} />
@@ -73,16 +64,6 @@ ReactDOM.render(
 
         <Route path='receive' component={Donations} />
         <Route path='deliver' component={Donations} />
-      </Route>
-
-      <Route path='/login' component={App}>
-        <IndexRedirect to='/' />
-        <Route path='charity' component={CharityLogin} />
-      </Route>
-
-      <Route path='/register' component={App}>
-        <IndexRedirect to='/' />
-        <Route path='charity' component={CharityRegister} />
       </Route>
 
       <Route path='/users' component={App}>

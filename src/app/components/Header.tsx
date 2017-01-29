@@ -41,14 +41,13 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
   render() {
     const {router} = this.context;
     const {currentId, currentRole, networkStatus} = this.props;
-    const isCharity = (currentRole === 'charity');
 
     return (<header>
       <div style={{ marginBottom: '5em' }}>
         <Navbar collapseOnSelect fixedTop inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href='#/' onClick={this.trackFactory('Navigation', 'Clicking', 'Home icon')}>
+              <a href='#/' onClick={this.trackFactory('Home icon')}>
                 <Glyphicon glyph='home' />
               </a>
             </Navbar.Brand>
@@ -56,36 +55,26 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav className='text-right' pullLeft>
-              <Navbar.Form className={this.getLogoutClass(currentRole)} onClick={auth.logout} pullLeft>
-                <Button bsStyle='danger' onClick={this.trackFactory('Navigation', 'Clicking', 'Logout button')}>
+              <Navbar.Form className={this.getLogoutClass(currentRole)} pullLeft>
+                <Button bsStyle='danger' onClick={this.trackFactory('Logout button', auth.logout)}>
                   سجل خروج
               </Button>
               </Navbar.Form>
-              <NavItem active={router.isActive('/register/charity')} className={classNames({ hidden: currentRole })}
-                href='#/register/charity' onClick={this.gotoFactory('/register/charity', 'Charity register link')}>
-                سجل كجمعية
-            </NavItem>
+              <Navbar.Form className={this.getLoginClass(currentRole)} pullLeft>
+                <Button bsStyle='success' onClick={this.trackFactory('Login button', auth.login)}>
+                  سجل دخول
+              </Button>
+              </Navbar.Form>
               <NavItem active={router.isActive(this.getAccountUrl(currentRole, currentId))}
                 className={this.getLogoutClass(currentRole)} href={`#${this.getAccountUrl(currentRole, currentId)}`}
                 onClick={this.gotoFactory(this.getAccountUrl(currentRole, currentId), 'My account link')}>
                 حسابي
             </NavItem>
-              <NavDropdown className={this.getLoginClass(currentRole)} dir='rtl' id='basic-nav-dropdown-login'
-                title='سجل دخول' onClick={this.trackFactory('Navigation', 'Clicking', 'Login dropdown')}>
-                <MenuItem active={router.isActive('/login/charity')} className='text-right' href='#/login/charity'
-                  onClick={this.trackFactory('Navigation', 'Clicking', 'Login as charity link')}>
-                  كجمعية
-              </MenuItem>
-                <MenuItem className='text-right'
-                  onClick={this.trackFactory('Navigation', 'Clicking', 'Login as user link', auth.login)}>
-                  كمستخدم
-              </MenuItem>
-              </NavDropdown>
             </Nav>
             <Nav pullRight className='text-right'>
               <MenuItem className='text-right' href={CONTACT_US_LINK} target='_blank'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Contact us link')}>
-                اتصل بنا
+                onClick={this.trackFactory('Contact us link')}>
+                راسلنا
             </MenuItem>
               <NavDropdown title='مواقع أخرى' dir='rtl' id='other-websites'>
                 <MenuItem className='text-right' href='https://ahimta.github.io/fuel-consumption-calculator/'
@@ -110,34 +99,22 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
                   Blood Donation System
             </MenuItem>
               </NavDropdown>
-              <NavDropdown title='تصفح' id='basic-nav-dropdown-browse' dir='rtl'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Browse dropdown')}>
-                <MenuItem active={router.isActive('/donations')} className='text-right' href='#/donations'
-                  onClick={this.trackFactory('Navigation', 'Clicking', 'Browse donations link')}>
-                  التبرعات
-              </MenuItem>
-                <MenuItem active={router.isActive('/charities')} className='text-right' href='#/charities'
-                  onClick={this.trackFactory('Navigation', 'Clicking', 'Browse charities link')}>
-                  الجمعيات
-              </MenuItem>
-              </NavDropdown>
-              <NavItem active={router.isActive('/donations/receive')} className={classNames({ hidden: isCharity })}
-                href='#/donations/receive' onClick={this.gotoFactory('/donations/receive', 'Receive donation link')}>
+              <NavItem active={router.isActive('/donations/receive')} href='#/donations/receive'
+                onClick={this.gotoFactory('/donations/receive', 'Receive donation link')}>
                 استقبل تبرع
             </NavItem>
               <NavItem active={router.isActive('/donations/deliver')} href='#/donations/deliver'
                 onClick={this.gotoFactory('/donations/deliver', 'Deliver donation link')}>
                 وصل تبرع
             </NavItem>
-              <NavDropdown className={classNames({ hidden: isCharity })} dir='rtl'
-                id='basic-nav-dropdown-donate' title='تبرع'
-                onClick={this.trackFactory('Navigation', 'Clicking', 'Donate dropdown')}>
+              <NavDropdown dir='rtl' id='basic-nav-dropdown-donate' title='تبرع'
+                onClick={this.trackFactory('Donate dropdown')}>
                 <MenuItem active={router.isActive('/donate/food')} className='text-right' href='#/donate/food'
-                  onClick={this.trackFactory('Navigation', 'Clicking', 'Donate food link')}>
+                  onClick={this.trackFactory('Donate food link')}>
                   بطعام
               </MenuItem>
                 <MenuItem active={router.isActive('/donate/nonfood')} className='text-right' href='#/donate/nonfood'
-                  onClick={this.trackFactory('Navigation', 'Clicking', 'Donate nonfood link')}>
+                  onClick={this.trackFactory('Donate nonfood link')}>
                   بشيء آخر
               </MenuItem>
               </NavDropdown>
@@ -180,9 +157,9 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
     };
   }
 
-  private trackFactory(category: string, action: string, label: string, fn?: Function) {
+  private trackFactory(label: string, fn?: Function) {
     return () => {
-      ReactGA.event({ category, action, label });
+      ReactGA.event({ category: 'Navigation', action: 'Clicking', label });
       if (fn) {
         fn();
       }
