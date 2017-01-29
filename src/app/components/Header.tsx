@@ -92,7 +92,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
                   target='_blank'>
                   أسعار البنزين و المياه و الكهرباء
             </MenuItem>
-                <MenuItem className='text-right' href='http://ahimta.github.io/saudi-radios' target='_blank'>
+                <MenuItem className='text-right' href='http://ahimta.github.io/saudi-radios' target='_blank' disabled>
                   الإذاعات السعودية
             </MenuItem>
                 <MenuItem className='active text-right' href='https://donation-web-pla-1479993243743.firebaseapp.com/'
