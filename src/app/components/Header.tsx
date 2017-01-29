@@ -96,8 +96,8 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
                   target='_blank'>
                   الإذاعات السعودية
             </MenuItem>
-                <MenuItem className='text-right' href='https://donation-web-pla-1479993243743.firebaseapp.com/'
-                  rel='noopener' target='_blank' active>
+                <MenuItem className='active text-right' href='https://donation-web-pla-1479993243743.firebaseapp.com/'
+                  rel='noopener' target='_blank'>
                   منصة التبرعات
             </MenuItem>
                 <MenuItem className='text-right' href='https://ahimta.github.io/bagi/' rel='noopener' target='_blank'>
