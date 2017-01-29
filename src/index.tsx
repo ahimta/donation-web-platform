@@ -9,7 +9,6 @@ import { applyRouterMiddleware, hashHistory, IndexRedirect, IndexRoute, Redirect
 import { useScroll } from 'react-router-scroll';
 
 import App from './app/containers/App';
-import Activity from './app/pages/Activity';
 import Charities from './app/pages/Charities';
 import Charity from './app/pages/Charity';
 import CharityLogin from './app/pages/CharityLogin';
@@ -54,10 +53,6 @@ ReactDOM.render(
 
       <Route path='/404' component={App}>
         <IndexRoute component={NotFound} />
-      </Route>
-
-      <Route path='/activity' component={App}>
-        <IndexRoute component={Activity} />
       </Route>
 
       <Route path='/charities' component={App}>
