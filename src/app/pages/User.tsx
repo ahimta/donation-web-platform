@@ -4,12 +4,12 @@ import * as React from 'react';
 import { Breadcrumb, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { IDispatch } from '~react-redux~redux';
+import { hashHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 
 import { fetchActivity, fetchUser } from '../actions/index';
 import ActivityPanel from '../components/ActivityPanel';
 import EmailLink from '../components/EmailLink';
-import { redirectToErrorPage } from '../errorHandling';
 import IActivity from '../types/IActivity';
 import IRegularUser from '../types/IRegularUser';
 import PhoneLink from '../components/PhoneLink';
@@ -48,7 +48,7 @@ export default class User extends React.Component<IUserProps, IUserState> {
 
     // hack
     if (errorCode) {
-      redirectToErrorPage();
+      hashHistory.replace('/404');
       return null;
     }
 

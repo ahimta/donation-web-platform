@@ -7,7 +7,6 @@ import { IStore } from '~react-redux~redux';
 import { setNetworkStatus } from './actions/index';
 import configureStore from './store/configureStore';
 import IActivity from './types/IActivity';
-import ICharity from './types/ICharity';
 import IDonation from './types/IDonation';
 import IRegularUser from './types/IRegularUser';
 import IReservation from './types/IReservation';
@@ -38,7 +37,9 @@ function updateNetworkStatus<T>(networkAction: Promise<T>): Promise<T> {
   return networkAction;
 }
 
-export function cancelReservation(donationType: DonationType, donationId: string, userRole: UserRole, userId: string): Promise<[any, any]> {
+export function cancelReservation(donationType: DonationType, donationId: string, userRole: UserRole,
+  userId: string): Promise<[any, any]> {
+
   const activity: IActivity = {
     actionName: 'cancel-reservation',
     datetime: moment().toObject(),
@@ -134,38 +135,9 @@ export function getAllDonations() {
   return updateNetworkStatus(networkPromise);
 }
 
-export function getCharity(id: string): Promise<ICharity> {
-  const networkPromise = firebase.database().ref('charities').child(id).once('value').then((snapshot) => {
-    if (snapshot.exists()) {
-      return Immutable.Map(snapshot.val()).merge({ '.key': snapshot.key }).toJS();
-    } else {
-      return Promise.reject({ code: 404 });
-    }
-  });
+export function getDonation(donationType: DonationType,
+  donationId: string): Promise<({ donation: IDonation, reservation: IReservation })> {
 
-  return updateNetworkStatus(networkPromise);
-}
-
-export function getCharities(): Promise<ReadonlyArray<ICharity>> {
-  const networkPromise = firebase.database().ref('charities').once('value').then((snapshot) => {
-    if (snapshot.exists()) {
-      const charities = [];
-
-      snapshot.forEach((childSnapshot) => {
-        const value = Immutable.Map(childSnapshot.val()).merge({ '.key': childSnapshot.key }).toJS();
-        charities.push(value);
-      });
-
-      return charities;
-    } else {
-      return [];
-    }
-  });
-
-  return updateNetworkStatus(networkPromise);
-}
-
-export function getDonation(donationType: DonationType, donationId: string): Promise<({ donation: IDonation, reservation: IReservation })> {
   const refName = getRefName(donationType);
 
   const networkPromise = firebase.database().ref(refName).child(donationId).once('value').then((snapshot) => {
@@ -242,7 +214,9 @@ export function reportDonation(donationType: DonationType, donationId: string, r
   return updateNetworkStatus(Promise.all([activityPromise, reservationPromise]));
 }
 
-export function reserveDonation(donationType: DonationType, donationId: string, reservationType: ReservationType, userRole: UserRole, currentUserId: string): Promise<[any, any]> {
+export function reserveDonation(donationType: DonationType, donationId: string, reservationType: ReservationType,
+  userRole: UserRole, currentUserId: string): Promise<[any, any]> {
+
   const activity: IActivity = {
     actionName: 'reservation',
     datetime: moment().toObject(),
@@ -264,9 +238,11 @@ export function reserveDonation(donationType: DonationType, donationId: string, 
 }
 
 export function setUser({ displayName, email, phone, photoURL, uid }: IRegularUser): Promise<any> {
+  const userRef = firebase.database().ref('users').child(uid);
+
   if (phone) {
-    return updateNetworkStatus(firebase.database().ref('users').child(uid).set({ displayName, email, phone, photoURL, uid }));
+    return updateNetworkStatus(userRef.set({ displayName, email, phone, photoURL, uid }));
   } else {
-    return updateNetworkStatus(firebase.database().ref('users').child(uid).set({ displayName, email, photoURL, uid }));
+    return updateNetworkStatus(userRef.set({ displayName, email, photoURL, uid }));
   }
 }

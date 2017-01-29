@@ -11,12 +11,12 @@ interface IDonationManagementToolbarProps {
   readonly currentId: string;
   readonly currentRole: UserRole;
   readonly currentUserId: string;
-  readonly deleteDonation: Function;
   readonly donationId: string;
   readonly donorId: string;
   readonly reservation: IReservation;
 
   readonly cancelReservation: () => void;
+  readonly deleteDonation: (donationId: string) => void;
   readonly reportDonation: (reservationType: ReservationType) => void;
   readonly reserveDonation: (reservationType: ReservationType) => void;
 }
@@ -44,14 +44,18 @@ export default class DonationManagementToolbar extends React.Component<IDonation
 
     return (<section>
       <ButtonGroup className={this.getReserveClass(currentId, reservation.reserverId, reservation.deliveredOrReceived)}>
-        <Button bsStyle='danger' onClick={deleteDonation.bind(null, donationId)} disabled={currentUserId !== donorId || !donationId}>حذف</Button>
-        <DropdownButton bsStyle='success' dir='rtl' id='reserveDonationButton' title={this.getReserveTitle(currentRole, reservation.reserverId)} disabled={!!reservation.reserverId || !donationId} dropup pullRight>
+        <Button bsStyle='danger' onClick={() => deleteDonation(donationId)}
+          disabled={currentUserId !== donorId || !donationId}>
+          حذف
+        </Button>
+        <DropdownButton bsStyle='success'disabled={!!reservation.reserverId || !donationId}
+          dir='rtl' id='reserveDonationButton' title={this.getReserveTitle(currentRole, reservation.reserverId)}
+          dropup pullRight>
           <MenuItem className={currentRole === 'charity' ? 'hidden text-right' : 'text-right'}
             onClick={() => reserveDonation('receiving')}>
             لاستقبال التبرع
             </MenuItem>
-          <MenuItem className='text-right'
-            onClick={() => reserveDonation('delivery')}>
+          <MenuItem className='text-right' onClick={() => reserveDonation('delivery')}>
             لتوصيل التبرع
             </MenuItem>
         </DropdownButton>
@@ -92,12 +96,10 @@ export default class DonationManagementToolbar extends React.Component<IDonation
   private getReserveTitle(currentRole: string, reserverId: string) {
     if (reserverId) {
       return 'محجوز';
+    } else if (currentRole) {
+      return 'حجز';
     } else {
-      if (currentRole) {
-        return 'حجز';
-      } else {
-        return 'تسجيل دخول و حجز';
-      }
+      return 'تسجيل دخول و حجز';
     }
   }
 }

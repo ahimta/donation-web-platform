@@ -5,7 +5,7 @@ const trackFactory = (socialNetwork: string) => () => {
   ReactGA.event({ category: 'Social', action: 'Clicking Share', label: socialNetwork });
 };
 
-export default function ShareButtons({text}: { text: string }) {
+export default function ShareButtons({text}: { readonly text: string }) {
   const encodedText = encodeURIComponent(text);
   const encodedUrl = encodeURIComponent(window.location.href);
   const fb = `https://facebook.com/sharer/sharer.php?u=${encodedUrl}`;

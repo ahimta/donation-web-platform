@@ -7,14 +7,14 @@ import INonfoodDonation from '../types/INonfoodDonation';
 import PhoneLink from '../components/PhoneLink';
 import t from '../translate';
 
-interface INonfoodDonationInfoPanelProps {
+interface IProps {
   readonly donation: INonfoodDonation;
   readonly footer: any;
 }
 
-interface INonfoodDonationInfoPanelState { }
+interface IState { }
 
-export default class NonfoodDonationInfoPanel extends React.Component<INonfoodDonationInfoPanelProps, INonfoodDonationInfoPanelState> {
+export default class NonfoodDonationInfoPanel extends React.Component<IProps, IState> {
   static defautProps = { donation: {} };
   static propTypes = { donation: React.PropTypes.object.isRequired, footer: React.PropTypes.element.isRequired };
 

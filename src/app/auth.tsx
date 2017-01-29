@@ -4,7 +4,6 @@ import { IStore } from '~react-redux~redux';
 
 import { setNetworkStatus } from './actions/index';
 import configureStore from './store/configureStore';
-import ICharity from './types/ICharity';
 import IRegularUser from './types/IRegularUser';
 
 const store: IStore<any> = configureStore();
@@ -53,15 +52,4 @@ export function logout(): Promise<{}> {
 
 export function onAuthStateChanged(cb: Function) {
   return firebase.auth().onAuthStateChanged(cb);
-}
-
-export function registerCharity({description, email, location, name, password, phone, photoUrl, website}: ICharity): Promise<any> {
-
-  const registerPromise = firebase.auth().createUserWithEmailAndPassword(email, password).then((loggedInCharity) => {
-    const {email, uid} = loggedInCharity;
-    const charity: ICharity = { description, email, location, name, phone, photoUrl, website };
-    return firebase.database().ref('charities').child(uid).set(charity);
-  });
-
-  return updateNetworkStatus(registerPromise);
 }

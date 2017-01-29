@@ -16,6 +16,18 @@ import IFoodDonation from '../types/IFoodDonation';
 import INonfoodDonation from '../types/INonfoodDonation';
 import UserRole from '../types/UserRole';
 
+function getDonationRowClass(currentId: string, deliveredOrReceived: boolean, reserverId: string) {
+  if (deliveredOrReceived) {
+    return 'success';
+  } else if (currentId === reserverId) {
+    return 'danger';
+  } else if (reserverId) {
+    return 'warning';
+  } else {
+    return '';
+  }
+}
+
 function mapStateToProps({currentUser, donations}: any) {
   return {
     currentId: currentUser.id, currentRole: currentUser.role,
@@ -56,11 +68,13 @@ export default class Donations extends React.Component<IDonationsProps, IDonatio
         </Breadcrumb>
 
         <Progressbar data={foodDonations} emptyPhrase='لا يوجد تبرعات طعام حاليا'>
-          <FoodDonationsPanel currentId={currentId} donations={foodDonations} removeDonation={this.handleRemove.bind(this)} />
+          <FoodDonationsPanel currentId={currentId} donations={foodDonations}
+            getDonationRowClass={getDonationRowClass} removeDonation={this.handleRemove.bind(this)} />
         </Progressbar>
 
         <Progressbar data={nonfoodDonations} emptyPhrase='لا يوجد تبرعات غير طعام حاليا'>
-          <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations} removeDonation={this.handleRemove.bind(this)} />
+          <NonfoodDonationsPanel currentId={currentId} donations={nonfoodDonations}
+            getDonationRowClass={getDonationRowClass} removeDonation={this.handleRemove.bind(this)} />
         </Progressbar>
       </Grid>
 

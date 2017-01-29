@@ -11,7 +11,6 @@ import { fetchDonation, removeDonation } from '../actions/index';
 import * as auth from '../auth';
 import * as database from '../database';
 import DonationManagementToolbar from './DonationManagementToolbar';
-import { redirectToErrorPage } from '../errorHandling';
 import PhotoPanel from './PhotoPanel';
 import Progressbar from './Progressbar';
 import ShareButtons from './ShareButtons';
@@ -57,14 +56,13 @@ export default function donationPage(donationType: DonationType, title: string, 
 
       const donorId = donation && donation.donorId;
       const photoUrl = donation && donation.photoUrl;
-      const renderedDonation = donation || {} as IDonation;
 
       const text = (donationType === 'food') ? 'تبرع طعام' : 'تبرع بغير طعام';
-      const url = `#/donations/${donationType}/${renderedDonation['.key']}`;
 
       // hack
       if (errorCode === 404) {
-        redirectToErrorPage();
+        hashHistory.replace('/404');
+        return null;
       }
 
       const ManagementToolbar = <DonationManagementToolbar currentId={currentId} currentRole={currentRole}

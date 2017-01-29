@@ -3,16 +3,16 @@
 import * as React from 'react';
 import { Button, ButtonGroup, Panel, Table } from 'react-bootstrap';
 
-import * as helpers from '../helpers';
 import t from '../translate';
-
 import DonationType from '../types/DonationType';
 import IFoodDonation from '../types/IFoodDonation';
 
 interface IFoodDonationsPanelProps {
-  currentId: string;
-  donations: IFoodDonation[];
-  removeDonation: (donationType: DonationType, donationId: string) => any;
+  readonly currentId: string;
+  readonly donations: IFoodDonation[];
+
+  readonly getDonationRowClass: (currentId: string, deliveredOrReceived: boolean, reserverId: string) => string;
+  readonly removeDonation: (donationType: DonationType, donationId: string) => any;
 }
 
 interface IFoodDonationsPanelState { }
@@ -23,6 +23,8 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
   static propTypes = {
     currentId: React.PropTypes.string.isRequired,
     donations: React.PropTypes.array.isRequired,
+
+    getDonationRowClass: React.PropTypes.func.isRequired,
     removeDonation: React.PropTypes.func.isRequired
   };
 
@@ -48,9 +50,9 @@ export default class FoodDonationsPanel extends React.Component<IFoodDonationsPa
   }
 
   private mapDonation(donation: IFoodDonation) {
-    const {currentId, removeDonation} = this.props;
+    const {currentId, getDonationRowClass, removeDonation} = this.props;
 
-    return (<tr className={helpers.getDonationRowClass(currentId, donation.deliveredOrReceived, donation.reserverId)}
+    return (<tr className={getDonationRowClass(currentId, donation.deliveredOrReceived, donation.reserverId)}
       key={donation['.key']}>
       <td className='text-center'>{t(donation.type)}</td>
       <td className='text-center'>{t(donation.occasion)}</td>
