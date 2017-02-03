@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import * as React from 'react';
-import { Alert, Button, Glyphicon, Grid, MenuItem, Nav, Navbar, NavItem, NavDropdown } from 'react-bootstrap';
+import { Alert, Button, Grid, MenuItem, Nav, Navbar, NavItem, NavDropdown } from 'react-bootstrap';
 import ReactGA from 'react-ga';
 import { hashHistory } from 'react-router';
 
@@ -47,9 +47,7 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         <Navbar collapseOnSelect fixedTop inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href='#/' onClick={this.trackFactory('Home icon')}>
-                <Glyphicon glyph='home' />
-              </a>
+              <img onClick={this.trackFactory('Favicon icon')} src='app/images/icon-256x256.png' />
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
