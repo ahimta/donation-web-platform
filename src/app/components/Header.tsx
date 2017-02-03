@@ -123,14 +123,14 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
         </Navbar>
       </div>
 
-      <Grid>
+      <Grid className={classNames({ hidden: (networkStatus === 'online') })}>
         <Alert bsStyle='warning' className={classNames('text-right', { hidden: (networkStatus !== 'flaky') })}
-          dir='rtl'>
+          dir='rtl' style={{ marginBottom: '0px' }}>
           <strong>يوجد مشاكل في اتصال الانترنت!</strong>&nbsp;
           بعض الوظائف قد لا تعمل.
         </Alert>
         <Alert bsStyle='warning' className={classNames('text-right', { hidden: (networkStatus !== 'offline') })}
-          dir='rtl'>
+          dir='rtl' style={{ marginBottom: '0px' }}>
           <strong>لا يوجد اتصال انترنت!</strong>&nbsp;
           بعض الوظائف قد لا تعمل.
         </Alert>

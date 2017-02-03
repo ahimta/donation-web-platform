@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import * as React from 'react';
-import { Button, ButtonGroup, Col, Glyphicon, Grid, Panel, Row } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Glyphicon, Grid, PageHeader, Panel, Row } from 'react-bootstrap';
 import ReactGA from 'react-ga';
 import { connect } from 'react-redux';
 import { IDispatch } from '~react-redux~redux';
@@ -41,6 +41,8 @@ export default class Homepage extends React.Component<IHomepageProps, IHomepageS
     const {activity, currentRole} = this.props;
 
     return (<section>
+      <PageHeader className='text-center'>منصة التبرعات</PageHeader>
+
       <Grid>
         <Panel bsStyle='primary' className={classNames('text-center', { hidden: (currentRole !== 'charity') })}
           header={<span><Glyphicon glyph='road' />&nbsp;<span>وصل تبرع</span></span>}>
